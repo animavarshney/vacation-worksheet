@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="theme-color" content="#FFFBF0">
+<title>🌟 Smart Learning Adventure</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --q-fs:1rem;--opt-h:52px;--opt-fs:.9rem;--ei:3.5rem;--btn-h:52px;
+  --radius:14px;--card-p:20px 16px;
+}
+/* ── AGE MODES ── */
+.baby{--q-fs:1.35rem;--opt-h:80px;--opt-fs:1.25rem;--ei:5rem;--btn-h:62px;--radius:18px;--card-p:22px 18px;}
+.child{--q-fs:1.12rem;--opt-h:64px;--opt-fs:1.05rem;--ei:4rem;--btn-h:56px;--radius:16px;--card-p:20px 16px;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#FFFBF0;min-height:100vh;
+  background-image:radial-gradient(circle at 12% 18%,#FFD93D1a 0%,transparent 45%),
+    radial-gradient(circle at 88% 82%,#6BCB771a 0%,transparent 45%);}
+body.playing{overflow:hidden;height:100vh;height:100dvh;height:calc(var(--vh,1vh)*100);}
+.hidden{display:none!important;}
+button{cursor:pointer;border:none;font-family:inherit;}
+button:active{opacity:.82;}
+input::-webkit-inner-spin-button,input::-webkit-outer-spin-button{-webkit-appearance:none;}
+input[type=number]{-moz-appearance:textfield;}
+
+/* ══ SIGNUP ══ */
+#scr-signup{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px 14px;}
+.su-card{background:#fff;border-radius:32px;padding:36px 26px 30px;max-width:420px;width:100%;
+  box-shadow:0 20px 60px #00000014;display:flex;flex-direction:column;align-items:center;
+  position:relative;overflow:hidden;}
+.su-card::before{content:'';position:absolute;top:0;left:0;right:0;height:7px;
+  background:linear-gradient(90deg,#FF6B6B,#C77DFF,#4D96FF,#6BCB77);}
+.su-hero{font-size:4.5rem;margin:10px 0 2px;animation:bnc 2s ease-in-out infinite;}
+.su-title{font-size:1.65rem;font-weight:900;text-align:center;line-height:1.2;
+  background:linear-gradient(135deg,#FF6B6B,#C77DFF,#4D96FF);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:4px;}
+.su-sub{font-size:.82rem;color:#bbb;text-align:center;margin-bottom:22px;line-height:1.55;}
+.su-form{width:100%;display:flex;flex-direction:column;gap:13px;}
+.su-field{display:flex;flex-direction:column;gap:5px;}
+.su-label{font-size:.75rem;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:.5px;}
+.su-input{height:52px;border:2.5px solid #eee;border-radius:13px;padding:0 14px;
+  font-family:inherit;font-size:1rem;font-weight:700;color:#333;background:#fafafa;
+  outline:none;transition:border-color .2s,background .2s;width:100%;}
+.su-input:focus{border-color:#4D96FF;background:#fff;}
+.su-input.err{border-color:#FF6B6B!important;background:#fff5f5;animation:shk .35s;}
+.su-input.ok{border-color:#6BCB77!important;background:#f4fff8;}
+.age-hint{font-size:.7rem;color:#bbb;padding-left:2px;}
+.age-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;}
+.age-badge{font-size:.72rem;padding:4px 10px;border-radius:20px;font-weight:700;
+  background:#f5f5f5;color:#888;border:1.5px solid #eee;}
+.su-btn{margin-top:6px;height:56px;border-radius:16px;width:100%;
+  background:linear-gradient(135deg,#FF6B6B,#C77DFF,#4D96FF);
+  color:#fff;font-size:1.05rem;font-weight:900;letter-spacing:.3px;
+  box-shadow:0 6px 24px #C77DFF33;transition:transform .15s,opacity .15s;}
+.su-btn:hover{transform:translateY(-2px);}
+.su-errmsg{font-size:.8rem;color:#FF6B6B;text-align:center;font-weight:700;min-height:18px;}
+.su-privacy{font-size:.68rem;color:#ccc;text-align:center;margin-top:8px;line-height:1.5;}
+
+/* ══ SORRY ══ */
+#scr-sorry{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px 14px;}
+.sr-card{background:#fff;border-radius:32px;padding:40px 26px 34px;max-width:400px;width:100%;
+  box-shadow:0 20px 60px #00000012;display:flex;flex-direction:column;align-items:center;
+  gap:14px;text-align:center;position:relative;overflow:hidden;}
+.sr-card::before{content:'';position:absolute;top:0;left:0;right:0;height:7px;
+  background:linear-gradient(90deg,#FFD93D,#FF9A3C,#FF6B6B);}
+.sr-hero{font-size:5rem;animation:bnc 1.8s ease-in-out infinite;}
+.sr-title{font-size:1.5rem;font-weight:900;color:#FF6B6B;}
+.sr-range{background:linear-gradient(135deg,#fff3e0,#ffe0cc);border-radius:16px;
+  padding:14px 20px;font-size:1rem;font-weight:800;color:#FF9A3C;border:2px solid #FFD19A;}
+.sr-msg{font-size:.9rem;color:#999;line-height:1.75;max-width:310px;}
+.sr-back{background:#f0f0f0;color:#777;border-radius:13px;padding:13px;
+  font-size:.9rem;font-weight:800;width:100%;}
+
+/* ══ HOME ══ */
+#scr-home{padding:12px;max-width:860px;margin:0 auto;padding-bottom:60px;}
+.hdr{text-align:center;background:linear-gradient(135deg,#fff0f5,#eef4ff,#f0fff4);
+  border-radius:26px;padding:20px 14px 16px;margin-bottom:14px;box-shadow:0 6px 28px #0000000e;}
+.hdr h1{font-size:clamp(1.2rem,5vw,2.1rem);font-weight:900;line-height:1.2;
+  background:linear-gradient(135deg,#FF6B6B,#C77DFF,#4D96FF);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hdr-chips{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:6px;}
+.hchip{font-size:.73rem;font-weight:700;padding:4px 12px;border-radius:20px;background:#f0f0f0;color:#888;}
+.hchip.name{background:#fff0f5;color:#FF6B6B;}
+.hchip.grade{background:#eef4ff;color:#4D96FF;}
+.hchip.cur{background:#f0fff4;color:#2d9e56;}
+.pb-wrap{background:#eee;border-radius:20px;height:12px;margin:12px 4px 4px;overflow:hidden;}
+.pb-fill{height:100%;background:linear-gradient(90deg,#FF6B6B,#C77DFF,#4D96FF,#6BCB77);
+  border-radius:20px;transition:width .7s ease;}
+.pb-txt{font-size:.76rem;color:#c0c0c0;text-align:center;}
+.hdr-acts{display:flex;gap:6px;justify-content:center;margin-top:8px;flex-wrap:wrap;}
+.hact{background:none;font-size:.68rem;color:#ddd;padding:3px 10px;border-radius:8px;}
+.hact:hover{color:#aaa;background:#f5f5f5;}
+/* Date unlock banner */
+.unlock-banner{background:linear-gradient(135deg,#fffbea,#fff3e0);border:2px solid #FFD93D;
+  border-radius:16px;padding:12px 16px;display:flex;align-items:center;gap:10px;
+  font-size:.82rem;font-weight:700;color:#c08000;margin-bottom:12px;}
+.ub-ico{font-size:1.4rem;}
+.dgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:12px;}
+@media(max-width:520px){.dgrid{grid-template-columns:repeat(5,1fr);gap:6px;}}
+@media(max-width:390px){.dgrid{grid-template-columns:repeat(4,1fr);gap:5px;}}
+.dc{border-radius:13px;padding:8px 4px;text-align:center;cursor:pointer;
+  transition:transform .17s,box-shadow .17s;position:relative;border:2.5px solid transparent;
+  min-height:76px;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:2px;user-select:none;-webkit-tap-highlight-color:transparent;}
+.dc:not(.lk):not(.wt):hover{transform:translateY(-4px);box-shadow:0 8px 20px #00000013;}
+.dc:not(.lk):not(.wt):active{transform:scale(.93);}
+.dc.lk,.dc.wt{opacity:.45;cursor:not-allowed;filter:grayscale(.5);}
+.dc.ip{outline:3px dashed #4D96FF;outline-offset:2px;}
+.dc.wt{opacity:.6;filter:none;}
+.dn{font-size:1.15rem;font-weight:900;line-height:1;}
+.de{font-size:1rem;}
+.dl{font-size:.52rem;font-weight:700;color:#888;line-height:1.2;text-align:center;}
+.d-ico{font-size:.78rem;position:absolute;top:3px;right:4px;}
+.d-sub{font-size:.48rem;color:#aaa;font-weight:700;margin-top:1px;}
+
+/* ══ PLAY — viewport-locked, zero scroll ══ */
+#scr-play{
+  max-width:600px;margin:0 auto;padding:10px 12px 8px;
+  height:100vh;height:100dvh;height:calc(var(--vh,1vh)*100);
+  display:flex;flex-direction:column;gap:8px;
+  overflow:hidden; /* NEVER allow page scroll */
+}
+.ptop{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.bkb{background:#f0f0f0;border-radius:11px;padding:8px 14px;font-size:.92rem;font-weight:800;color:#666;}
+.bkb:hover{background:#e4e4e4;}
+.pinf{flex:1;text-align:center;}
+.pdn{font-size:.68rem;color:#bbb;font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
+.pdt{font-size:.92rem;font-weight:900;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.schip{font-size:.72rem;font-weight:800;padding:6px 10px;border-radius:16px;
+  background:#f0f0f0;color:#888;min-width:44px;text-align:center;white-space:nowrap;}
+.pbar-section{flex-shrink:0;}
+.qpb-wrap{background:#eee;border-radius:20px;height:10px;overflow:hidden;}
+.qpb-fill{height:100%;border-radius:20px;transition:width .4s ease;}
+.qpb-row{display:flex;justify-content:space-between;margin-top:3px;}
+.sect-lbl{font-size:.66rem;font-weight:800;padding:3px 10px;border-radius:12px;}
+.q-lbl{font-size:.66rem;color:#bbb;font-weight:700;}
+
+/* Card fills remaining space, NEVER overflows */
+.qcard{
+  background:#fff;border-radius:22px;padding:var(--card-p);
+  flex:1;min-height:0; /* critical: let flexbox shrink below content size */
+  box-shadow:0 8px 32px #00000010;border-top:7px solid #FF6B6B;
+  display:flex;flex-direction:column;gap:10px;overflow:hidden;
+}
+.qbadge{display:inline-block;font-size:.66rem;font-weight:800;flex-shrink:0;
+  padding:4px 12px;border-radius:16px;text-transform:uppercase;letter-spacing:.5px;width:fit-content;}
+.qtext{font-size:var(--q-fs);font-weight:800;color:#333;line-height:1.4;text-align:center;flex-shrink:0;}
+
+/* Section splash — scrollable inside card only if needed */
+.ssplash{border-radius:18px;padding:16px 14px;text-align:center;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;flex:1;}
+.ss-ico{font-size:clamp(2rem,8vw,3.5rem);animation:bnc 1.3s ease-in-out infinite;}
+.ss-t{font-size:1.15rem;font-weight:900;}
+.ss-d{font-size:.8rem;color:#aaa;line-height:1.6;max-width:270px;}
+.ss-go{border-radius:var(--radius);padding:12px 28px;font-size:1rem;font-weight:900;
+  color:#fff;box-shadow:0 4px 16px #0002;margin-top:4px;}
+
+/* ── Count display: compact grid, NO scroll ── */
+.cbox{
+  border-radius:13px;padding:10px 8px;text-align:center;
+  flex:1;min-height:0;overflow:hidden; /* no scroll ever */
+  display:flex;flex-wrap:wrap;align-content:center;justify-content:center;
+  gap:4px;
+  /* icon size scales so all fit: overridden inline per count */
+}
+.cbox span{line-height:1.1;display:inline-block;}
+
+/* Math display */
+.mbox{font-size:clamp(1.5rem,6vw,2.2rem);font-weight:900;text-align:center;border-radius:13px;
+  padding:14px;background:#f6f6f6;letter-spacing:2px;flex-shrink:0;}
+/* Alpha */
+.aseq{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;padding:4px 0;flex-shrink:0;}
+.ab{width:46px;height:46px;border-radius:11px;color:#fff;font-size:1.35rem;font-weight:900;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ablnk{width:46px;height:46px;border-radius:11px;border:3px dashed;background:#f9f9f9;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ablnk input{width:100%;height:100%;border:none;background:transparent;font-size:1.35rem;
+  font-weight:900;text-align:center;outline:none;text-transform:uppercase;}
+.ablnk.serr{background:#ffe0e0!important;animation:shk .35s;}
+/* Spell */
+.semoji{font-size:clamp(2.5rem,10vw,4rem);text-align:center;line-height:1.2;flex-shrink:0;}
+.shint{font-size:.78rem;color:#bbb;text-align:center;font-style:italic;flex-shrink:0;}
+/* MCQ — fills remaining card space, buttons always visible */
+.opts{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:7px;flex:1;min-height:0;}
+.opts.cols1{grid-template-columns:1fr;}
+.opt{
+  background:#f8f0ff;border:2.5px solid #e2b4ff;border-radius:var(--radius);
+  padding:8px 6px;font-size:var(--opt-fs);font-weight:700;color:#7a3fa0;
+  text-align:center;transition:all .18s;line-height:1.3;
+  display:flex;align-items:center;justify-content:center;
+  width:100%;min-height:44px;
+}
+.opt:hover:not(:disabled){background:#f0d9ff;transform:scale(1.02);}
+.opt.ok{background:#d4fae7!important;border-color:#6BCB77!important;color:#2d9e56!important;}
+.opt.err{background:#ffe0e0!important;border-color:#FF6B6B!important;color:#FF6B6B!important;animation:shk .35s;}
+.opt:disabled{cursor:default;}
+.baby .opt,.child .opt{border-radius:18px;}
+/* Input row */
+.arow{display:flex;gap:8px;flex-shrink:0;}
+.ai{flex:1;height:var(--btn-h);border:3px solid #ddd;border-radius:var(--radius);
+  padding:0 12px;font-family:inherit;font-size:1.15rem;font-weight:900;text-align:center;
+  color:#333;outline:none;background:#fafafa;transition:border-color .2s,background .2s;}
+.ai:focus{border-color:#4D96FF;}
+.ai.aerr{border-color:#FF6B6B;background:#fff0f0;animation:shk .35s;}
+.ckbtn{border-radius:var(--radius);padding:0 18px;height:var(--btn-h);
+  font-size:.9rem;font-weight:900;color:#fff;flex-shrink:0;}
+.fb{text-align:center;font-size:.88rem;font-weight:800;min-height:20px;flex-shrink:0;}
+.fbok{color:#2d9e56;}.fbno{color:#FF6B6B;}
+.nxtbtn{background:linear-gradient(135deg,#6BCB77,#4D96FF);color:#fff;flex-shrink:0;
+  border-radius:15px;padding:13px;font-size:var(--opt-fs);font-weight:900;text-align:center;
+  box-shadow:0 5px 18px #4D96FF25;}
+.nxtbtn:hover{opacity:.92;}
+
+/* ══ COMPLETE ══ */
+#scr-complete{max-width:480px;margin:0 auto;padding:28px 14px 60px;text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:14px;}
+.troph{font-size:5rem;animation:bnc 1.3s ease-in-out infinite;}
+.ctitle{font-size:1.7rem;font-weight:900;}
+.cstars{font-size:2.4rem;letter-spacing:8px;animation:popIn .55s ease both;}
+.cmsg{font-size:.9rem;color:#777;line-height:1.75;max-width:330px;}
+.unlock-info{background:linear-gradient(135deg,#fffbea,#fff3e0);border:2px solid #FFD93D;
+  border-radius:14px;padding:12px 18px;font-size:.85rem;font-weight:700;color:#c08000;
+  text-align:center;width:100%;}
+.cbtns{display:flex;flex-direction:column;gap:9px;width:100%;margin-top:4px;}
+.ndbtn{border-radius:15px;padding:16px;font-size:1rem;font-weight:900;color:#fff;
+  background:linear-gradient(135deg,#FF6B6B,#C77DFF);box-shadow:0 6px 22px #C77DFF44;}
+.mnbtn{background:#f0f0f0;color:#666;border-radius:15px;padding:14px;font-size:.9rem;font-weight:800;}
+
+/* ══ ANIMATIONS ══ */
+@keyframes shk{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+@keyframes popIn{0%{transform:scale(.5);opacity:0}70%{transform:scale(1.2)}100%{transform:scale(1);opacity:1}}
+@keyframes bnc{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes fadeUp{0%{opacity:0;transform:translateY(28px)}100%{opacity:1;transform:translateY(0)}}
+.fadeup{animation:fadeUp .45s ease both;}
+.popin{animation:popIn .35s ease both;}
+.cf{position:fixed;pointer-events:none;animation:cff linear;z-index:9999;border-radius:2px;}
+@keyframes cff{0%{opacity:1;transform:translateY(-15px) rotate(0)}
+  100%{opacity:0;transform:translateY(105vh) rotate(750deg)}}
+</style>
+</head>
+<body>
+
+<!-- ══ SIGNUP ══ -->
+<div id="scr-signup">
+  <div class="su-card fadeup">
+    <div class="su-hero">🌟</div>
+    <div class="su-title">Smart Learning<br>Adventure!</div>
+    <div class="su-sub">100 fun questions daily · Personalised for your child's age · Unlock a new day each morning!</div>
+    <div class="su-form">
+      <div class="su-field">
+        <label class="su-label">👦 Child's Name</label>
+        <input class="su-input" id="su-name" type="text" placeholder="Enter child's name" maxlength="40" autocomplete="off">
+      </div>
+      <div class="su-field">
+        <label class="su-label">📧 Parent's Email</label>
+        <input class="su-input" id="su-email" type="email" placeholder="parent@example.com" maxlength="80" autocomplete="off">
+      </div>
+      <div class="su-field">
+        <label class="su-label">🎂 Child's Age (years)</label>
+        <input class="su-input" id="su-age" type="number" placeholder="1 – 7" min="1" max="18" autocomplete="off">
+        <div class="age-hint">📚 Worksheets available for ages 1 – 7</div>
+        <div class="age-badges">
+          <span class="age-badge">1–2 🎨 Toddler</span>
+          <span class="age-badge">3–4 🌱 Pre-K</span>
+          <span class="age-badge">5 📖 Grade 1</span>
+          <span class="age-badge">6–7 🎓 Grade 2-3</span>
+        </div>
+      </div>
+      <div class="su-errmsg" id="su-errmsg"></div>
+      <button class="su-btn" onclick="handleSignup()">Start Adventure! 🚀</button>
+    </div>
+    <div class="su-privacy">🔒 All data stays on this device only.</div>
+  </div>
+</div>
+
+<!-- ══ SORRY ══ -->
+<div id="scr-sorry" class="hidden">
+  <div class="sr-card fadeup">
+    <div class="sr-hero">🌈</div>
+    <div class="sr-title" id="sr-title">Oops!</div>
+    <div class="sr-range" id="sr-range">This worksheet is for ages 1 – 7</div>
+    <div class="sr-msg" id="sr-msg">Please check the age and try again.</div>
+    <button class="sr-back" onclick="goSignup()">← Back to Sign Up</button>
+  </div>
+</div>
+
+<!-- ══ HOME ══ -->
+<div id="scr-home" class="hidden">
+  <div class="hdr">
+    <h1 id="hdr-title">🌟 30-Day Learning Adventure 🌟</h1>
+    <div class="hdr-chips">
+      <span class="hchip name" id="hdr-name">👦 Learner</span>
+      <span class="hchip grade" id="hdr-grade">🎓 Grade</span>
+      <span class="hchip cur" id="hdr-cur">📚 Curriculum</span>
+      <span class="hchip">100 Q/Day</span>
+    </div>
+    <div class="pb-wrap"><div class="pb-fill" id="pb" style="width:0%"></div></div>
+    <p class="pb-txt" id="pbtxt">0 / 30 days completed</p>
+    <div class="hdr-acts">
+      <button class="hact" onclick="resetProg()">↺ Reset Progress</button>
+      <button class="hact" onclick="signOut()">✗ Sign Out</button>
+    </div>
+  </div>
+  <div id="unlock-banner" class="unlock-banner hidden">
+    <div class="ub-ico">⏰</div>
+    <div id="unlock-msg">Complete today's day to unlock tomorrow's worksheet!</div>
+  </div>
+  <div class="dgrid" id="dgrid"></div>
+</div>
+
+<!-- ══ PLAY ══ -->
+<div id="scr-play" class="hidden">
+  <div class="ptop">
+    <button class="bkb" onclick="goHome()">‹ Menu</button>
+    <div class="pinf">
+      <div class="pdn" id="pdn">Day 1 of 30</div>
+      <div class="pdt" id="pdt">Let's Go!</div>
+    </div>
+    <div class="schip" id="schip">0/100</div>
+  </div>
+  <div class="pbar-section">
+    <div class="qpb-wrap"><div class="qpb-fill" id="qpbfill" style="width:0%"></div></div>
+    <div class="qpb-row">
+      <span class="sect-lbl" id="sectlbl">Section</span>
+      <span class="q-lbl" id="qlbl">Q 1 of 100</span>
+    </div>
+  </div>
+  <div class="qcard" id="qcard"></div>
+  <button class="nxtbtn hidden" id="nxtbtn">Next →</button>
+</div>
+
+<!-- ══ COMPLETE ══ -->
+<div id="scr-complete" class="hidden">
+  <div class="troph" id="troph">🏆</div>
+  <div class="ctitle" id="ctitle">Day Complete!</div>
+  <div class="cstars" id="cstars">⭐⭐⭐⭐⭐</div>
+  <div class="cmsg" id="cmsg"></div>
+  <div class="unlock-info hidden" id="unlock-info"></div>
+  <div class="cbtns">
+    <button class="ndbtn hidden" id="ndbtn" onclick="goNextDay()">Next Day →</button>
+    <button class="mnbtn" onclick="goHome()">🏠 Back to Menu</button>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+//  VIEWPORT HEIGHT FIX (iOS Safari / GitHub Pages)
+// ═══════════════════════════════════════════════════════════════
+(function(){
+  function setVh(){document.documentElement.style.setProperty('--vh',(window.innerHeight*0.01)+'px');}
+  setVh();
+  window.addEventListener('resize',setVh);
+  window.addEventListener('orientationchange',function(){setTimeout(setVh,200);});
+})();
+
+// ═══════════════════════════════════════════════════════════════
+//  CURRICULUM CONFIG  (International: EYFS, IB PYP, Cambridge)
+// ═══════════════════════════════════════════════════════════════
+const AGE_PROFILE = {
+  1:{grade:'Nursery',label:'🍼 Nursery',cur:'Toddler Sensory Play',mode:'baby',dayTheme:'🌈 Play & Discover'},
+  2:{grade:'Pre-Nursery',label:'⭐ Pre-Nursery',cur:'Early Years (EYFS)',mode:'baby',dayTheme:'🌟 Explore & Learn'},
+  3:{grade:'LKG / Pre-K',label:'🎈 LKG',cur:'Pre-K (IB-PYP)',mode:'baby',dayTheme:'🎨 Think & Grow'},
+  4:{grade:'UKG / Kindergarten',label:'🎯 UKG',cur:'Kindergarten (CBSE/IB)',mode:'child',dayTheme:'📖 Build & Discover'},
+  5:{grade:'Class 1 / Grade 1',label:'📚 Class 1',cur:'Grade 1 (Cambridge/CBSE)',mode:'child',dayTheme:'🚀 Learn & Explore'},
+  6:{grade:'Class 2 / Grade 2',label:'📖 Class 2',cur:'Grade 2 (Cambridge/IB)',mode:'',dayTheme:'🔬 Study & Grow'},
+  7:{grade:'Class 3 / Grade 3',label:'🎓 Class 3',cur:'Grade 3 (Cambridge/IB)',mode:'',dayTheme:'🏆 Master & Excel'},
+};
+
+const DAY_THEMES=[
+  {t:"Day 1",e:"🌟",c:"#FF6B6B",bg:"#fff0ed"},{t:"Day 2",e:"🐾",c:"#FF9A3C",bg:"#fff4ee"},
+  {t:"Day 3",e:"🎨",c:"#c08000",bg:"#fffbea"},{t:"Day 4",e:"🍎",c:"#2d9e56",bg:"#f0fff4"},
+  {t:"Day 5",e:"🔢",c:"#4D96FF",bg:"#eef4ff"},{t:"Day 6",e:"🔷",c:"#C77DFF",bg:"#fdf0ff"},
+  {t:"Day 7",e:"🤸",c:"#FF6B6B",bg:"#fff0ed"},{t:"Day 8",e:"🔟",c:"#FF9A3C",bg:"#fff4ee"},
+  {t:"Day 9",e:"➖",c:"#2d9e56",bg:"#f0fff4"},{t:"Day 10",e:"🌿",c:"#4D96FF",bg:"#eef4ff"},
+  {t:"Day 11",e:"🚗",c:"#C77DFF",bg:"#fdf0ff"},{t:"Day 12",e:"❄️",c:"#FF6B6B",bg:"#fff0ed"},
+  {t:"Day 13",e:"🍽️",c:"#c08000",bg:"#fffbea"},{t:"Day 14",e:"📅",c:"#2d9e56",bg:"#f0fff4"},
+  {t:"Day 15",e:"🎯",c:"#4D96FF",bg:"#eef4ff"},{t:"Day 16",e:"🌱",c:"#C77DFF",bg:"#fdf0ff"},
+  {t:"Day 17",e:"↔️",c:"#FF6B6B",bg:"#fff0ed"},{t:"Day 18",e:"🏠",c:"#FF9A3C",bg:"#fff4ee"},
+  {t:"Day 19",e:"🎵",c:"#2d9e56",bg:"#f0fff4"},{t:"Day 20",e:"🏆",c:"#4D96FF",bg:"#eef4ff"},
+  {t:"Day 21",e:"✖️",c:"#C77DFF",bg:"#fdf0ff"},{t:"Day 22",e:"🔢",c:"#FF6B6B",bg:"#fff0ed"},
+  {t:"Day 23",e:"🌍",c:"#c08000",bg:"#fffbea"},{t:"Day 24",e:"⏰",c:"#2d9e56",bg:"#f0fff4"},
+  {t:"Day 25",e:"✏️",c:"#4D96FF",bg:"#eef4ff"},{t:"Day 26",e:"🔬",c:"#C77DFF",bg:"#fdf0ff"},
+  {t:"Day 27",e:"🧮",c:"#FF6B6B",bg:"#fff0ed"},{t:"Day 28",e:"📝",c:"#FF9A3C",bg:"#fff4ee"},
+  {t:"Day 29",e:"🚀",c:"#2d9e56",bg:"#f0fff4"},{t:"Day 30",e:"🏆",c:"#c08000",bg:"#fffbea"},
+];
+
+// Section definitions per age group
+const SECT_DEFS = {
+  '1-2':[
+    {n:'🎨 Colours & Shapes',c:'#FF6B6B',d:'Point to the right colour or shape!'},
+    {n:'🔢 Count with Me',c:'#FF9A3C',d:'Count the pictures and find the number!'},
+    {n:'🐾 Animal Friends',c:'#2d9e56',d:'Learn about amazing animals!'},
+    {n:'👁️ My Body & Senses',c:'#4D96FF',d:'Discover your amazing body!'},
+    {n:'🌈 Fun Discovery',c:'#C77DFF',d:'Explore the wonderful world around you!'},
+  ],
+  '3-4':[
+    {n:'🔢 Count Along',c:'#FF6B6B',d:'Count objects and type the number!'},
+    {n:'➕ Number Fun',c:'#FF9A3C',d:'Solve simple number problems!'},
+    {n:'🔤 ABC Time',c:'#4D96FF',d:'Learn your letters!'},
+    {n:'✏️ Spell It Out',c:'#C77DFF',d:'Look at the picture and spell the word!'},
+    {n:'💡 Quiz Corner',c:'#2d9e56',d:'Test your knowledge!'},
+  ],
+  '5':[
+    {n:'🔢 Counting',c:'#FF6B6B',d:'Count and write the number!'},
+    {n:'➕ Maths Magic',c:'#FF9A3C',d:'Solve the maths problems!'},
+    {n:'🔤 Alphabet',c:'#4D96FF',d:'Fill in the missing letters!'},
+    {n:'✏️ Spelling',c:'#C77DFF',d:'Spell the words from pictures!'},
+    {n:'💡 Knowledge Quiz',c:'#2d9e56',d:'Test what you know!'},
+  ],
+  '6':[
+    {n:'🔢 Numbers',c:'#FF6B6B',d:'Number recognition and operations!'},
+    {n:'✖️ Maths Challenge',c:'#FF9A3C',d:'Two-digit arithmetic and tables!'},
+    {n:'📝 Grammar',c:'#4D96FF',d:'Nouns, verbs and sentence structure!'},
+    {n:'✏️ Spelling',c:'#C77DFF',d:'Spell longer and harder words!'},
+    {n:'🌍 World Knowledge',c:'#2d9e56',d:'Science, GK and social studies!'},
+  ],
+  '7':[
+    {n:'🧮 Number Power',c:'#FF6B6B',d:'Place value and large numbers!'},
+    {n:'✖️ Advanced Maths',c:'#FF9A3C',d:'Times tables, fractions and more!'},
+    {n:'📝 Language Arts',c:'#4D96FF',d:'Grammar, punctuation and vocabulary!'},
+    {n:'📚 Word Mastery',c:'#C77DFF',d:'Challenging vocabulary and spelling!'},
+    {n:'🔬 Science & World',c:'#2d9e56',d:'Science concepts and world geography!'},
+  ],
+};
+function getSectDefs(age){
+  if(age<=2)return SECT_DEFS['1-2'];
+  if(age<=4)return SECT_DEFS['3-4'];
+  if(age===5)return SECT_DEFS['5'];
+  if(age===6)return SECT_DEFS['6'];
+  return SECT_DEFS['7'];
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  WORD BANKS
+// ═══════════════════════════════════════════════════════════════
+const WBANK={
+  // Age 4: simple CVC 2-3 letter
+  4:[{w:'CAT',e:'🐱'},{w:'DOG',e:'🐶'},{w:'PIG',e:'🐷'},{w:'COW',e:'🐄'},{w:'HEN',e:'🐔'},
+     {w:'ANT',e:'🐜'},{w:'BEE',e:'🐝'},{w:'OWL',e:'🦉'},{w:'BAT',e:'🦇'},{w:'RAT',e:'🐀'},
+     {w:'CUP',e:'☕'},{w:'PEN',e:'✏️'},{w:'BAG',e:'👜'},{w:'CAR',e:'🚗'},{w:'SUN',e:'☀️'},
+     {w:'BED',e:'🛏️'},{w:'BOX',e:'📦'},{w:'JAM',e:'🍓'},{w:'BIN',e:'🗑️'},{w:'PIN',e:'📌'},
+     {w:'HUG',e:'🤗'},{w:'BUG',e:'🐛'},{w:'JUG',e:'🫗'},{w:'MUD',e:'🌧️'},{w:'RUG',e:'🛋️'},
+     {w:'FOX',e:'🦊'},{w:'APE',e:'🦧'},{w:'HOT',e:'🔥'},{w:'FAN',e:'🌬️'},{w:'MAP',e:'🗺️'}],
+  // Age 5: 3-4 letter words
+  5:[{w:'FROG',e:'🐸'},{w:'CRAB',e:'🦀'},{w:'STAR',e:'⭐'},{w:'FISH',e:'🐟'},{w:'BIRD',e:'🐦'},
+     {w:'DUCK',e:'🦆'},{w:'BEAR',e:'🐻'},{w:'DEER',e:'🦌'},{w:'LION',e:'🦁'},{w:'WOLF',e:'🐺'},
+     {w:'TREE',e:'🌳'},{w:'BOOK',e:'📚'},{w:'MOON',e:'🌙'},{w:'RAIN',e:'🌧️'},{w:'CAKE',e:'🎂'},
+     {w:'KITE',e:'🪁'},{w:'BIKE',e:'🚲'},{w:'ROSE',e:'🌹'},{w:'HOME',e:'🏠'},{w:'LAMP',e:'💡'},
+     {w:'NEST',e:'🪹'},{w:'WAVE',e:'🌊'},{w:'GATE',e:'🚪'},{w:'BLUE',e:'💙'},{w:'DUST',e:'🌫️'},
+     {w:'HAWK',e:'🦅'},{w:'PALM',e:'🌴'},{w:'SAIL',e:'⛵'},{w:'WORM',e:'🐛'},{w:'FAWN',e:'🦌'}],
+  // Age 6: 4-5 letter words
+  6:[{w:'TIGER',e:'🐯'},{w:'HORSE',e:'🐴'},{w:'SNAKE',e:'🐍'},{w:'EAGLE',e:'🦅'},{w:'MOUSE',e:'🐭'},
+     {w:'SHEEP',e:'🐑'},{w:'CAMEL',e:'🐪'},{w:'ZEBRA',e:'🦓'},{w:'WHALE',e:'🐋'},{w:'SHARK',e:'🦈'},
+     {w:'CLOUD',e:'☁️'},{w:'LIGHT',e:'💡'},{w:'GRASS',e:'🌿'},{w:'PLANT',e:'🌱'},{w:'EARTH',e:'🌍'},
+     {w:'APPLE',e:'🍎'},{w:'MANGO',e:'🥭'},{w:'LEMON',e:'🍋'},{w:'GRAPE',e:'🍇'},{w:'PEACH',e:'🍑'},
+     {w:'TRAIN',e:'🚂'},{w:'PLANE',e:'✈️'},{w:'TRUCK',e:'🚚'},{w:'CHAIR',e:'🪑'},{w:'PAPER',e:'📄'},
+     {w:'FLAME',e:'🔥'},{w:'CHEST',e:'📦'},{w:'FROST',e:'❄️'},{w:'SLOPE',e:'⛷️'},{w:'CRANE',e:'🏗️'}],
+  // Age 7: 5-7 letter words
+  7:[{w:'PENCIL',e:'✏️'},{w:'COLOUR',e:'🎨'},{w:'FLOWER',e:'🌸'},{w:'FOREST',e:'🌳'},{w:'GARDEN',e:'🌻'},
+     {w:'WINTER',e:'❄️'},{w:'SPRING',e:'🌸'},{w:'MONKEY',e:'🐵'},{w:'PARROT',e:'🦜'},{w:'RABBIT',e:'🐰'},
+     {w:'TURTLE',e:'🐢'},{w:'BRIDGE',e:'🌉'},{w:'BUTTER',e:'🧈'},{w:'CANDLE',e:'🕯️'},{w:'DESERT',e:'🏜️'},
+     {w:'PLANET',e:'🪐'},{w:'JUNGLE',e:'🌴'},{w:'CASTLE',e:'🏰'},{w:'BOTTLE',e:'🍶'},{w:'COTTON',e:'🌾'},
+     {w:'GENTLE',e:'🕊️'},{w:'INSECT',e:'🐛'},{w:'MIRROR',e:'🪞'},{w:'NEEDLE',e:'🪡'},{w:'ORANGE',e:'🍊'},
+     {w:'PURPLE',e:'💜'},{w:'ROCKET',e:'🚀'},{w:'SILVER',e:'🥈'},{w:'TONGUE',e:'👅'},{w:'VIOLIN',e:'🎻'}],
+};
+
+// ═══════════════════════════════════════════════════════════════
+//  MCQ BANKS
+// ═══════════════════════════════════════════════════════════════
+// Ages 1-2: 2-option MCQ (very simple, visual)
+const MCQ12=[
+  {q:"What colour is 🍎?",o:["Red 🔴","Blue 🔵"],a:0},
+  {q:"What colour is 🌿?",o:["Red 🔴","Green 💚"],a:1},
+  {q:"What colour is ☁️?",o:["White ⚪","Black ⚫"],a:0},
+  {q:"What colour is 🍌?",o:["Yellow 💛","Purple 💜"],a:0},
+  {q:"What colour is 🌊?",o:["Orange 🟠","Blue 🔵"],a:1},
+  {q:"What colour is 🌙?",o:["Yellow 💛","Green 💚"],a:0},
+  {q:"What colour is 🍊?",o:["Orange 🟠","Pink 🩷"],a:0},
+  {q:"What colour is 🐧?",o:["Black & White","All Red"],a:0},
+  {q:"A 🔺 is a...?",o:["Triangle","Circle"],a:0},
+  {q:"A ⭕ is a...?",o:["Square","Circle"],a:1},
+  {q:"A ⬛ is a...?",o:["Square","Triangle"],a:0},
+  {q:"🍎🍎 How many?",o:["1","2"],a:1},
+  {q:"🍎 How many?",o:["1","2"],a:0},
+  {q:"🌟🌟🌟 How many?",o:["2","3"],a:1},
+  {q:"🎈🎈🎈🎈 How many?",o:["3","4"],a:1},
+  {q:"🐶🐶 How many dogs?",o:["1","2"],a:1},
+  {q:"🐱 How many cats?",o:["1","2"],a:0},
+  {q:"🌸🌸🌸🌸🌸 How many?",o:["4","5"],a:1},
+  {q:"This is a 🐱 — a...?",o:["Cat","Dog"],a:0},
+  {q:"This is a 🐶 — a...?",o:["Cat","Dog"],a:1},
+  {q:"This is a 🐄 — a...?",o:["Cow","Horse"],a:0},
+  {q:"This is a 🐸 — a...?",o:["Frog","Bird"],a:0},
+  {q:"This is a 🐟 — a...?",o:["Fish","Cat"],a:0},
+  {q:"A 🐶 says...?",o:["Woof!","Moo!"],a:0},
+  {q:"A 🐄 says...?",o:["Woof!","Moo!"],a:1},
+  {q:"A 🐱 says...?",o:["Meow!","Roar!"],a:0},
+  {q:"A 🐔 says...?",o:["Cluck!","Bark!"],a:0},
+  {q:"We use 👀 to...?",o:["See","Hear"],a:0},
+  {q:"We use 👂 to...?",o:["See","Hear"],a:1},
+  {q:"We use 👃 to...?",o:["Smell","Taste"],a:0},
+  {q:"We walk with our...?",o:["Feet 🦶","Hands 🤲"],a:0},
+  {q:"We clap with our...?",o:["Feet","Hands 👏"],a:1},
+  {q:"The 🌞 is...?",o:["Hot","Cold"],a:0},
+  {q:"Snow ❄️ is...?",o:["Hot","Cold"],a:1},
+  {q:"Birds live in...?",o:["Nests 🪹","Water 🌊"],a:0},
+  {q:"Fish live in...?",o:["Trees 🌳","Water 🌊"],a:1},
+  {q:"We drink...?",o:["Water 💧","Mud"],a:0},
+  {q:"At night the 🌙 comes out — it is...?",o:["Day","Night"],a:1},
+  {q:"The 🌞 rises in the...?",o:["Morning","Night"],a:0},
+  {q:"🍎 is a...?",o:["Fruit","Rock"],a:0},
+];
+
+// Ages 3-4: 4-option MCQ, moderate difficulty
+const MCQ34=[
+  {q:"A Dog 🐶 says...?",o:["Moo","Meow","Woof","Cluck"],a:2},
+  {q:"A Cat 🐱 says...?",o:["Bark","Meow","Moo","Roar"],a:1},
+  {q:"A Cow 🐄 says...?",o:["Moo","Neigh","Cluck","Squeak"],a:0},
+  {q:"A Horse 🐴 says...?",o:["Moo","Woof","Neigh","Cluck"],a:2},
+  {q:"Which animal has 4 legs?",o:["Fish 🐟","Bird 🐦","Dog 🐶","Snake 🐍"],a:2},
+  {q:"Which can fly? 🦅",o:["Dog","Fish","Cat","Bird"],a:3},
+  {q:"Which lives in water?",o:["Cat","Dog","Fish 🐟","Rabbit"],a:2},
+  {q:"Which gives us milk? 🥛",o:["Hen","Dog","Cow","Rabbit"],a:2},
+  {q:"Which gives us eggs? 🥚",o:["Cow","Hen 🐔","Dog","Cat"],a:1},
+  {q:"What colour is the sky? ☁️",o:["Green","Red","Blue","Yellow"],a:2},
+  {q:"What colour is grass? 🌿",o:["Red","Blue","Yellow","Green"],a:3},
+  {q:"What colour is a banana? 🍌",o:["Red","Green","Yellow","Blue"],a:2},
+  {q:"How many fingers on one hand? ✋",o:["3","4","5","6"],a:2},
+  {q:"How many legs does a dog have?",o:["2","3","4","6"],a:2},
+  {q:"How many sides does a triangle? 🔺",o:["2","3","4","5"],a:1},
+  {q:"How many sides does a square? ⬛",o:["3","4","5","6"],a:1},
+  {q:"1 + 1 = ?",o:["1","2","3","4"],a:1},
+  {q:"2 + 2 = ?",o:["2","3","4","5"],a:2},
+  {q:"1 + 2 = ?",o:["2","3","4","5"],a:1},
+  {q:"3 + 1 = ?",o:["3","4","5","6"],a:1},
+  {q:"2 + 3 = ?",o:["4","5","6","7"],a:1},
+  {q:"4 + 1 = ?",o:["4","5","6","7"],a:1},
+  {q:"What do we eat with? 🍽️",o:["Ears","Eyes","Mouth","Feet"],a:2},
+  {q:"What do we smell with? 👃",o:["Eyes","Ears","Nose","Hands"],a:2},
+  {q:"What is the colour of the sun? ☀️",o:["Blue","Green","Yellow","Red"],a:2},
+  {q:"Which is a fruit? 🍎",o:["Carrot","Stone","Apple","Leaf"],a:2},
+  {q:"Which number comes after 5?",o:["4","5","6","7"],a:2},
+  {q:"Which number comes before 3?",o:["1","2","4","5"],a:1},
+  {q:"Which is biggest? 🐘",o:["Ant","Bee","Cat","Elephant"],a:3},
+  {q:"Which is smallest? 🐜",o:["Dog","Elephant","Ant","Horse"],a:2},
+  {q:"How many days in a week?",o:["5","6","7","8"],a:2},
+  {q:"Which season is hot? ☀️",o:["Winter","Autumn","Spring","Summer"],a:3},
+  {q:"What colour is chocolate? 🍫",o:["White","Brown","Blue","Pink"],a:1},
+  {q:"Snow falls in...?",o:["Summer","Spring","Winter","Autumn"],a:2},
+  {q:"We use 👀 to...?",o:["Hear","Smell","See","Taste"],a:2},
+  {q:"Which letter comes first? 🔤",o:["Z","M","A","T"],a:2},
+  {q:"Which letter comes last? 🔤",o:["A","M","Z","B"],a:2},
+  {q:"Apple starts with...?",o:["B","C","A","D"],a:2},
+  {q:"Ball starts with...?",o:["A","B","C","D"],a:1},
+  {q:"Cat starts with...?",o:["A","B","C","D"],a:2},
+];
+
+// Age 5 MCQ — Grade 1 level, Cambridge/CBSE aligned, challenging
+const MCQ5=[
+  // Word problems
+  {q:"Tom has 7 sweets. He eats 3. How many left?",o:["3","4","5","6"],a:1},
+  {q:"There are 5 red balls & 4 blue balls. How many in total?",o:["7","8","9","10"],a:2},
+  {q:"A bag has 10 apples. 6 are taken. How many remain?",o:["2","3","4","5"],a:2},
+  {q:"Sara has 3 cats. Her friend has 5. How many cats altogether?",o:["6","7","8","9"],a:2},
+  {q:"Jay buys 4 pencils on Mon & 5 on Tue. Total pencils?",o:["7","8","9","10"],a:2},
+  // Patterns & sequences
+  {q:"2, 4, 6, 8, __ ? What comes next?",o:["9","10","11","12"],a:1},
+  {q:"5, 10, 15, 20, __ ? What comes next?",o:["22","24","25","30"],a:2},
+  {q:"1, 3, 5, 7, __ ? What comes next?",o:["8","9","10","11"],a:1},
+  {q:"10, 20, 30, __ ? What comes next?",o:["35","38","40","45"],a:2},
+  {q:"100, 90, 80, __ ? What comes next?",o:["60","65","70","75"],a:2},
+  // Measurement & time
+  {q:"How many months are in a year? 🗓️",o:["10","11","12","13"],a:2},
+  {q:"How many hours in a day? ⏰",o:["12","20","24","36"],a:2},
+  {q:"Which unit measures weight? ⚖️",o:["Metres","Litres","Kilograms","Seconds"],a:2},
+  {q:"Which unit measures length? 📏",o:["Litres","Kilograms","Metres","Grams"],a:2},
+  {q:"Which unit measures liquid? 💧",o:["Metres","Litres","Kilograms","Seconds"],a:1},
+  // Place value & number sense
+  {q:"What is the tens digit in 47?",o:["7","4","0","1"],a:1},
+  {q:"What is the ones digit in 83?",o:["8","0","3","1"],a:2},
+  {q:"Which is the largest number?",o:["49","51","38","72"],a:3},
+  {q:"Which is the smallest number?",o:["55","42","67","38"],a:3},
+  {q:"What number is 10 more than 35?",o:["36","40","45","25"],a:2},
+  // Science & environment (Cambridge Science Yr1)
+  {q:"Which sense does your tongue use? 👅",o:["Sight","Hearing","Taste","Touch"],a:2},
+  {q:"Which is a living thing? 🌱",o:["Rock","Chair","Plant","Pencil"],a:2},
+  {q:"What do plants need to make food? ☀️",o:["Darkness","Sunlight & water","Sand","Wind"],a:1},
+  {q:"What is a tadpole? 🐸",o:["Baby fish","Baby frog","Baby bird","Baby snake"],a:1},
+  {q:"Which season has the most sunlight? ☀️",o:["Winter","Autumn","Spring","Summer"],a:3},
+  // Language
+  {q:"'Dog' is a...?",o:["Verb","Adjective","Noun","Adverb"],a:2},
+  {q:"'Run' is a...?",o:["Noun","Verb","Adjective","Pronoun"],a:1},
+  {q:"'Happy' is a...?",o:["Noun","Verb","Adjective","Pronoun"],a:2},
+  {q:"How many syllables in 'but-ter-fly'? 🦋",o:["1","2","3","4"],a:2},
+  {q:"Which word is spelled correctly?",o:["Appel","Apple","Appl","Aple"],a:1},
+  // Maths MCQ
+  {q:"What is double 9?",o:["16","17","18","19"],a:2},
+  {q:"Half of 18 = ?",o:["7","8","9","10"],a:2},
+  {q:"Which number is even?",o:["11","13","16","19"],a:2},
+  {q:"Which number is odd?",o:["12","14","18","21"],a:3},
+  {q:"3 × 4 = ?",o:["10","11","12","14"],a:2},
+  {q:"20 ÷ 5 = ?",o:["3","4","5","6"],a:1},
+  {q:"What is 38 + 25?",o:["53","61","63","73"],a:2},
+  {q:"What is 72 − 38?",o:["24","34","44","54"],a:1},
+  // Geography & GK
+  {q:"Capital of India? 🇮🇳",o:["Mumbai","New Delhi","Chennai","Kolkata"],a:1},
+  {q:"What shape is the Earth? 🌍",o:["Flat","Square","Sphere (ball)","Triangle"],a:2},
+];
+
+// Ages 6-7 MCQ — Grade 2-3 Cambridge/IB level, genuinely challenging
+const MCQ67=[
+  // ── WORD PROBLEMS (Gr 2-3 level) ──
+  {q:"A train carries 125 passengers. 48 get off. How many remain?",o:["67","77","87","97"],a:1},
+  {q:"Mia reads 15 pages Mon, 23 Tue, 18 Wed. Total pages?",o:["46","54","56","66"],a:2},
+  {q:"A box has 6 rows of 8 chocolates. How many total?",o:["42","46","48","54"],a:2},
+  {q:"Raj has ₹50. He buys a pen for ₹18. Change received?",o:["28","32","33","38"],a:1},
+  {q:"A rope is 120cm. It's cut into 6 equal pieces. Each piece?",o:["15cm","18cm","20cm","24cm"],a:2},
+  {q:"There are 7 days in a week. How many days in 5 weeks?",o:["30","35","40","42"],a:1},
+  {q:"A class has 32 students. ¼ are absent. How many present?",o:["20","22","24","28"],a:2},
+  {q:"If 3 apples cost ₹15, what do 9 apples cost?",o:["₹35","₹40","₹45","₹50"],a:2},
+  // ── PLACE VALUE & BIG NUMBERS ──
+  {q:"What is the value of 4 in 4,352?",o:["40","400","4000","4"],a:2},
+  {q:"Which number has 7 in the hundreds place?",o:["7,234","3,742","2,371","1,726"],a:1},
+  {q:"Round 347 to the nearest hundred.",o:["300","350","400","340"],a:0},
+  {q:"Round 2,645 to the nearest thousand.",o:["2,000","2,600","3,000","2,700"],a:2},
+  {q:"What is 500 + 70 + 8?",o:["507","570","578","587"],a:2},
+  // ── FRACTIONS ──
+  {q:"Which fraction is largest? 🍕",o:["1/2","1/4","1/8","1/3"],a:0},
+  {q:"½ + ½ = ?",o:["½","1","2","¼"],a:1},
+  {q:"¾ of 24 = ?",o:["12","16","18","20"],a:2},
+  {q:"Which fraction equals ½?",o:["2/6","3/4","4/8","3/8"],a:2},
+  {q:"What is ⅓ of 30?",o:["6","8","10","12"],a:2},
+  // ── GEOMETRY ──
+  {q:"What is the perimeter of a square with side 5cm?",o:["10cm","15cm","20cm","25cm"],a:2},
+  {q:"What is the area of a rectangle 4cm × 6cm?",o:["10cm²","20cm²","24cm²","28cm²"],a:2},
+  {q:"How many faces does a cube have?",o:["4","5","6","8"],a:2},
+  {q:"How many edges does a cube have?",o:["6","8","10","12"],a:3},
+  {q:"A triangle with all equal sides is called...?",o:["Scalene","Isosceles","Equilateral","Right-angled"],a:2},
+  // ── GRAMMAR (Cambridge Primary) ──
+  {q:"Which sentence is CORRECT?",o:["she run fast","She run fast","She runs fast","she runs fast"],a:2},
+  {q:"Choose the correct form: 'The children ___ playing.'",o:["is","was","are","am"],a:2},
+  {q:"What is the PAST tense of 'go'?",o:["goes","going","gone","went"],a:3},
+  {q:"What is the PLURAL of 'child'?",o:["Childs","Children","Childes","Childes"],a:1},
+  {q:"What is the PLURAL of 'tooth'?",o:["Tooths","Toothes","Teeths","Teeth"],a:3},
+  {q:"'The tall tree fell.' — 'tall' is a...?",o:["Noun","Verb","Adverb","Adjective"],a:3},
+  {q:"'She ran quickly.' — 'quickly' is a...?",o:["Noun","Adverb","Adjective","Verb"],a:1},
+  {q:"Which word is a CONJUNCTION?",o:["Run","Beautiful","Because","Apple"],a:2},
+  {q:"'Biggest' is the ___ form of 'big'.",o:["comparative","superlative","positive","plural"],a:1},
+  {q:"Which sentence uses the CORRECT apostrophe?",o:["Its raining","It's raining","Its' raining","Its' rain"],a:1},
+  // ── SCIENCE (Cambridge Sci Yr2-3) ──
+  {q:"What gas do plants absorb from air? 🌿",o:["Oxygen","Nitrogen","Carbon Dioxide","Hydrogen"],a:2},
+  {q:"What is the closest star to Earth? ⭐",o:["Polaris","Sirius","The Moon","The Sun"],a:3},
+  {q:"What are the three states of matter?",o:["Hot, warm, cold","Gas, wind, rain","Solid, liquid, gas","Earth, water, air"],a:2},
+  {q:"Which force keeps us on the ground? ⬇️",o:["Magnetism","Friction","Gravity","Tension"],a:2},
+  {q:"What is the powerhouse of the cell? 🔬",o:["Nucleus","Membrane","Mitochondria","Ribosome"],a:2},
+  {q:"Sound cannot travel through...?",o:["Water","Air","Wood","Vacuum"],a:3},
+  {q:"Which planet has a ring system? 🪐",o:["Mars","Jupiter","Saturn","Venus"],a:2},
+  // ── GEOGRAPHY & GK ──
+  {q:"Which is the longest river in the world?",o:["Amazon","Mississippi","Nile","Ganga"],a:2},
+  {q:"Capital of Australia? 🇦🇺",o:["Sydney","Melbourne","Brisbane","Canberra"],a:3},
+  {q:"Which is the smallest continent?",o:["Europe","Antarctica","Australia","South America"],a:2},
+  {q:"Which ocean is on India's west coast?",o:["Pacific","Atlantic","Indian","Arctic"],a:2},
+  {q:"What is the capital of Japan? 🇯🇵",o:["Beijing","Seoul","Bangkok","Tokyo"],a:3},
+  // ── MATHS CHALLENGE ──
+  {q:"What is 12 × 12?",o:["124","132","144","148"],a:2},
+  {q:"What is 11 × 11?",o:["111","121","131","141"],a:1},
+  {q:"456 + 278 = ?",o:["624","714","734","744"],a:2},
+  {q:"900 − 347 = ?",o:["443","453","543","563"],a:3},
+  {q:"What is the LCM of 4 and 6?",o:["8","10","12","16"],a:2},
+];
+
+// ═══════════════════════════════════════════════════════════════
+//  SEEDED RNG
+// ═══════════════════════════════════════════════════════════════
+function mkRng(seed){
+  let s=(seed^0xDEADBEEF)>>>0;if(!s)s=1;
+  return()=>{s^=s<<13;s^=s>>17;s^=s<<5;return(s>>>0)/4294967296;};
+}
+const ABC='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const ICONS=['🍎','🍊','🍋','🍇','🍓','🍑','🍒','🥝','🍌','🍉','🌸','🌺','🌻','🌹','🌷',
+  '⭐','🌟','💫','✨','🔥','🎈','🎁','🎯','🎲','🎮','🚗','🚂','🚀','✈️','🐱',
+  '🐶','🐭','🐰','🦊','🐻','🦋','🐝','🐞','🎵','🌈','💎','🦁','🐸','🐼','🦄'];
+
+// ═══════════════════════════════════════════════════════════════
+//  QUESTION GENERATORS
+// ═══════════════════════════════════════════════════════════════
+function genCountQ(rng, age, day){
+  const ic=ICONS[~~(rng()*ICONS.length)];
+  const maxC = age===1?3 : age===2?5 : age<=4?10 : Math.min(5+day,20);
+  const minC = 1;
+  const n = minC+~~(rng()*(maxC-minC));
+  return{tp:'count',q:`How many ${ic} are there?`,ic,ans:n};
+}
+
+function genMathQ(rng, age, day){
+  let a,b,ans,label,q;
+  if(age<=2){
+    // Ages 1-2: counting MCQ only (handled in section MCQ)
+    a=1+~~(rng()*3);b=1+~~(rng()*3);ans=a+b;
+    return{tp:'mcq',q:`${a} + ${b} = ?`,o:[String(ans-1),String(ans),String(ans+1),String(ans+2)],ans:1};
+  }
+  if(age===3){
+    a=1+~~(rng()*4);b=1+~~(rng()*4);ans=a+b;
+    return{tp:'mcq',q:`${a} + ${b} = ?`,o:[String(ans-1),String(ans),String(ans+1),String(ans+2)],ans:1};
+  }
+  if(age===4){
+    const ops=['+'];if(day>=8)ops.push('-');
+    const op=ops[~~(rng()*ops.length)];
+    if(op==='+'){a=1+~~(rng()*9);b=1+~~(rng()*9);while(a+b>10){b=1+~~(rng()*9);}ans=a+b;label=`${a} + ${b}`;q=`${a} + ${b} = ?`;}
+    else{b=1+~~(rng()*5);a=b+~~(rng()*5);ans=a-b;label=`${a} − ${b}`;q=`${a} − ${b} = ?`;}
+    return{tp:'math',q,mx:label,ans:String(ans)};
+  }
+  if(age===5){
+    const ops=['+','-'];
+    const op=ops[~~(rng()*ops.length)];
+    if(op==='+'){a=1+~~(rng()*19);b=1+~~(rng()*19);ans=a+b;label=`${a} + ${b}`;q=`${a} plus ${b} = ?`;}
+    else{b=1+~~(rng()*15);a=b+1+~~(rng()*15);ans=a-b;label=`${a} − ${b}`;q=`${a} minus ${b} = ?`;}
+    return{tp:'math',q,mx:label,ans:String(ans)};
+  }
+  if(age===6){
+    const ops=['+','-','×'];if(day>=10)ops.push('÷');
+    const op=ops[~~(rng()*ops.length)];
+    if(op==='+'){a=10+~~(rng()*40);b=10+~~(rng()*40);ans=a+b;label=`${a} + ${b}`;}
+    else if(op==='-'){b=10+~~(rng()*30);a=b+10+~~(rng()*30);ans=a-b;label=`${a} − ${b}`;}
+    else if(op==='×'){const t=[2,5,10];a=t[~~(rng()*t.length)];b=1+~~(rng()*10);ans=a*b;label=`${a} × ${b}`;}
+    else{const ts=[2,5,10];b=ts[~~(rng()*ts.length)];ans=1+~~(rng()*10);a=b*ans;label=`${a} ÷ ${b}`;}
+    q=`${label} = ?`;
+    return{tp:'math',q,mx:label,ans:String(ans)};
+  }
+  // Age 7: complex
+  const ops=['+','-','×','÷'];
+  const op=ops[~~(rng()*ops.length)];
+  if(op==='+'){a=100+~~(rng()*400);b=100+~~(rng()*400);ans=a+b;label=`${a} + ${b}`;}
+  else if(op==='-'){b=100+~~(rng()*300);a=b+100+~~(rng()*300);ans=a-b;label=`${a} − ${b}`;}
+  else if(op==='×'){const t=[2,3,4,5,6,7,8,9,10,11,12];a=t[~~(rng()*t.length)];b=1+~~(rng()*12);ans=a*b;label=`${a} × ${b}`;}
+  else{b=2+~~(rng()*11);ans=2+~~(rng()*12);a=b*ans;label=`${a} ÷ ${b}`;}
+  return{tp:'math',q:`${label} = ?`,mx:label,ans:String(ans)};
+}
+
+function genAlphaQ(rng, age, idx){
+  const sub=~~(idx/5);let sq,ans,q;
+  if(sub===0){const p=~~(rng()*24);sq=[ABC[p],null,ABC[p+2]];ans=ABC[p+1];q='Fill in the missing letter:';}
+  else if(sub===1){const p=1+~~(rng()*24);if(rng()>.5){sq=[ABC[p],null];ans=ABC[p+1];q=`What letter comes AFTER "${ABC[p]}"?`;}else{sq=[null,ABC[p]];ans=ABC[p-1];q=`What letter comes BEFORE "${ABC[p]}"?`;}}
+  else if(sub===2){const p=~~(rng()*23),gp=1+~~(rng()*2),ls=[ABC[p],ABC[p+1],ABC[p+2],ABC[p+3]];ans=ls[gp];ls[gp]=null;sq=ls;q='Fill in the missing letter in the sequence:';}
+  else{
+    if(age>=6&&rng()>.5){const p=2+~~(rng()*23);sq=[ABC[p],null,ABC[p-2]];ans=ABC[p-1];q='Fill in the missing letter (going backwards!):';}
+    else{const p2=~~(rng()*22);sq=[ABC[p2],null,ABC[p2+4]];ans=ABC[p2+2];q='Fill in the missing letter (every other letter!):';}
+  }
+  return{tp:'alpha',q,sq,ans};
+}
+
+// Grammar questions (age 6-7) — Cambridge Primary English
+const GRAMMAR67=[
+  {q:"'The cat ___ sleeping.' Choose correct word.",o:["am","is","are","be"],a:1},
+  {q:"'Dogs ___ barking loudly.' Choose correct word.",o:["is","was","are","am"],a:2},
+  {q:"'She ___ to school every day.' Choose correct word.",o:["go","goes","going","gone"],a:1},
+  {q:"Choose the CORRECTLY punctuated sentence.",o:["she is happy","She is happy","She is happy.","she Is Happy."],a:2},
+  {q:"Which word is a NOUN?",o:["Quickly","Beautiful","River","Jump"],a:2},
+  {q:"Which word is a VERB?",o:["Happy","Chair","Swimming","Blue"],a:2},
+  {q:"Which word is an ADJECTIVE?",o:["Run fast","The dog","Shiny coin","Ran away"],a:2},
+  {q:"Plural of 'leaf' is...?",o:["Leafs","Leaves","Leafes","Leaven"],a:1},
+  {q:"Plural of 'mouse' is...?",o:["Mouses","Mousies","Mice","Mices"],a:2},
+  {q:"Plural of 'foot' is...?",o:["Foots","Feets","Feet","Footes"],a:2},
+  {q:"What is the past tense of 'see'?",o:["Seen","Sawed","Saw","Seed"],a:2},
+  {q:"What is the past tense of 'run'?",o:["Runned","Ran","Runed","Running"],a:1},
+  {q:"What is the past tense of 'eat'?",o:["Eated","Eaten","Ate","Eating"],a:2},
+  {q:"'The smallest' is what form of 'small'?",o:["Positive","Comparative","Superlative","Plural"],a:2},
+  {q:"'Bigger' is what form of 'big'?",o:["Positive","Comparative","Superlative","Plural"],a:1},
+  {q:"Which word is a PRONOUN?",o:["Apple","Run fast","She laughed","The cat"],a:2},
+  {q:"A question ends with a...?",o:["Full stop","Exclamation mark","Question mark","Comma"],a:2},
+  {q:"An exclamation ends with a...?",o:["Full stop","Exclamation mark !","Question mark ?","Comma ,"],a:1},
+  {q:"'Quickly' is a...?",o:["Noun","Adverb","Adjective","Verb"],a:1},
+  {q:"Which word has a SILENT letter?",o:["Cat 🐱","Know ✅","Hat 👒","Bat 🦇"],a:1},
+];
+
+// ═══════════════════════════════════════════════════════════════
+//  BUILD DAY (100 questions by age)
+// ═══════════════════════════════════════════════════════════════
+function buildDay(dayNum, age){
+  const rng=mkRng(dayNum*98761 + age*1337 + 42);
+  const qs=[];
+
+  if(age<=2){
+    // ── Ages 1-2: ALL MCQ, 20 each section ──
+    const bank=[...MCQ12];
+    // Shuffle with seed
+    for(let i=bank.length-1;i>0;i--){const j=~~(rng()*(i+1));[bank[i],bank[j]]=[bank[j],bank[i]];}
+    for(let i=0;i<100;i++){
+      const q={...bank[i%bank.length]};
+      q.o=[...q.o]; // copy options
+      qs.push(q);
+    }
+  }
+  else if(age===3){
+    // ── Age 3: count(20) + mathMCQ(20) + letterMCQ(20) + colorsMCQ(20) + animalsMCQ(20) ──
+    for(let i=0;i<20;i++)qs.push(genCountQ(rng,3,dayNum));
+    for(let i=0;i<20;i++)qs.push(genMathQ(rng,3,dayNum));
+    // Letters MCQ
+    const letterQs=[];
+    for(let i=0;i<26;i++){
+      letterQs.push({tp:'mcq',q:`Which letter comes after "${ABC[i]}"?`,
+        o:[ABC[(i+2)%26],ABC[(i+1)%26],ABC[(i+3)%26],ABC[(i-1+26)%26]],ans:1});
+    }
+    for(let i=0;i<20;i++){
+      const lq=letterQs[(~~(rng()*letterQs.length))%letterQs.length];
+      qs.push({...lq,o:[...lq.o]});
+    }
+    // Colors+animals from MCQ34
+    const sub34=[...MCQ34];
+    for(let i=sub34.length-1;i>0;i--){const j=~~(rng()*(i+1));[sub34[i],sub34[j]]=[sub34[j],sub34[i]];}
+    for(let i=0;i<40;i++)qs.push({...sub34[i%sub34.length],o:[...sub34[i%sub34.length].o]});
+  }
+  else if(age===4){
+    // ── Age 4: count(20) + math(20) + alpha(20) + spell-CVC(20) + MCQ(20) ──
+    for(let i=0;i<20;i++)qs.push(genCountQ(rng,4,dayNum));
+    for(let i=0;i<20;i++)qs.push(genMathQ(rng,4,dayNum));
+    for(let i=0;i<20;i++)qs.push(genAlphaQ(rng,4,i));
+    const wp=WBANK[4],used=new Set();
+    for(let i=0;i<20;i++){
+      let wi,tries=0;do{wi=~~(rng()*wp.length);tries++;}while(used.has(wi)&&tries<200);
+      used.add(wi);const w=wp[wi];
+      qs.push({tp:'spell',q:'Look and spell the word:',si:w.e,ans:w.w,h:`${w.w.length} letters — starts with "${w.w[0]}"`});
+    }
+    const bk=[...MCQ34];for(let i=bk.length-1;i>0;i--){const j=~~(rng()*(i+1));[bk[i],bk[j]]=[bk[j],bk[i]];}
+    for(let i=0;i<20;i++)qs.push({...bk[i%bk.length],o:[...bk[i%bk.length].o]});
+  }
+  else if(age===5){
+    // ── Age 5: count(20) + math(20) + alpha(20) + spell(20) + MCQ(20) ──
+    for(let i=0;i<20;i++)qs.push(genCountQ(rng,5,dayNum));
+    for(let i=0;i<20;i++)qs.push(genMathQ(rng,5,dayNum));
+    for(let i=0;i<20;i++)qs.push(genAlphaQ(rng,5,i));
+    const wp=WBANK[5],used=new Set();
+    for(let i=0;i<20;i++){
+      let wi,tries=0;do{wi=~~(rng()*wp.length);tries++;}while(used.has(wi)&&tries<200);
+      used.add(wi);const w=wp[wi];
+      qs.push({tp:'spell',q:'Look at the picture and spell:',si:w.e,ans:w.w,h:`${w.w.length} letters — starts with "${w.w[0]}"`});
+    }
+    const bk=[...MCQ5];for(let i=bk.length-1;i>0;i--){const j=~~(rng()*(i+1));[bk[i],bk[j]]=[bk[j],bk[i]];}
+    for(let i=0;i<20;i++)qs.push({...bk[i%bk.length],o:[...bk[i%bk.length].o]});
+  }
+  else if(age===6){
+    // ── Age 6: numbers(20) + math(20) + grammar(20) + spell(20) + MCQ67(20) ──
+    // Numbers: place value, even/odd, ordering
+    for(let i=0;i<20;i++)qs.push(genCountQ(rng,6,dayNum));
+    for(let i=0;i<20;i++)qs.push(genMathQ(rng,6,dayNum));
+    const gm=[...GRAMMAR67];for(let i=gm.length-1;i>0;i--){const j=~~(rng()*(i+1));[gm[i],gm[j]]=[gm[j],gm[i]];}
+    for(let i=0;i<20;i++)qs.push({...gm[i%gm.length],o:[...gm[i%gm.length].o]});
+    const wp=WBANK[6],used=new Set();
+    for(let i=0;i<20;i++){
+      let wi,tries=0;do{wi=~~(rng()*wp.length);tries++;}while(used.has(wi)&&tries<200);
+      used.add(wi);const w=wp[wi];
+      qs.push({tp:'spell',q:'Spell the word shown:',si:w.e,ans:w.w,h:`${w.w.length} letters — starts with "${w.w[0]}"`});
+    }
+    const bk=[...MCQ67];for(let i=bk.length-1;i>0;i--){const j=~~(rng()*(i+1));[bk[i],bk[j]]=[bk[j],bk[i]];}
+    for(let i=0;i<20;i++)qs.push({...bk[i%bk.length],o:[...bk[i%bk.length].o]});
+  }
+  else{ // age 7
+    // ── Age 7: numbers(20) + advMath(20) + grammar(20) + vocab(20) + science/geo(20) ──
+    for(let i=0;i<20;i++)qs.push(genCountQ(rng,7,dayNum));
+    for(let i=0;i<20;i++)qs.push(genMathQ(rng,7,dayNum));
+    const gm=[...GRAMMAR67];for(let i=gm.length-1;i>0;i--){const j=~~(rng()*(i+1));[gm[i],gm[j]]=[gm[j],gm[i]];}
+    for(let i=0;i<20;i++)qs.push({...gm[i%gm.length],o:[...gm[i%gm.length].o]});
+    const wp=WBANK[7],used=new Set();
+    for(let i=0;i<20;i++){
+      let wi,tries=0;do{wi=~~(rng()*wp.length);tries++;}while(used.has(wi)&&tries<200);
+      used.add(wi);const w=wp[wi];
+      qs.push({tp:'spell',q:'Spell this word:',si:w.e,ans:w.w,h:`${w.w.length} letters — starts with "${w.w[0]}"`});
+    }
+    const bk=[...MCQ67];for(let i=bk.length-1;i>0;i--){const j=~~(rng()*(i+1));[bk[i],bk[j]]=[bk[j],bk[i]];}
+    for(let i=0;i<20;i++)qs.push({...bk[i%bk.length],o:[...bk[i%bk.length].o]});
+  }
+  return qs; // 100 questions
+}
+
+function getSectIdx(qi){
+  const b=[0,20,40,60,80,100];
+  for(let i=0;i<5;i++)if(qi<b[i+1])return i;return 4;
+}
+const SECT_BOUNDS=[0,20,40,60,80,100];
+
+// ═══════════════════════════════════════════════════════════════
+//  STORAGE + DATE UTILS
+// ═══════════════════════════════════════════════════════════════
+const KEY_U='sla_user', KEY_P='sla_prog';
+let USER=null, PROG={completions:{},cur:null};
+
+function todayStr(){return new Date().toLocaleDateString('en-CA');} // YYYY-MM-DD
+function tomorrowStr(){const d=new Date();d.setDate(d.getDate()+1);return d.toLocaleDateString('en-CA');}
+function fmtDate(s){if(!s)return'';const[y,m,d]=s.split('-');const mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return `${d} ${mo[+m-1]}`;}
+
+function loadData(){
+  try{const u=localStorage.getItem(KEY_U);if(u)USER=JSON.parse(u);}catch(e){}
+  try{const p=localStorage.getItem(KEY_P);if(p)PROG=JSON.parse(p);}catch(e){}
+  if(!PROG.completions)PROG.completions={};
+}
+const saveUser=()=>localStorage.setItem(KEY_U,JSON.stringify(USER));
+const saveProg=()=>localStorage.setItem(KEY_P,JSON.stringify(PROG));
+
+function isDone(n){return!!(PROG.completions[n]);}
+function isCompletedToday(n){return isDone(n)&&PROG.completions[n].date===todayStr();}
+function isOpen(n){
+  if(isDone(n))return false; // already done
+  if(n===1)return true;
+  if(!isDone(n-1))return false;
+  return todayStr()>PROG.completions[n-1].date; // next calendar day
+}
+function isWaitTomorrow(n){
+  if(isDone(n))return false;
+  if(n===1)return false;
+  if(!isDone(n-1))return false;
+  return PROG.completions[n-1].date===todayStr(); // prev done today
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  SCREEN CONTROLLER
+// ═══════════════════════════════════════════════════════════════
+const SCRNS=['signup','sorry','home','play','complete'];
+function show(s){
+  SCRNS.forEach(x=>document.getElementById('scr-'+x).classList.toggle('hidden',x!==s));
+  document.body.classList.toggle('playing', s==='play');
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  SIGNUP
+// ═══════════════════════════════════════════════════════════════
+function goSignup(){
+  USER=null;localStorage.removeItem(KEY_U);
+  ['su-name','su-email','su-age'].forEach(id=>{const el=document.getElementById(id);el.value='';el.classList.remove('err','ok');});
+  document.getElementById('su-errmsg').textContent='';
+  show('signup');
+}
+function handleSignup(){
+  const nm=document.getElementById('su-name').value.trim();
+  const em=document.getElementById('su-email').value.trim();
+  const age=parseInt(document.getElementById('su-age').value);
+  const err=document.getElementById('su-errmsg');
+  ['su-name','su-email','su-age'].forEach(id=>document.getElementById(id).classList.remove('err','ok'));
+  err.textContent='';
+  let bad=false;
+  if(!nm){document.getElementById('su-name').classList.add('err');bad=true;}
+  if(!em||!em.includes('@')||!em.includes('.')){document.getElementById('su-email').classList.add('err');bad=true;}
+  if(!age||isNaN(age)||age<1||age>18){document.getElementById('su-age').classList.add('err');bad=true;}
+  if(bad){err.textContent='⚠️ Please fill all fields correctly';return;}
+  ['su-name','su-email','su-age'].forEach(id=>document.getElementById(id).classList.add('ok'));
+  USER={name:nm,email:em,age,joined:new Date().toISOString()};saveUser();
+  setTimeout(()=>{
+    if(age<1||age>7){showSorry(age);}
+    else{applyAgeMode(age);renderHome();}
+  },350);
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  AGE MODE (CSS class on body)
+// ═══════════════════════════════════════════════════════════════
+function applyAgeMode(age){
+  document.body.classList.remove('baby','child');
+  const mode=AGE_PROFILE[age]?.mode||'';
+  if(mode)document.body.classList.add(mode);
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  SORRY
+// ═══════════════════════════════════════════════════════════════
+function showSorry(age){
+  show('sorry');
+  const fn=(USER?.name||'there').split(' ')[0];
+  if(age<1){
+    document.getElementById('sr-title').textContent='Hmm, that seems too young! 🤔';
+    document.getElementById('sr-range').textContent='Please enter a valid age (1–7 years)';
+    document.getElementById('sr-msg').textContent='Please go back and enter the correct age.';
+  } else {
+    document.getElementById('sr-title').textContent=`Sorry, ${fn}! 😊`;
+    document.getElementById('sr-range').textContent='This worksheet is for children aged 1 – 7 years';
+    document.getElementById('sr-msg').textContent=`This app is designed for children up to age 7. It looks like ${fn} is ${age} — perhaps try an age-appropriate curriculum for older learners! Come back anytime for younger siblings.`;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  HOME
+// ═══════════════════════════════════════════════════════════════
+function renderHome(){
+  show('home');
+  if(!USER)return;
+  const age=USER.age,prof=AGE_PROFILE[age];
+  const fn=USER.name.split(' ')[0];
+  document.getElementById('hdr-title').textContent=`🌟 ${fn}'s 30-Day Adventure 🌟`;
+  document.getElementById('hdr-name').textContent=`👦 ${fn}`;
+  document.getElementById('hdr-grade').textContent=`🎓 ${prof.grade}`;
+  document.getElementById('hdr-cur').textContent=`📚 ${prof.cur}`;
+  const n=Object.keys(PROG.completions).length;
+  document.getElementById('pb').style.width=(n/30*100)+'%';
+  document.getElementById('pbtxt').textContent=`${n} / 30 days completed ⭐`;
+
+  // Unlock banner
+  let showBanner=false,bannerMsg='';
+  for(let i=1;i<=30;i++){
+    if(isWaitTomorrow(i)){
+      showBanner=true;
+      bannerMsg=`✨ Day ${i} complete! Day ${i+1} will unlock tomorrow (${fmtDate(tomorrowStr())})!`;
+      break;
+    }
+  }
+  const ub=document.getElementById('unlock-banner');
+  if(showBanner){ub.classList.remove('hidden');document.getElementById('unlock-msg').textContent=bannerMsg;}
+  else{ub.classList.add('hidden');}
+
+  const g=document.getElementById('dgrid');g.innerHTML='';
+  DAY_THEMES.forEach((th,idx)=>{
+    const dn=idx+1;
+    const done=isDone(dn),open=isOpen(dn),wt=isWaitTomorrow(dn),ip=PROG.cur?.day===dn&&!done;
+    let cls='dc',ico='',sub='',bdr=th.c;
+    if(done){cls+=' ';ico='✅';bdr='#6BCB77';sub=fmtDate(PROG.completions[dn]?.date)||'';}
+    else if(ip){cls+=' ip';ico='▶️';bdr=th.c;}
+    else if(open){bdr=th.c;}
+    else if(wt){cls+=' wt';ico='⏰';bdr='#FFD93D';sub='Tomorrow';}
+    else{cls+=' lk';ico='🔒';bdr='#ddd';}
+    const el=document.createElement('div');
+    el.className=cls;
+    el.style.cssText=`background:${th.bg};border-color:${bdr}`;
+    el.innerHTML=`${ico?`<span class="d-ico">${ico}</span>`:''}
+      <div class="dn" style="color:${th.c}">${dn}</div>
+      <div class="de">${th.e}</div>
+      <div class="dl">${th.t}</div>
+      ${sub?`<div class="d-sub">${sub}</div>`:''}`;
+    if(open||ip)el.onclick=()=>openDay(dn);
+    g.appendChild(el);
+  });
+}
+function goHome(){renderHome();}
+function resetProg(){if(confirm('Reset all progress? Profile is kept.')){PROG={completions:{},cur:null};saveProg();renderHome();}}
+function signOut(){if(confirm('Sign out and clear everything?')){localStorage.removeItem(KEY_U);localStorage.removeItem(KEY_P);USER=null;PROG={completions:{},cur:null};document.body.classList.remove('baby','child');show('signup');}}
+
+// ═══════════════════════════════════════════════════════════════
+//  PLAY
+// ═══════════════════════════════════════════════════════════════
+let CUR_DAY=null,CUR_QS=null,QI=0;
+
+function openDay(n){
+  const age=USER.age;
+  CUR_DAY=n;
+  CUR_QS=buildDay(n,age);
+  QI=PROG.cur?.day===n?PROG.cur.qi:0;
+  PROG.cur={day:n,qi:QI};saveProg();
+  const th=DAY_THEMES[n-1];
+  document.getElementById('pdn').textContent=`Day ${n} of 30 — ${AGE_PROFILE[age].grade}`;
+  document.getElementById('pdt').textContent=th.t;
+  document.getElementById('qcard').style.borderTopColor=th.c;
+  document.getElementById('qpbfill').style.background=`linear-gradient(90deg,${th.c},${th.c}88)`;
+  show('play');
+  if(SECT_BOUNDS.includes(QI))showSectSplash(getSectIdx(QI));
+  else renderQ();
+}
+
+function updateTopBar(){
+  const si=getSectIdx(QI);
+  const sd=getSectDefs(USER.age)[si];
+  document.getElementById('qpbfill').style.width=QI+'%';
+  document.getElementById('schip').textContent=`${QI}/100`;
+  document.getElementById('qlbl').textContent=`Q ${QI+1} of 100`;
+  document.getElementById('sectlbl').textContent=sd.n;
+  document.getElementById('sectlbl').style.cssText=`background:${sd.c}22;color:${sd.c}`;
+}
+
+function showSectSplash(si){
+  const sd=getSectDefs(USER.age)[si];
+  const th=DAY_THEMES[CUR_DAY-1];
+  document.getElementById('nxtbtn').classList.add('hidden');
+  document.getElementById('qcard').innerHTML=`
+    <div class="ssplash" style="background:${th.bg}">
+      <div class="ss-ico">${sd.n.split(' ')[0]}</div>
+      <div class="ss-t" style="color:${sd.c}">${sd.n}</div>
+      <div class="ss-d">${sd.d}</div>
+      <button class="ss-go" style="background:${sd.c}" onclick="renderQ()">Let's go! →</button>
+    </div>`;
+  updateTopBar();
+}
+
+const QLABELS={count:'🔢 Count',math:'➕ Maths',alpha:'🔤 Alphabet',spell:'✏️ Spell',mcq:'💡 Quiz'};
+function renderQ(){
+  if(QI>=100){finishDay();return;}
+  const q=CUR_QS[QI];
+  const th=DAY_THEMES[CUR_DAY-1];
+  if(SECT_BOUNDS.includes(QI)&&QI>0){showSectSplash(getSectIdx(QI));return;}
+  document.getElementById('nxtbtn').classList.add('hidden');
+  updateTopBar();
+  let h=`<div class="qbadge" style="background:${th.bg};color:${th.c}">${QLABELS[q.tp]||'💡'}</div>
+         <div class="qtext">${q.q}</div>`;
+  if(q.tp==='count'){
+    // Scale icon size so all fit without scroll: ≤5→big, ≤10→medium, ≤20→small
+    const sz = q.ans<=5 ? 'clamp(2rem,10vw,3.5rem)' : q.ans<=10 ? 'clamp(1.5rem,7vw,2.4rem)' : 'clamp(1rem,5vw,1.8rem)';
+    const icons = Array(q.ans).fill(`<span style="font-size:${sz}">${q.ic}</span>`).join('');
+    h+=`<div class="cbox" style="background:${th.bg}">${icons}</div>
+        <div class="arow"><input class="ai" id="ai" type="number" min="0" max="40" placeholder="How many?" autocomplete="off">
+        <button class="ckbtn" style="background:${th.c}" onclick="chk()">✓</button></div>`;
+  }else if(q.tp==='math'){
+    h+=`<div class="mbox" style="color:${th.c}">${q.mx}</div>
+        <div class="arow"><input class="ai" id="ai" type="number" placeholder="Answer?" autocomplete="off">
+        <button class="ckbtn" style="background:${th.c}" onclick="chk()">✓</button></div>`;
+  }else if(q.tp==='alpha'){
+    const seqH=q.sq.map(l=>l?`<div class="ab" style="background:linear-gradient(135deg,${th.c},${th.c}99)">${l}</div>`
+      :`<div class="ablnk" style="border-color:${th.c}" id="ablnk"><input id="ai" maxlength="1" autocomplete="off"
+         style="color:${th.c};font-weight:900;font-size:1.4rem;text-align:center;border:none;background:transparent;
+         outline:none;width:100%;height:100%;text-transform:uppercase;" oninput="if(this.value.length===1)chk()"></div>`
+    ).join('');
+    h+=`<div class="aseq">${seqH}</div>`;
+  }else if(q.tp==='spell'){
+    h+=`<div class="semoji">${q.si}</div><div class="shint">💡 ${q.h}</div>
+        <div class="arow"><input class="ai" id="ai" type="text" maxlength="10" autocomplete="off"
+          placeholder="Spell it..." style="text-transform:uppercase">
+        <button class="ckbtn" style="background:${th.c}" onclick="chk()">✓</button></div>`;
+  }else if(q.tp==='mcq'){
+    const nc=q.o.length;
+    const colCls=nc===2?'cols1':'';
+    h+=`<div class="opts ${colCls}">${q.o.map((o,i)=>`<button class="opt" id="opt${i}" onclick="chkMCQ(${i})">${o}</button>`).join('')}</div>`;
+  }
+  h+=`<div class="fb" id="fb"></div>`;
+  document.getElementById('qcard').innerHTML=h;
+  const inp=document.getElementById('ai');
+  if(inp&&q.tp!=='alpha')inp.addEventListener('keydown',e=>{if(e.key==='Enter')chk();});
+  if(inp)setTimeout(()=>inp.focus(),100);
+}
+
+function chk(){
+  const q=CUR_QS[QI],inp=document.getElementById('ai');
+  let v=inp?inp.value.trim():'';if(!v)return;
+  if(q.tp==='spell'||q.tp==='alpha')v=v.toUpperCase();
+  const ok=q.tp==='count'?parseInt(v)===q.ans:v===String(q.ans);
+  if(ok){markOk();}
+  else{
+    if(q.tp==='alpha'){const bl=document.getElementById('ablnk');if(bl){bl.classList.add('serr');setTimeout(()=>{bl.classList.remove('serr');if(inp)inp.value='';},450);}}
+    else{if(inp){inp.classList.add('aerr');setTimeout(()=>{inp.classList.remove('aerr');inp.value='';inp.focus();},480);}}
+    setFB('❌ Not quite! Try again 💪',false);
+  }
+}
+function chkMCQ(i){
+  const q=CUR_QS[QI];q.o.forEach((_,j)=>{const b=document.getElementById('opt'+j);if(b)b.disabled=true;});
+  const btn=document.getElementById('opt'+i);
+  if(i===q.ans){btn.classList.add('ok');markOk();}
+  else{btn.classList.add('err');setTimeout(()=>{q.o.forEach((_,j)=>{const b=document.getElementById('opt'+j);if(b&&j!==i)b.disabled=false;});setFB('❌ Not quite! Try another 💪',false);},520);}
+}
+function markOk(){
+  setFB('✅ Correct! 🎉',true);confetti(3);
+  const nb=document.getElementById('nxtbtn');nb.classList.remove('hidden');
+  if(QI<99){nb.textContent='Next Question →';nb.onclick=nextQ;}
+  else{nb.textContent=`🎉 Complete Day ${CUR_DAY}!`;nb.onclick=finishDay;}
+}
+function setFB(msg,ok){const el=document.getElementById('fb');if(el){el.textContent=msg;el.className='fb '+(ok?'fbok':'fbno');el.classList.add('popin');}}
+function nextQ(){QI++;PROG.cur={day:CUR_DAY,qi:QI};saveProg();renderQ();}
+
+// ═══════════════════════════════════════════════════════════════
+//  COMPLETE
+// ═══════════════════════════════════════════════════════════════
+function finishDay(){
+  const dn=CUR_DAY;
+  if(!PROG.completions[dn]){PROG.completions[dn]={date:todayStr()};PROG.cur=null;saveProg();}
+  const fn=(USER?.name||'Champion').split(' ')[0];
+  const age=USER?.age||5;
+  const msgs=[
+    `Amazing ${fn}! All 100 questions perfect! 🌟`,
+    `Brilliant ${fn}! You are an absolute star! ⭐`,
+    `Incredible! ${fn} — every answer correct! 🧠`,
+    `Wonderful ${fn}! You did every question right! 🚀`,
+    `Outstanding! ${fn} is unstoppable! 💪`,
+  ];
+  document.getElementById('troph').textContent=dn===30?'👑':age<=2?'🎀':age<=4?'🌟':'🏆';
+  document.getElementById('ctitle').textContent=`Day ${dn} Complete! 🎉`;
+  document.getElementById('cmsg').textContent=msgs[~~(Math.random()*msgs.length)];
+
+  // Unlock info
+  const ui=document.getElementById('unlock-info');
+  const nb=document.getElementById('ndbtn');
+  if(dn<30){
+    ui.classList.remove('hidden');
+    ui.textContent=`⏰ Day ${dn+1} unlocks tomorrow, ${fmtDate(tomorrowStr())}! Come back then!`;
+    nb.textContent=`🏠 Back to Menu`;
+    nb.classList.add('hidden');
+  } else {
+    ui.classList.add('hidden');
+    nb.classList.add('hidden');
+    document.getElementById('ctitle').textContent='👑 ALL 30 DAYS DONE! 👑';
+    document.getElementById('cstars').textContent='🌟🌟🌟🌟🌟';
+    document.getElementById('cmsg').textContent=`${fn}, you are the ULTIMATE CHAMPION! 3,000 questions across 30 days — all correct! You should be SO incredibly proud! 🎊🚀👑`;
+  }
+  show('complete');confetti(40);
+}
+function goNextDay(){goHome();}
+
+// ═══════════════════════════════════════════════════════════════
+//  CONFETTI
+// ═══════════════════════════════════════════════════════════════
+const CFC=['#FFD93D','#FF6B6B','#6BCB77','#4D96FF','#C77DFF','#FF9A3C','#ff6fb3','#00d4ff'];
+function confetti(n){for(let i=0;i<n;i++){const el=document.createElement('div');el.className='cf';
+  el.style.cssText=`left:${4+Math.random()*92}vw;top:-12px;background:${CFC[~~(Math.random()*CFC.length)]};
+  border-radius:${Math.random()>.45?'50%':'3px'};width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;
+  animation-duration:${1.5+Math.random()*2.2}s;animation-delay:${Math.random()*.6}s;`;
+  document.body.appendChild(el);setTimeout(()=>el.remove(),4300);}}
+
+// ═══════════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════════
+loadData();
+if(!USER){show('signup');}
+else if(USER.age<1||USER.age>7){showSorry(USER.age);}
+else{applyAgeMode(USER.age);renderHome();}
+</script>
+</body>
+</html>
