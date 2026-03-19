@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>🌟 30-Day Vacation Adventure – Class 1</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#FFFBF0;min-height:100vh;
+  background-image:radial-gradient(circle at 10% 10%,#FFD93D1a 0%,transparent 45%),
+    radial-gradient(circle at 90% 90%,#6BCB771a 0%,transparent 45%),
+    radial-gradient(circle at 50% 50%,#4D96FF0e 0%,transparent 60%);}
+.hidden{display:none!important;}
+button{cursor:pointer;border:none;font-family:inherit;}
+button:active{opacity:.82;}
+
+/* ══════════ HOME ══════════ */
+#scr-home{padding:14px;max-width:820px;margin:0 auto;padding-bottom:50px;}
+.hdr{text-align:center;background:linear-gradient(135deg,#fff0f5,#eef4ff,#f0fff4);
+  border-radius:28px;padding:22px 16px 18px;margin-bottom:18px;
+  box-shadow:0 6px 26px #0000000d;}
+.hdr h1{font-size:clamp(1.5rem,5.5vw,2.5rem);font-weight:900;line-height:1.2;
+  background:linear-gradient(135deg,#FF6B6B,#C77DFF,#4D96FF);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hdr p{color:#999;font-size:.9rem;margin-top:5px;}
+.pb-wrap{background:#e8e8e8;border-radius:20px;height:13px;margin:14px 4px 5px;overflow:hidden;}
+.pb-fill{height:100%;background:linear-gradient(90deg,#FF6B6B,#C77DFF,#4D96FF,#6BCB77);
+  border-radius:20px;transition:width .7s ease;}
+.pb-txt{font-size:.82rem;color:#bbb;text-align:center;}
+.rst-btn{background:none;font-size:.72rem;color:#ddd;margin-top:8px;padding:4px 10px;border-radius:8px;}
+.rst-btn:hover{color:#aaa;background:#f5f5f5;}
+
+/* Grid of days */
+.dgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:9px;margin-top:16px;}
+@media(max-width:540px){.dgrid{grid-template-columns:repeat(5,1fr);gap:7px;}}
+@media(max-width:400px){.dgrid{grid-template-columns:repeat(4,1fr);gap:6px;}}
+.dc{border-radius:15px;padding:10px 6px;text-align:center;cursor:pointer;
+  transition:transform .18s,box-shadow .18s;position:relative;border:3px solid transparent;
+  min-height:82px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  user-select:none;-webkit-tap-highlight-color:transparent;}
+.dc:not(.lk):hover{transform:translateY(-4px);box-shadow:0 8px 22px #00000014;}
+.dc:not(.lk):active{transform:scale(.94);}
+.dc.lk{opacity:.48;cursor:not-allowed;filter:grayscale(.6);}
+.dn{font-size:1.3rem;font-weight:900;line-height:1;}
+.de{font-size:1.15rem;}
+.dl{font-size:.58rem;font-weight:700;color:#777;line-height:1.3;margin-top:2px;text-align:center;}
+.d-ico{font-size:.9rem;position:absolute;top:5px;right:6px;}
+
+/* ══════════ PLAY ══════════ */
+#scr-play{max-width:580px;margin:0 auto;padding:14px;min-height:100vh;
+  display:flex;flex-direction:column;gap:12px;}
+.ptop{display:flex;align-items:center;gap:8px;}
+.bkb{background:#f0f0f0;border-radius:12px;padding:8px 16px;font-size:1rem;
+  font-weight:800;color:#666;transition:background .15s;}
+.bkb:hover{background:#e0e0e0;}
+.pinf{flex:1;text-align:center;}
+.pdn{font-size:.8rem;color:#bbb;font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
+.pdt{font-size:1.05rem;font-weight:900;color:#333;}
+.schip{font-size:.82rem;font-weight:800;padding:7px 13px;border-radius:20px;
+  background:#f0f0f0;color:#888;min-width:52px;text-align:center;}
+
+/* Progress dots */
+.qdots{display:flex;gap:10px;justify-content:center;}
+.qd{width:16px;height:16px;border-radius:50%;background:#e0e0e0;
+  transition:background .3s,transform .25s,box-shadow .25s;}
+.qd.done{background:#6BCB77;transform:scale(1.25);box-shadow:0 2px 8px #6BCB7760;}
+.qd.act{transform:scale(1.45);box-shadow:0 2px 10px #FF6B6B50;}
+
+/* Question card */
+.qcard{background:#fff;border-radius:24px;padding:22px 20px;flex:1;min-height:340px;
+  box-shadow:0 8px 32px #00000010;border-top:7px solid #FF6B6B;
+  display:flex;flex-direction:column;gap:14px;}
+.qbadge{display:inline-block;font-size:.72rem;font-weight:800;
+  padding:5px 14px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px;width:fit-content;}
+.qtext{font-size:1.1rem;font-weight:800;color:#333;line-height:1.45;}
+
+/* Count display */
+.cbox{border-radius:15px;padding:14px 12px;font-size:1.75rem;
+  line-height:2;text-align:center;word-break:break-all;letter-spacing:3px;}
+
+/* Math display */
+.mbox{font-size:2.3rem;font-weight:900;text-align:center;
+  border-radius:15px;padding:16px;background:#f5f5f5;letter-spacing:2px;}
+
+/* Alpha sequence */
+.aseq{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;padding:6px 0;}
+.ab{width:50px;height:50px;border-radius:12px;color:#fff;
+  font-size:1.55rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ablnk{width:50px;height:50px;border-radius:12px;border:3px dashed;
+  background:#f9f9f9;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:background .2s,border-color .2s;}
+.ablnk input{width:100%;height:100%;border:none;background:transparent;
+  font-size:1.55rem;font-weight:900;text-align:center;outline:none;text-transform:uppercase;}
+.ablnk.serr{background:#ffe0e0!important;animation:shk .35s;}
+
+/* Spell */
+.semoji{font-size:4.5rem;text-align:center;line-height:1.1;}
+.shint{font-size:.86rem;color:#bbb;text-align:center;font-style:italic;}
+
+/* MCQ */
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.opt{background:#f8f0ff;border:2.5px solid #e2b4ff;border-radius:14px;
+  padding:13px 10px;font-size:.95rem;font-weight:700;color:#7a3fa0;
+  text-align:center;transition:all .18s;line-height:1.3;}
+.opt:hover:not(:disabled){background:#f0d9ff;transform:scale(1.03);}
+.opt.ok{background:#d4fae7!important;border-color:#6BCB77!important;color:#2d9e56!important;}
+.opt.err{background:#ffe0e0!important;border-color:#FF6B6B!important;color:#FF6B6B!important;animation:shk .35s;}
+.opt:disabled{cursor:default;}
+
+/* Text input row */
+.arow{display:flex;gap:10px;}
+.ai{flex:1;height:52px;border:3px solid #ddd;border-radius:14px;
+  font-family:inherit;font-size:1.3rem;font-weight:900;text-align:center;
+  color:#333;outline:none;background:#fafafa;transition:border-color .2s,background .2s;}
+.ai:focus{border-color:#4D96FF;}
+.ai.aok{border-color:#6BCB77;background:#f0fff4;color:#2d9e56;}
+.ai.aerr{border-color:#FF6B6B;background:#fff0f0;animation:shk .35s;}
+.ckbtn{border-radius:14px;padding:0 20px;height:52px;font-size:.95rem;font-weight:900;color:#fff;
+  box-shadow:0 3px 12px #0000002a;transition:transform .13s,box-shadow .13s!important;}
+.ckbtn:hover{transform:scale(1.06);}
+
+/* Feedback */
+.fb{text-align:center;font-size:1rem;font-weight:800;min-height:26px;}
+.fbok{color:#2d9e56;}.fbno{color:#FF6B6B;}
+
+/* Next button */
+.nxtbtn{background:linear-gradient(135deg,#6BCB77,#4D96FF);color:#fff;
+  border-radius:16px;padding:16px;font-size:1.05rem;font-weight:900;text-align:center;
+  box-shadow:0 5px 18px #4D96FF30;transition:transform .13s,box-shadow .13s!important;}
+.nxtbtn:hover{transform:scale(1.04);}
+
+/* ══════════ COMPLETE ══════════ */
+#scr-complete{max-width:500px;margin:0 auto;padding:28px 16px 50px;text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:18px;}
+.troph{font-size:5.5rem;animation:bnc 1.3s ease-in-out infinite;}
+@keyframes bnc{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-18px) rotate(3deg)}}
+.ctitle{font-size:1.9rem;font-weight:900;}
+.cstars{font-size:2.8rem;letter-spacing:8px;animation:popIn .55s ease both;}
+.cmsg{font-size:1rem;color:#777;line-height:1.7;max-width:360px;}
+.cbtns{display:flex;flex-direction:column;gap:10px;width:100%;margin-top:8px;}
+.ndbtn{border-radius:16px;padding:16px;font-size:1.1rem;font-weight:900;color:#fff;
+  background:linear-gradient(135deg,#FF6B6B,#C77DFF);box-shadow:0 6px 22px #C77DFF44;
+  transition:transform .13s!important;}
+.ndbtn:hover{transform:scale(1.05)!important;}
+.mnbtn{background:#f0f0f0;color:#666;border-radius:16px;padding:14px;font-size:.95rem;font-weight:800;}
+.mnbtn:hover{background:#e0e0e0;}
+
+/* ══════════ ANIMATIONS ══════════ */
+@keyframes shk{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+@keyframes popIn{0%{transform:scale(.6);opacity:0}70%{transform:scale(1.2)}100%{transform:scale(1);opacity:1}}
+.popin{animation:popIn .38s ease both;}
+.cf{position:fixed;pointer-events:none;animation:cff linear;z-index:9999;border-radius:2px;}
+@keyframes cff{0%{transform:translateY(-15px) rotate(0);opacity:1}
+  100%{transform:translateY(105vh) rotate(750deg);opacity:0}}
+</style>
+</head>
+<body>
+
+<!-- ═══════ HOME SCREEN ═══════ -->
+<div id="scr-home">
+  <div class="hdr">
+    <h1>🌟 30-Day Learning Adventure 🌟</h1>
+    <p>Class 1 · Summer Vacation Activity Book · Unlock each day by scoring full marks!</p>
+    <div class="pb-wrap"><div class="pb-fill" id="pb" style="width:0%"></div></div>
+    <p class="pb-txt" id="pbtxt">0 / 30 days completed ⭐</p>
+    <button class="rst-btn" onclick="resetProg()">↺ Reset Progress</button>
+  </div>
+  <div class="dgrid" id="dgrid"></div>
+</div>
+
+<!-- ═══════ PLAY SCREEN ═══════ -->
+<div id="scr-play" class="hidden">
+  <div class="ptop">
+    <button class="bkb" onclick="goHome()">‹ Menu</button>
+    <div class="pinf">
+      <div class="pdn" id="pdn">Day 1 of 30</div>
+      <div class="pdt" id="pdt">Let's Start!</div>
+    </div>
+    <div class="schip" id="schip">0 / 4</div>
+  </div>
+  <div class="qdots" id="qdots"></div>
+  <div class="qcard" id="qcard"></div>
+  <button class="nxtbtn hidden" id="nxtbtn">Next Question →</button>
+</div>
+
+<!-- ═══════ COMPLETE SCREEN ═══════ -->
+<div id="scr-complete" class="hidden">
+  <div class="troph">🏆</div>
+  <div class="ctitle" id="ctitle">Day Complete! 🎉</div>
+  <div class="cstars" id="cstars">⭐⭐⭐⭐⭐</div>
+  <div class="cmsg" id="cmsg">Fantastic work!</div>
+  <div class="cbtns">
+    <button class="ndbtn hidden" id="ndbtn" onclick="goNext()">Next Day →</button>
+    <button class="mnbtn" onclick="goHome()">🏠 Back to Menu</button>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════
+// 30 DAYS DATA
+// tp: 'count' | 'math' | 'alpha' | 'spell' | 'mcq'
+// ════════════════════════════════════════════
+const DAYS=[
+{d:1,t:"Let's Start!",e:"🌟",c:"#FF6B6B",bg:"#fff0ed",qs:[
+  {tp:'count',q:'How many apples are there?',ic:'🍎',ans:3},
+  {tp:'math', q:'1 + 1 = ?',mx:'1 + 1',ans:'2'},
+  {tp:'alpha',q:'Fill the missing letter:',sq:['A',null,'C'],ans:'B'},
+  {tp:'mcq',  q:'Which one is an animal? 🐾',o:['Apple 🍎','Dog 🐕','Rose 🌹','Car 🚗'],ans:1},
+]},
+{d:2,t:"Animal Sounds!",e:"🐾",c:"#FF9A3C",bg:"#fff4ee",qs:[
+  {tp:'count',q:'How many stars?',ic:'⭐',ans:5},
+  {tp:'math', q:'2 + 2 = ?',mx:'2 + 2',ans:'4'},
+  {tp:'mcq',  q:'A Dog 🐶 says...?',o:['Moo 🐄','Meow 😺','Woof 🐕','Cluck 🐔'],ans:2},
+  {tp:'mcq',  q:'What colour is a banana? 🍌',o:['Red 🔴','Blue 🔵','Yellow 🌟','Green 🌿'],ans:2},
+]},
+{d:3,t:"Colours!",e:"🎨",c:"#c08000",bg:"#fffbea",qs:[
+  {tp:'count',q:'How many hearts?',ic:'❤️',ans:4},
+  {tp:'math', q:'2 + 3 = ?',mx:'2 + 3',ans:'5'},
+  {tp:'spell',q:'Spell this animal:',si:'🐱',ans:'CAT',h:'3 letters — starts with C'},
+  {tp:'mcq',  q:'What colour is grass? 🌿',o:['Red 🔴','Blue 🔵','Yellow 🌟','Green 🌿'],ans:3},
+]},
+{d:4,t:"Fruits & Veggies!",e:"🍎",c:"#2d9e56",bg:"#f0fff4",qs:[
+  {tp:'count',q:'How many flowers?',ic:'🌸',ans:6},
+  {tp:'math', q:'3 + 3 = ?',mx:'3 + 3',ans:'6'},
+  {tp:'alpha',q:'Fill the missing letter:',sq:['D',null,'F'],ans:'E'},
+  {tp:'mcq',  q:'Which is NOT a fruit? 🤔',o:['Mango 🥭','Apple 🍎','Onion 🧅','Banana 🍌'],ans:2},
+]},
+{d:5,t:"Numbers!",e:"🔢",c:"#4D96FF",bg:"#eef4ff",qs:[
+  {tp:'count',q:'How many balloons?',ic:'🎈',ans:7},
+  {tp:'math', q:'4 + 3 = ?',mx:'4 + 3',ans:'7'},
+  {tp:'spell',q:'Spell this animal:',si:'🐶',ans:'DOG',h:'3 letters — starts with D'},
+  {tp:'mcq',  q:'Which number comes after 4?',o:['2','3','5','6'],ans:2},
+]},
+{d:6,t:"Shapes!",e:"🔷",c:"#C77DFF",bg:"#fdf0ff",qs:[
+  {tp:'count',q:'How many butterflies?',ic:'🦋',ans:8},
+  {tp:'math', q:'4 + 4 = ?',mx:'4 + 4',ans:'8'},
+  {tp:'alpha',q:'Fill the missing letter:',sq:['G',null,'I'],ans:'H'},
+  {tp:'mcq',  q:'A ball is shaped like a...?',o:['Square ⬛','Triangle 🔺','Circle ⭕','Rectangle 📄'],ans:2},
+]},
+{d:7,t:"Body Parts!",e:"🤸",c:"#FF6B6B",bg:"#fff0ed",qs:[
+  {tp:'count',q:'How many stars?',ic:'⭐',ans:9},
+  {tp:'math', q:'5 + 4 = ?',mx:'5 + 4',ans:'9'},
+  {tp:'spell',q:'Spell this animal:',si:'🐮',ans:'COW',h:'3 letters — starts with C'},
+  {tp:'mcq',  q:'We see with our...?',o:['Ears 👂','Eyes 👀','Nose 👃','Mouth 👄'],ans:1},
+]},
+{d:8,t:"Big Numbers!",e:"🔟",c:"#FF9A3C",bg:"#fff4ee",qs:[
+  {tp:'count',q:'How many oranges?',ic:'🍊',ans:10},
+  {tp:'math', q:'5 + 5 = ?',mx:'5 + 5',ans:'10'},
+  {tp:'alpha',q:'Fill the missing letter:',sq:['J',null,'L'],ans:'K'},
+  {tp:'mcq',  q:'Which is the biggest animal? 🐾',o:['Ant 🐜','Elephant 🐘','Cat 🐱','Dog 🐶'],ans:1},
+]},
+{d:9,t:"Subtraction!",e:"➖",c:"#2d9e56",bg:"#f0fff4",qs:[
+  {tp:'count',q:'How many moons?',ic:'🌙',ans:6},
+  {tp:'math', q:'5 − 2 = ?',mx:'5 − 2',ans:'3'},
+  {tp:'spell',q:'Spell this insect:',si:'🐝',ans:'BEE',h:'3 letters — starts with B'},
+  {tp:'mcq',  q:'How many days are in a week?',o:['5','6','7','8'],ans:2},
+]},
+{d:10,t:"Nature!",e:"🌿",c:"#4D96FF",bg:"#eef4ff",qs:[
+  {tp:'count',q:'How many flowers?',ic:'🌺',ans:7},
+  {tp:'math', q:'7 − 3 = ?',mx:'7 − 3',ans:'4'},
+  {tp:'alpha',q:'Fill the missing letter:',sq:['M',null,'O'],ans:'N'},
+  {tp:'mcq',  q:'Carrot 🥕 is a...?',o:['Fruit 🍎','Vegetable 🥦','Animal 🐾','Flower 🌸'],ans:1},
+]},
+{d:11,t:"Transport!",e:"🚗",c:"#C77DFF",bg:"#fdf0ff",qs:[
+  {tp:'count',q:'How many cars?',ic:'🚗',ans:8},
+  {tp:'math', q:'8 − 4 = ?',mx:'8 − 4',ans:'4'},
+  {tp:'spell',q:'Spell this bird:',si:'🐔',ans:'HEN',h:'3 letters — starts with H'},
+  {tp:'mcq',  q:'Which one travels in water? 🌊',o:['Car 🚗','Train 🚂','Boat ⛵','Bicycle 🚲'],ans:2},
+]},
+{d:12,t:"Seasons!",e:"❄️",c:"#FF6B6B",bg:"#fff0ed",qs:[
+  {tp:'count',q:'How many sunflowers?',ic:'🌻',ans:9},
+  {tp:'math', q:'8 − 3 = ?',mx:'8 − 3',ans:'5'},
+  {tp:'alpha',q:'Fill the missing letter:',sq:['P',null,'R'],ans:'Q'},
+  {tp:'mcq',  q:'Which season has snow? ❄️',o:['Summer ☀️','Winter ❄️','Spring 🌸','Autumn 🍂'],ans:1},
+]},
+{d:13,t:"Food!",e:"🍽️",c:"#c08000",bg:"#fffbea",qs:[
+  {tp:'count',q:'How many ice creams?',ic:'🍦',ans:5},
+  {tp:'math', q:'6 + 7 = ?',mx:'6 + 7',ans:'13'},
+  {tp:'spell',q:'Spell this animal:',si:'🐷',ans:'PIG',h:'3 letters — starts with P'},
+  {tp:'mcq',  q:'Opposite of HOT is...?',o:['Warm 🌡️','Cold ❄️','Big 🐘','Fast 💨'],ans:1},
+]},
+{d:14,t:"Calendar!",e:"📅",c:"#2d9e56",bg:"#f0fff4",qs:[
+  {tp:'count',q:'How many books?',ic:'📚',ans:11},
+  {tp:'math', q:'7 + 7 = ?',mx:'7 + 7',ans:'14'},
+  {tp:'alpha',q:'Fill the missing letter:',sq:['S',null,'U'],ans:'T'},
+  {tp:'mcq',  q:'How many months are in a year?',o:['10','11','12','13'],ans:2},
+]},
+{d:15,t:"Patterns!",e:"🎯",c:"#4D96FF",bg:"#eef4ff",qs:[
+  {tp:'count',q:'How many targets?',ic:'🎯',ans:12},
+  {tp:'math', q:'8 + 5 = ?',mx:'8 + 5',ans:'13'},
+  {tp:'spell',q:'Spell this animal:',si:'🦊',ans:'FOX',h:'3 letters — starts with F'},
+  {tp:'mcq',  q:'2, 4, 6, __ ? What comes next?',o:['7','8','9','10'],ans:1},
+]},
+{d:16,t:"Plants!",e:"🌱",c:"#C77DFF",bg:"#fdf0ff",qs:[
+  {tp:'count',q:'How many leaves?',ic:'🌿',ans:13},
+  {tp:'math', q:'9 + 6 = ?',mx:'9 + 6',ans:'15'},
+  {tp:'alpha',q:'Fill the missing letter:',sq:['V',null,'X'],ans:'W'},
+  {tp:'mcq',  q:'Plants need ___ to grow?',o:['Sand 🏖️','Water 💧','Stone 🪨','Metal ⚙️'],ans:1},
+]},
+{d:17,t:"Opposites!",e:"↔️",c:"#FF6B6B",bg:"#fff0ed",qs:[
+  {tp:'count',q:'How many stars?',ic:'⭐',ans:14},
+  {tp:'math', q:'9 + 7 = ?',mx:'9 + 7',ans:'16'},
+  {tp:'spell',q:'Spell this insect:',si:'🐜',ans:'ANT',h:'3 letters — starts with A'},
+  {tp:'mcq',  q:'Opposite of SMALL is...?',o:['Short 🦐','Cold ❄️','Big 🐘','Fast 💨'],ans:2},
+]},
+{d:18,t:"Animal Homes!",e:"🏠",c:"#FF9A3C",bg:"#fff4ee",qs:[
+  {tp:'count',q:'How many houses?',ic:'🏠',ans:10},
+  {tp:'math', q:'10 + 8 = ?',mx:'10 + 8',ans:'18'},
+  {tp:'alpha',q:'Fill the missing letter:',sq:['B',null,'D'],ans:'C'},
+  {tp:'mcq',  q:'Where do fish live? 🐟',o:['Land 🌍','Sky 🌤️','Water 🌊','Underground 🕳️'],ans:2},
+]},
+{d:19,t:"Rhyming!",e:"🎵",c:"#2d9e56",bg:"#f0fff4",qs:[
+  {tp:'count',q:'How many music notes?',ic:'🎵',ans:15},
+  {tp:'math', q:'11 + 7 = ?',mx:'11 + 7',ans:'18'},
+  {tp:'spell',q:'Spell this bird:',si:'🦉',ans:'OWL',h:'3 letters — starts with O'},
+  {tp:'mcq',  q:'Which word rhymes with CAT? 🐱',o:['Dog 🐕','Bat 🦇','Fish 🐟','Bird 🐦'],ans:1},
+]},
+{d:20,t:"Half Way There!",e:"🏆",c:"#4D96FF",bg:"#eef4ff",qs:[
+  {tp:'count',q:'20 stars — one for each day you crushed! ⭐',ic:'⭐',ans:20},
+  {tp:'math', q:'12 + 8 = ?',mx:'12 + 8',ans:'20'},
+  {tp:'alpha',q:'Fill the missing letter:',sq:['W',null,'Y'],ans:'X'},
+  {tp:'mcq',  q:'How many sides does a triangle have?',o:['2','3','4','5'],ans:1},
+]},
+{d:21,t:"Multiplication!",e:"✖️",c:"#C77DFF",bg:"#fdf0ff",qs:[
+  {tp:'count',q:'How many stars?',ic:'🌟',ans:16},
+  {tp:'math', q:'15 − 6 = ?',mx:'15 − 6',ans:'9'},
+  {tp:'spell',q:'Spell this animal:',si:'🦧',ans:'APE',h:'3 letters — starts with A'},
+  {tp:'mcq',  q:'2 × 4 = ?',o:['4','6','8','10'],ans:2},
+]},
+{d:22,t:"Number Patterns!",e:"🔢",c:"#FF6B6B",bg:"#fff0ed",qs:[
+  {tp:'count',q:'How many butterflies?',ic:'🦋',ans:11},
+  {tp:'math', q:'14 − 7 = ?',mx:'14 − 7',ans:'7'},
+  {tp:'alpha',q:'Fill the missing letter:',sq:['Q',null,'S'],ans:'R'},
+  {tp:'mcq',  q:'1, 3, 5, 7, __ ? What comes next?',o:['8','9','10','11'],ans:1},
+]},
+{d:23,t:"World Around Us!",e:"🌍",c:"#c08000",bg:"#fffbea",qs:[
+  {tp:'count',q:'How many flowers?',ic:'🌸',ans:17},
+  {tp:'math', q:'16 − 8 = ?',mx:'16 − 8',ans:'8'},
+  {tp:'spell',q:'Spell this animal:',si:'🐀',ans:'RAT',h:'3 letters — starts with R'},
+  {tp:'mcq',  q:'Capital city of India? 🇮🇳',o:['Mumbai','Delhi 🏛️','Kolkata','Chennai'],ans:1},
+]},
+{d:24,t:"Telling Time!",e:"⏰",c:"#2d9e56",bg:"#f0fff4",qs:[
+  {tp:'count',q:'How many clocks?',ic:'🕐',ans:9},
+  {tp:'math', q:'13 + 9 = ?',mx:'13 + 9',ans:'22'},
+  {tp:'alpha',q:'Fill the missing letter:',sq:['E',null,'G'],ans:'F'},
+  {tp:'mcq',  q:'How many hours are in a day? ⏰',o:['12','20','24','36'],ans:2},
+]},
+{d:25,t:"Spelling Challenge!",e:"✏️",c:"#4D96FF",bg:"#eef4ff",qs:[
+  {tp:'count',q:'How many letters?',ic:'🔤',ans:13},
+  {tp:'math', q:'15 + 8 = ?',mx:'15 + 8',ans:'23'},
+  {tp:'spell',q:'Spell this animal:',si:'🐻',ans:'BEAR',h:'4 letters — starts with B'},
+  {tp:'mcq',  q:'Which is a root vegetable? 🌱',o:['Tomato 🍅','Apple 🍎','Carrot 🥕','Mango 🥭'],ans:2},
+]},
+{d:26,t:"Science!",e:"🔬",c:"#C77DFF",bg:"#fdf0ff",qs:[
+  {tp:'count',q:'How many microscopes?',ic:'🔬',ans:14},
+  {tp:'math', q:'20 − 7 = ?',mx:'20 − 7',ans:'13'},
+  {tp:'alpha',q:'Fill the missing letter:',sq:['K',null,'M'],ans:'L'},
+  {tp:'mcq',  q:'Which planet do we live on? 🌌',o:['Mars 🔴','Venus ⭐','Earth 🌍','Jupiter 🪐'],ans:2},
+]},
+{d:27,t:"Big Maths!",e:"🧮",c:"#FF6B6B",bg:"#fff0ed",qs:[
+  {tp:'count',q:'How many stars?',ic:'⭐',ans:15},
+  {tp:'math', q:'18 − 9 = ?',mx:'18 − 9',ans:'9'},
+  {tp:'spell',q:'Spell this animal:',si:'🐺',ans:'WOLF',h:'4 letters — starts with W'},
+  {tp:'mcq',  q:'3 × 3 = ?',o:['6','9','12','15'],ans:1},
+]},
+{d:28,t:"Advanced Spelling!",e:"📝",c:"#FF9A3C",bg:"#fff4ee",qs:[
+  {tp:'count',q:'How many rainbows?',ic:'🌈',ans:10},
+  {tp:'math', q:'12 + 12 = ?',mx:'12 + 12',ans:'24'},
+  {tp:'alpha',q:'Fill the missing letter:',sq:['N',null,'P'],ans:'O'},
+  {tp:'mcq',  q:'Which is a source of light? ✨',o:['Moon 🌙','Sun ☀️','Rock 🪨','Sand 🏖️'],ans:1},
+]},
+{d:29,t:"Almost There!",e:"🚀",c:"#2d9e56",bg:"#f0fff4",qs:[
+  {tp:'count',q:'How many rockets?',ic:'🚀',ans:13},
+  {tp:'math', q:'25 − 8 = ?',mx:'25 − 8',ans:'17'},
+  {tp:'spell',q:'Spell this animal:',si:'🦀',ans:'CRAB',h:'4 letters — starts with C'},
+  {tp:'mcq',  q:'What is 10 + 10?',o:['15','18','20','25'],ans:2},
+]},
+{d:30,t:"Champion Day! 🎊",e:"🏆",c:"#c08000",bg:"#fffbea",qs:[
+  {tp:'count',q:'Count 20 golden stars — one for each smile you gave! 🌟',ic:'🌟',ans:20},
+  {tp:'math', q:'20 + 10 = ? (Days completed!)',mx:'20 + 10',ans:'30'},
+  {tp:'spell',q:'Spell our amazing home planet:',si:'🌍',ans:'EARTH',h:'5 letters — starts with E'},
+  {tp:'mcq',  q:'You finished all 30 days! You are a...? 🎉',o:['Beginner 📖','Student 🎒','Superstar ⭐','Learner 📝'],ans:2},
+]},
+];
+
+// ════════════════════════════════════════════
+// STATE & STORAGE
+// ════════════════════════════════════════════
+let P = JSON.parse(localStorage.getItem('wks30v2')||'{"done":[]}');
+let CUR=null, QI=0, QOK=[];
+const save  = () => localStorage.setItem('wks30v2', JSON.stringify(P));
+const isDone= n  => P.done.includes(n);
+const isOpen= n  => n===1 || isDone(n-1);
+
+// ════════════════════════════════════════════
+// SCREEN SWITCHER
+// ════════════════════════════════════════════
+const show = s => ['home','play','complete'].forEach(x =>
+  document.getElementById('scr-'+x).classList.toggle('hidden', x!==s));
+
+// ════════════════════════════════════════════
+// HOME
+// ════════════════════════════════════════════
+function renderHome(){
+  show('home');
+  const n = P.done.length;
+  document.getElementById('pb').style.width = (n/30*100)+'%';
+  document.getElementById('pbtxt').textContent = `${n} / 30 days completed ⭐`;
+  const g = document.getElementById('dgrid');
+  g.innerHTML = '';
+  DAYS.forEach(d => {
+    const ok=isDone(d.d), un=isOpen(d.d);
+    const el=document.createElement('div');
+    el.className='dc'+(un?'':' lk')+(ok?' cp':'');
+    el.style.cssText=`background:${d.bg};border-color:${ok?'#6BCB77':un?d.c:'#ddd'}`;
+    el.innerHTML=`${ok?'<span class="d-ico">✅</span>':un?'':'<span class="d-ico">🔒</span>'}
+      <div class="dn" style="color:${d.c}">${d.d}</div>
+      <div class="de">${d.e}</div>
+      <div class="dl">${d.t}</div>`;
+    if(un) el.onclick = () => openDay(d.d);
+    g.appendChild(el);
+  });
+}
+const goHome = () => renderHome();
+function resetProg(){
+  if(confirm('Reset ALL progress? This cannot be undone!')){
+    P={done:[]}; save(); renderHome();
+  }
+}
+
+// ════════════════════════════════════════════
+// OPEN DAY
+// ════════════════════════════════════════════
+function openDay(n){
+  CUR = DAYS.find(d=>d.d===n);
+  QI=0; QOK=Array(CUR.qs.length).fill(false);
+  document.getElementById('pdn').textContent = `Day ${n} of 30`;
+  document.getElementById('pdt').textContent = CUR.t;
+  document.getElementById('qcard').style.borderTopColor = CUR.c;
+  show('play');
+  renderDots();
+  renderQ();
+}
+
+// ════════════════════════════════════════════
+// DOTS
+// ════════════════════════════════════════════
+function renderDots(){
+  document.getElementById('qdots').innerHTML = CUR.qs.map((_,i)=>{
+    let cls='qd';
+    if(QOK[i]) cls+=' done';
+    else if(i===QI) cls+=` act" style="background:${CUR.c}`;
+    return `<div class="${cls}"></div>`;
+  }).join('');
+  document.getElementById('schip').textContent = QOK.filter(Boolean).length+' / '+CUR.qs.length;
+}
+
+// ════════════════════════════════════════════
+// RENDER QUESTION
+// ════════════════════════════════════════════
+const LABELS={count:'🔢 Count',math:'➕ Maths',alpha:'🔤 Alphabet',spell:'✏️ Spell',mcq:'💡 Question'};
+
+function renderQ(){
+  const q=CUR.qs[QI];
+  const nb=document.getElementById('nxtbtn');
+  nb.classList.add('hidden'); nb.onclick=nextQ;
+
+  let h=`<div class="qbadge" style="background:${CUR.bg};color:${CUR.c}">${LABELS[q.tp]||'❓'}</div>
+         <div class="qtext">${q.q}</div>`;
+
+  if(q.tp==='count'){
+    h+=`<div class="cbox" style="background:${CUR.bg}">${Array(q.ans).fill(q.ic).join(' ')}</div>
+        <div class="arow">
+          <input class="ai" id="ai" type="number" min="0" max="40" placeholder="Count and type...">
+          <button class="ckbtn" style="background:${CUR.c}" onclick="chk()">Check ✓</button>
+        </div>`;
+  } else if(q.tp==='math'){
+    h+=`<div class="mbox" style="color:${CUR.c}">${q.mx} = ?</div>
+        <div class="arow">
+          <input class="ai" id="ai" type="number" placeholder="Your answer...">
+          <button class="ckbtn" style="background:${CUR.c}" onclick="chk()">Check ✓</button>
+        </div>`;
+  } else if(q.tp==='alpha'){
+    const seqH=q.sq.map(l=>l
+      ?`<div class="ab" style="background:linear-gradient(135deg,${CUR.c},${CUR.c}99)">${l}</div>`
+      :`<div class="ablnk" style="border-color:${CUR.c}" id="ablnk">
+          <input id="ai" maxlength="1" style="color:${CUR.c};font-weight:900;font-size:1.55rem;text-align:center;border:none;background:transparent;outline:none;width:100%;height:100%;text-transform:uppercase;"
+            oninput="if(this.value.length===1)chk()">
+        </div>`
+    ).join('');
+    h+=`<div class="aseq">${seqH}</div>`;
+  } else if(q.tp==='spell'){
+    h+=`<div class="semoji">${q.si}</div>
+        <div class="shint">💡 Hint: ${q.h}</div>
+        <div class="arow">
+          <input class="ai" id="ai" type="text" maxlength="7" placeholder="Spell the word..."
+            style="text-transform:uppercase">
+          <button class="ckbtn" style="background:${CUR.c}" onclick="chk()">Check ✓</button>
+        </div>`;
+  } else if(q.tp==='mcq'){
+    h+=`<div class="opts">${q.o.map((o,i)=>
+      `<button class="opt" id="opt${i}" onclick="chkMCQ(${i})">${o}</button>`).join('')}</div>`;
+  }
+
+  h+=`<div class="fb" id="fb"></div>`;
+  document.getElementById('qcard').innerHTML=h;
+
+  // keyboard support
+  const inp=document.getElementById('ai');
+  if(inp && q.tp!=='alpha') inp.addEventListener('keydown',e=>{if(e.key==='Enter')chk();});
+  if(inp) setTimeout(()=>inp.focus(),120);
+}
+
+// ════════════════════════════════════════════
+// CHECK — TEXT INPUT
+// ════════════════════════════════════════════
+function chk(){
+  const q=CUR.qs[QI];
+  const inp=document.getElementById('ai');
+  let v=inp?inp.value.trim():'';
+  if(!v)return;
+  if(q.tp==='spell'||q.tp==='alpha') v=v.toUpperCase();
+
+  const correct = (q.tp==='count') ? (parseInt(v)===q.ans) : (v===String(q.ans));
+
+  if(correct){ markOk(); }
+  else {
+    if(q.tp==='alpha'){
+      const bl=document.getElementById('ablnk');
+      if(bl){bl.classList.add('serr');setTimeout(()=>{bl.classList.remove('serr');if(inp)inp.value='';},500);}
+    } else {
+      if(inp){inp.classList.add('aerr');setTimeout(()=>{inp.classList.remove('aerr');inp.value='';inp.focus();},520);}
+    }
+    setFB('❌ Not quite! Try again! 💪', false);
+  }
+}
+
+// ════════════════════════════════════════════
+// CHECK — MCQ
+// ════════════════════════════════════════════
+function chkMCQ(i){
+  const q=CUR.qs[QI];
+  q.o.forEach((_,j)=>{const b=document.getElementById('opt'+j);if(b)b.disabled=true;});
+  const btn=document.getElementById('opt'+i);
+  if(i===q.ans){
+    btn.classList.add('ok');
+    markOk();
+  } else {
+    btn.classList.add('err');
+    setTimeout(()=>{
+      q.o.forEach((_,j)=>{const b=document.getElementById('opt'+j);if(b&&j!==i)b.disabled=false;});
+      setFB('❌ Not quite! Try another option! 💪', false);
+    },520);
+  }
+}
+
+// ════════════════════════════════════════════
+// MARK CORRECT
+// ════════════════════════════════════════════
+function markOk(){
+  QOK[QI]=true;
+  renderDots();
+  setFB('✅ Correct! Brilliant! 🎉', true);
+  confetti(4);
+
+  const nb=document.getElementById('nxtbtn');
+  nb.classList.remove('hidden');
+  if(QI < CUR.qs.length-1){
+    nb.textContent='Next Question →';
+    nb.onclick=nextQ;
+  } else {
+    nb.textContent='🎉 Complete Day '+CUR.d+'!';
+    nb.onclick=finishDay;
+  }
+}
+
+function setFB(msg,ok){
+  const el=document.getElementById('fb');
+  if(el){el.textContent=msg;el.className='fb '+(ok?'fbok':'fbno');el.classList.add('popin');}
+}
+
+function nextQ(){QI++;renderDots();renderQ();}
+
+// ════════════════════════════════════════════
+// FINISH DAY
+// ════════════════════════════════════════════
+function finishDay(){
+  if(!P.done.includes(CUR.d)){P.done.push(CUR.d);save();}
+  show('complete');
+
+  const msgs=[
+    'Fantastic work! You\'re a rising star! ⭐',
+    'Amazing! Keep going, champion! 🏆',
+    'Brilliant! Your brain is growing every day! 🧠',
+    'Wonderful! You did it all by yourself! 🚀',
+    'Outstanding! You are absolutely unstoppable! 💪',
+    'Superb! Your hard work is paying off! 🌈',
+  ];
+
+  document.getElementById('ctitle').textContent = `Day ${CUR.d} Complete! 🎉`;
+  document.getElementById('cmsg').textContent = msgs[~~(Math.random()*msgs.length)];
+
+  const nd=document.getElementById('ndbtn');
+  if(CUR.d<30){
+    nd.textContent=`🔓 Day ${CUR.d+1} Unlocked! Let's Go →`;
+    nd.classList.remove('hidden');
+  } else {
+    nd.classList.add('hidden');
+    document.getElementById('troph')&&(document.querySelector('.troph').textContent='👑');
+    document.getElementById('ctitle').textContent='🏆 ALL 30 DAYS COMPLETE! 🏆';
+    document.getElementById('cstars').textContent='🌟🌟🌟🌟🌟';
+    document.getElementById('cmsg').textContent=
+      'You are an ABSOLUTE CHAMPION! You completed the full 30-Day Vacation Learning Challenge! Every single day, you showed up and gave your best. You should be SO proud! 🎊🚀🌈';
+  }
+  confetti(30);
+}
+
+const goNext=()=>{if(CUR.d<30)openDay(CUR.d+1);};
+
+// ════════════════════════════════════════════
+// CONFETTI
+// ════════════════════════════════════════════
+const CFC=['#FFD93D','#FF6B6B','#6BCB77','#4D96FF','#C77DFF','#FF9A3C','#ff6fb3','#00d4ff'];
+function confetti(n){
+  for(let i=0;i<n;i++){
+    const el=document.createElement('div');
+    el.className='cf';
+    el.style.cssText=`
+      left:${4+Math.random()*92}vw;top:-12px;
+      background:${CFC[~~(Math.random()*CFC.length)]};
+      border-radius:${Math.random()>.45?'50%':'3px'};
+      width:${7+Math.random()*8}px;
+      height:${7+Math.random()*8}px;
+      animation-duration:${1.5+Math.random()*2}s;
+      animation-delay:${Math.random()*.55}s;
+    `;
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),3900);
+  }
+}
+
+// ════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════
+renderHome();
+</script>
+</body>
+</html>
