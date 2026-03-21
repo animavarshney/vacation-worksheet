@@ -1,0 +1,2705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="theme-color" content="#FFFBF0">
+<title>🌟 Smart Learning Adventure</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --q-fs:1rem;--opt-h:52px;--opt-fs:.9rem;--ei:3.5rem;--btn-h:52px;
+  --radius:14px;--card-p:20px 16px;
+}
+/* ── AGE MODES ── */
+.baby{--q-fs:1.35rem;--opt-h:80px;--opt-fs:1.25rem;--ei:5rem;--btn-h:62px;--radius:18px;--card-p:22px 18px;}
+.child{--q-fs:1.12rem;--opt-h:64px;--opt-fs:1.05rem;--ei:4rem;--btn-h:56px;--radius:16px;--card-p:20px 16px;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#FFFBF0;min-height:100vh;
+  background-image:radial-gradient(circle at 12% 18%,#FFD93D1a 0%,transparent 45%),
+    radial-gradient(circle at 88% 82%,#6BCB771a 0%,transparent 45%);}
+body.playing{overflow:hidden;height:100vh;height:100dvh;height:calc(var(--vh,1vh)*100);}
+.hidden{display:none!important;}
+button{cursor:pointer;border:none;font-family:inherit;}
+button:active{opacity:.82;}
+input::-webkit-inner-spin-button,input::-webkit-outer-spin-button{-webkit-appearance:none;}
+input[type=number]{-moz-appearance:textfield;}
+
+/* ══ SIGNUP ══ */
+#scr-signup{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px 14px;}
+.su-card{background:#fff;border-radius:32px;padding:36px 26px 30px;max-width:420px;width:100%;
+  box-shadow:0 20px 60px #00000014;display:flex;flex-direction:column;align-items:center;
+  position:relative;overflow:hidden;}
+.su-card::before{content:'';position:absolute;top:0;left:0;right:0;height:7px;
+  background:linear-gradient(90deg,#FF6B6B,#C77DFF,#4D96FF,#6BCB77);}
+.su-hero{font-size:4.5rem;margin:10px 0 2px;animation:bnc 2s ease-in-out infinite;}
+.su-title{font-size:1.65rem;font-weight:900;text-align:center;line-height:1.2;
+  background:linear-gradient(135deg,#FF6B6B,#C77DFF,#4D96FF);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:4px;}
+.su-sub{font-size:.82rem;color:#bbb;text-align:center;margin-bottom:22px;line-height:1.55;}
+.su-form{width:100%;display:flex;flex-direction:column;gap:13px;}
+.su-field{display:flex;flex-direction:column;gap:5px;}
+.su-label{font-size:.75rem;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:.5px;}
+.su-input{height:52px;border:2.5px solid #eee;border-radius:13px;padding:0 14px;
+  font-family:inherit;font-size:1rem;font-weight:700;color:#333;background:#fafafa;
+  outline:none;transition:border-color .2s,background .2s;width:100%;}
+.su-input:focus{border-color:#4D96FF;background:#fff;}
+.su-input.err{border-color:#FF6B6B!important;background:#fff5f5;animation:shk .35s;}
+.su-input.ok{border-color:#6BCB77!important;background:#f4fff8;}
+.age-hint{font-size:.7rem;color:#bbb;padding-left:2px;}
+.age-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;}
+.age-badge{font-size:.72rem;padding:4px 10px;border-radius:20px;font-weight:700;
+  background:#f5f5f5;color:#888;border:1.5px solid #eee;}
+.su-btn{margin-top:6px;height:56px;border-radius:16px;width:100%;
+  background:linear-gradient(135deg,#FF6B6B,#C77DFF,#4D96FF);
+  color:#fff;font-size:1.05rem;font-weight:900;letter-spacing:.3px;
+  box-shadow:0 6px 24px #C77DFF33;transition:transform .15s,opacity .15s;}
+.su-btn:hover{transform:translateY(-2px);}
+.su-errmsg{font-size:.8rem;color:#FF6B6B;text-align:center;font-weight:700;min-height:18px;}
+.su-privacy{font-size:.68rem;color:#ccc;text-align:center;margin-top:8px;line-height:1.5;}
+
+/* ══ SORRY ══ */
+#scr-sorry{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px 14px;}
+.sr-card{background:#fff;border-radius:32px;padding:40px 26px 34px;max-width:400px;width:100%;
+  box-shadow:0 20px 60px #00000012;display:flex;flex-direction:column;align-items:center;
+  gap:14px;text-align:center;position:relative;overflow:hidden;}
+.sr-card::before{content:'';position:absolute;top:0;left:0;right:0;height:7px;
+  background:linear-gradient(90deg,#FFD93D,#FF9A3C,#FF6B6B);}
+.sr-hero{font-size:5rem;animation:bnc 1.8s ease-in-out infinite;}
+.sr-title{font-size:1.5rem;font-weight:900;color:#FF6B6B;}
+.sr-range{background:linear-gradient(135deg,#fff3e0,#ffe0cc);border-radius:16px;
+  padding:14px 20px;font-size:1rem;font-weight:800;color:#FF9A3C;border:2px solid #FFD19A;}
+.sr-msg{font-size:.9rem;color:#999;line-height:1.75;max-width:310px;}
+.sr-back{background:#f0f0f0;color:#777;border-radius:13px;padding:13px;
+  font-size:.9rem;font-weight:800;width:100%;}
+
+/* ══ HOME ══ */
+#scr-home{padding:12px;max-width:860px;margin:0 auto;padding-bottom:60px;}
+.hdr{text-align:center;background:linear-gradient(135deg,#fff0f5,#eef4ff,#f0fff4);
+  border-radius:26px;padding:20px 14px 16px;margin-bottom:14px;box-shadow:0 6px 28px #0000000e;}
+.hdr h1{font-size:clamp(1.2rem,5vw,2.1rem);font-weight:900;line-height:1.2;
+  background:linear-gradient(135deg,#FF6B6B,#C77DFF,#4D96FF);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hdr-chips{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin-top:6px;}
+.hchip{font-size:.73rem;font-weight:700;padding:4px 12px;border-radius:20px;background:#f0f0f0;color:#888;}
+.hchip.name{background:#fff0f5;color:#FF6B6B;}
+.hchip.grade{background:#eef4ff;color:#4D96FF;}
+.hchip.cur{background:#f0fff4;color:#2d9e56;}
+.pb-wrap{background:#eee;border-radius:20px;height:12px;margin:12px 4px 4px;overflow:hidden;}
+.pb-fill{height:100%;background:linear-gradient(90deg,#FF6B6B,#C77DFF,#4D96FF,#6BCB77);
+  border-radius:20px;transition:width .7s ease;}
+.pb-txt{font-size:.76rem;color:#c0c0c0;text-align:center;}
+.hdr-acts{display:flex;gap:8px;justify-content:center;margin-top:10px;flex-wrap:wrap;}
+.hact{font-size:.78rem;font-weight:700;padding:6px 14px;border-radius:10px;
+  background:#f0f0f0;color:#666;border:1.5px solid #e0e0e0;transition:background .15s,color .15s;}
+.hact:hover{background:#e0e0e0;color:#333;}
+.hact.danger{background:#fff0f0;color:#cc3333;border-color:#ffcccc;}
+.hact.danger:hover{background:#ffdddd;color:#aa0000;}
+/* Date unlock banner */
+.unlock-banner{background:linear-gradient(135deg,#fffbea,#fff3e0);border:2px solid #FFD93D;
+  border-radius:16px;padding:12px 16px;display:flex;align-items:center;gap:10px;
+  font-size:.82rem;font-weight:700;color:#c08000;margin-bottom:12px;}
+.ub-ico{font-size:1.4rem;}
+.dgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:12px;}
+@media(max-width:520px){.dgrid{grid-template-columns:repeat(5,1fr);gap:6px;}}
+@media(max-width:390px){.dgrid{grid-template-columns:repeat(4,1fr);gap:5px;}}
+.dc{border-radius:13px;padding:8px 4px;text-align:center;cursor:pointer;
+  transition:transform .17s,box-shadow .17s;position:relative;border:2.5px solid transparent;
+  min-height:76px;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:2px;user-select:none;-webkit-tap-highlight-color:transparent;}
+.dc:not(.lk):not(.wt):hover{transform:translateY(-4px);box-shadow:0 8px 20px #00000013;}
+.dc:not(.lk):not(.wt):active{transform:scale(.93);}
+.dc.lk,.dc.wt{opacity:.45;cursor:not-allowed;filter:grayscale(.5);}
+.dc.ip{outline:3px dashed #4D96FF;outline-offset:2px;}
+.dc.wt{opacity:.6;filter:none;}
+.dn{font-size:1.15rem;font-weight:900;line-height:1;}
+.de{font-size:1rem;}
+.dl{font-size:.52rem;font-weight:700;color:#888;line-height:1.2;text-align:center;}
+.d-ico{font-size:.78rem;position:absolute;top:3px;right:4px;}
+.d-sub{font-size:.48rem;color:#aaa;font-weight:700;margin-top:1px;}
+
+/* ══ PLAY — viewport-locked, zero scroll ══ */
+#scr-play{
+  max-width:600px;margin:0 auto;padding:14px 14px 10px;
+  height:100vh;height:100dvh;height:calc(var(--vh,1vh)*100);
+  display:flex;flex-direction:column;gap:12px;
+  overflow:hidden;
+}
+body.playing{overflow:hidden;height:100vh;height:100dvh;height:calc(var(--vh,1vh)*100);}
+
+/* Top bar */
+.ptop{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.bkb{background:#f0f0f0;border-radius:12px;padding:8px 16px;font-size:1rem;
+  font-weight:800;color:#666;transition:background .15s;}
+.bkb:hover{background:#e0e0e0;}
+.pinf{flex:1;text-align:center;}
+.pdn{font-size:.8rem;color:#bbb;font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
+.pdt{font-size:1.05rem;font-weight:900;color:#333;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.schip{font-size:.82rem;font-weight:800;padding:7px 13px;border-radius:20px;
+  background:#f0f0f0;color:#888;min-width:52px;text-align:center;white-space:nowrap;}
+
+/* Progress bar row */
+.pbar-section{flex-shrink:0;}
+.qpb-wrap{background:#e8e8e8;border-radius:20px;height:11px;overflow:hidden;}
+.qpb-fill{height:100%;border-radius:20px;transition:width .4s ease;}
+.qpb-row{display:flex;justify-content:space-between;align-items:center;margin-top:5px;}
+.sect-lbl{font-size:.72rem;font-weight:800;padding:4px 12px;border-radius:20px;}
+.q-lbl{font-size:.72rem;color:#bbb;font-weight:700;}
+
+/* Question card */
+.qcard{
+  background:#fff;border-radius:24px;padding:22px 20px;
+  flex:1;min-height:0;
+  box-shadow:0 8px 32px #00000010;border-top:7px solid #FF6B6B;
+  display:flex;flex-direction:column;gap:14px;overflow:hidden;
+}
+.qbadge{display:inline-block;font-size:.72rem;font-weight:800;flex-shrink:0;
+  padding:5px 14px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px;width:fit-content;}
+.qtext{font-size:1.1rem;font-weight:800;color:#333;line-height:1.45;flex-shrink:0;}
+
+/* Section splash */
+.ssplash{border-radius:18px;padding:18px 14px;text-align:center;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;flex:1;}
+.ss-ico{font-size:clamp(2.5rem,10vw,4rem);animation:bnc 1.3s ease-in-out infinite;}
+.ss-t{font-size:1.2rem;font-weight:900;}
+.ss-d{font-size:.85rem;color:#aaa;line-height:1.65;max-width:280px;}
+.ss-go{border-radius:16px;padding:14px 32px;font-size:1rem;font-weight:900;
+  color:#fff;box-shadow:0 4px 16px #0002;margin-top:4px;}
+
+/* Count display */
+.cbox{
+  border-radius:15px;padding:12px 10px;
+  flex:1;min-height:0;overflow:hidden;
+  display:flex;flex-wrap:wrap;align-content:center;justify-content:center;gap:4px;
+}
+.cbox span{line-height:1.1;display:inline-block;}
+
+/* Math display */
+.mbox{font-size:2.3rem;font-weight:900;text-align:center;border-radius:15px;
+  padding:16px;background:#f5f5f5;letter-spacing:2px;flex-shrink:0;}
+
+/* Alpha sequence */
+.aseq{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;padding:6px 0;flex-shrink:0;}
+.ab{width:50px;height:50px;border-radius:12px;color:#fff;
+  font-size:1.55rem;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ablnk{width:50px;height:50px;border-radius:12px;border:3px dashed;
+  background:#f9f9f9;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  transition:background .2s,border-color .2s;}
+.ablnk input{width:100%;height:100%;border:none;background:transparent;
+  font-size:1.55rem;font-weight:900;text-align:center;outline:none;text-transform:uppercase;}
+.ablnk.serr{background:#ffe0e0!important;animation:shk .35s;}
+
+/* Spell */
+.semoji{font-size:4.5rem;text-align:center;line-height:1.1;flex-shrink:0;}
+.shint{font-size:.86rem;color:#bbb;text-align:center;font-style:italic;flex-shrink:0;}
+
+/* MCQ — grid fills remaining space */
+.opts{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:10px;flex:1;min-height:0;}
+.opts.cols1{grid-template-columns:1fr;}
+.opt{background:#f8f0ff;border:2.5px solid #e2b4ff;border-radius:14px;
+  padding:13px 10px;font-size:.95rem;font-weight:700;color:#7a3fa0;
+  text-align:center;transition:all .18s;line-height:1.3;
+  display:flex;align-items:center;justify-content:center;
+  width:100%;height:100%;min-height:52px;}
+.opt:hover:not(:disabled){background:#f0d9ff;transform:scale(1.03);}
+.opt.ok{background:#d4fae7!important;border-color:#6BCB77!important;color:#2d9e56!important;}
+.opt.err{background:#ffe0e0!important;border-color:#FF6B6B!important;color:#FF6B6B!important;animation:shk .35s;}
+.opt:disabled{cursor:default;}
+.baby .opt,.child .opt{border-radius:18px;}
+
+/* VIZ toddler options */
+.viz-display{
+  flex:1;min-height:0;border-radius:18px;
+  display:flex;align-items:center;justify-content:center;
+  flex-wrap:wrap;gap:6px;padding:8px;
+}
+.viz-emoji{font-size:clamp(2.8rem,14vw,5.5rem);line-height:1.3;text-align:center;}
+.viz-task{font-size:clamp(.9rem,3.5vw,1.1rem);font-weight:900;text-align:center;
+  color:#555;flex-shrink:0;padding:2px 4px;}
+.viz-opts{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr;gap:10px;flex:1;min-height:0;}
+.viz-opts.two{grid-template-columns:1fr 1fr;grid-auto-rows:1fr;}
+.viz-opt{
+  background:#fff8f0;border:3px solid #FFD93D;border-radius:20px;
+  font-size:clamp(2rem,10vw,3.8rem);line-height:1.1;
+  display:flex;align-items:center;justify-content:center;
+  width:100%;height:100%;min-height:64px;
+  transition:transform .15s,background .15s,border-color .15s;cursor:pointer;
+}
+.viz-opt:hover:not(:disabled){background:#fff0cc;transform:scale(1.06);}
+.viz-opt:active:not(:disabled){transform:scale(.94);}
+.viz-opt.ok{background:#d4fae7!important;border-color:#6BCB77!important;animation:popIn .3s ease;}
+.viz-opt.err{background:#ffe0e0!important;border-color:#FF6B6B!important;animation:shk .35s;}
+.viz-opt:disabled{cursor:default;}
+.viz-opt.num{font-size:clamp(1.8rem,7vw,3rem);font-weight:900;color:#333;font-family:inherit;}
+.fb-viz{font-size:clamp(2rem,8vw,3.5rem);text-align:center;min-height:36px;flex-shrink:0;}
+
+/* Text input row */
+.arow{display:flex;gap:10px;flex-shrink:0;}
+.ai{flex:1;height:52px;border:3px solid #ddd;border-radius:14px;
+  font-family:inherit;font-size:1.3rem;font-weight:900;text-align:center;
+  color:#333;outline:none;background:#fafafa;transition:border-color .2s,background .2s;}
+.ai:focus{border-color:#4D96FF;}
+.ai.aerr{border-color:#FF6B6B;background:#fff0f0;animation:shk .35s;}
+.ckbtn{border-radius:14px;padding:0 20px;height:52px;font-size:.95rem;font-weight:900;color:#fff;
+  box-shadow:0 3px 12px #0000002a;flex-shrink:0;transition:transform .13s;}
+.ckbtn:hover{transform:scale(1.06);}
+
+/* Feedback */
+.fb{text-align:center;font-size:1rem;font-weight:800;min-height:26px;flex-shrink:0;}
+.fbok{color:#2d9e56;}.fbno{color:#FF6B6B;}
+
+/* Next button */
+.nxtbtn{background:linear-gradient(135deg,#6BCB77,#4D96FF);color:#fff;
+  border-radius:16px;padding:16px;font-size:1.05rem;font-weight:900;text-align:center;
+  box-shadow:0 5px 18px #4D96FF30;transition:transform .13s;flex-shrink:0;}
+.nxtbtn:hover{transform:scale(1.04);}
+
+/* ══ COMPLETE ══ */
+#scr-complete{max-width:500px;margin:0 auto;padding:28px 16px 50px;text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:18px;}
+.troph{font-size:5.5rem;animation:bnc 1.3s ease-in-out infinite;}
+.ctitle{font-size:1.9rem;font-weight:900;}
+.cstars{font-size:2.8rem;letter-spacing:8px;animation:popIn .55s ease both;}
+.cmsg{font-size:1rem;color:#777;line-height:1.7;max-width:360px;}
+.unlock-info{background:linear-gradient(135deg,#fffbea,#fff3e0);border:2px solid #FFD93D;
+  border-radius:14px;padding:12px 18px;font-size:.85rem;font-weight:700;color:#c08000;
+  text-align:center;width:100%;}
+.cbtns{display:flex;flex-direction:column;gap:10px;width:100%;margin-top:8px;}
+.ndbtn{border-radius:16px;padding:16px;font-size:1.1rem;font-weight:900;color:#fff;
+  background:linear-gradient(135deg,#FF6B6B,#C77DFF);box-shadow:0 6px 22px #C77DFF44;
+  transition:transform .13s;}
+.ndbtn:hover{transform:scale(1.05);}
+.mnbtn{background:#f0f0f0;color:#666;border-radius:16px;padding:14px;font-size:.95rem;font-weight:800;}
+.mnbtn:hover{background:#e0e0e0;}
+
+/* ══ ANIMATIONS ══ */
+@keyframes shk{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+@keyframes popIn{0%{transform:scale(.5);opacity:0}70%{transform:scale(1.2)}100%{transform:scale(1);opacity:1}}
+@keyframes bnc{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-18px) rotate(3deg)}}
+@keyframes fadeUp{0%{opacity:0;transform:translateY(28px)}100%{opacity:1;transform:translateY(0)}}
+.fadeup{animation:fadeUp .45s ease both;}
+.popin{animation:popIn .35s ease both;}
+.cf{position:fixed;pointer-events:none;animation:cff linear;z-index:9999;border-radius:2px;}
+@keyframes cff{0%{opacity:1;transform:translateY(-15px) rotate(0)}
+  100%{opacity:0;transform:translateY(105vh) rotate(750deg)}}
+
+/* ══════════════════════════════════════
+   WALLET / CREDITS SCREEN
+══════════════════════════════════════ */
+#scr-wallet{min-height:100vh;display:flex;align-items:flex-start;justify-content:center;
+  padding:20px 14px 60px;overflow-y:auto;}
+.wlt-wrap{max-width:420px;width:100%;display:flex;flex-direction:column;gap:16px;padding-top:10px;}
+
+/* Header */
+.wlt-hdr{background:linear-gradient(135deg,#667eea,#764ba2);border-radius:24px;
+  padding:24px 20px;color:#fff;text-align:center;position:relative;overflow:hidden;}
+.wlt-hdr::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;
+  background:#ffffff18;border-radius:50%;}
+.wlt-hdr::after{content:'';position:absolute;bottom:-20px;left:-20px;width:80px;height:80px;
+  background:#ffffff12;border-radius:50%;}
+.wlt-greeting{font-size:.85rem;opacity:.8;font-weight:600;margin-bottom:4px;}
+.wlt-name{font-size:1.4rem;font-weight:900;margin-bottom:16px;}
+.wlt-balance-label{font-size:.75rem;opacity:.75;font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
+.wlt-balance{font-size:3.8rem;font-weight:900;line-height:1;margin:4px 0;}
+.wlt-balance span{font-size:1.4rem;opacity:.7;vertical-align:super;font-weight:700;}
+.wlt-bal-sub{font-size:.8rem;opacity:.7;margin-top:4px;}
+.wlt-access-badge{display:inline-block;background:#ffffff25;border:1.5px solid #ffffff50;
+  border-radius:20px;padding:6px 14px;font-size:.78rem;font-weight:700;margin-top:12px;}
+
+/* Credit status card */
+.wlt-status{background:#fff;border-radius:18px;padding:16px 18px;
+  box-shadow:0 4px 18px #0000000d;display:flex;align-items:center;gap:14px;}
+.wlt-status-ico{font-size:2.2rem;flex-shrink:0;}
+.wlt-status-info{flex:1;}
+.wlt-status-title{font-size:.95rem;font-weight:800;color:#333;margin-bottom:3px;}
+.wlt-status-sub{font-size:.78rem;color:#999;line-height:1.5;}
+.wlt-status.active{border-left:5px solid #6BCB77;}
+.wlt-status.empty{border-left:5px solid #FF6B6B;}
+.wlt-status.trial{border-left:5px solid #FFD93D;}
+
+/* Plans */
+.wlt-section-title{font-size:.78rem;font-weight:800;color:#bbb;
+  text-transform:uppercase;letter-spacing:.5px;padding:0 4px;}
+.plans{display:flex;flex-direction:column;gap:10px;}
+.plan{background:#fff;border-radius:18px;padding:16px 18px;
+  box-shadow:0 4px 18px #0000000d;border:2.5px solid #eee;
+  display:flex;align-items:center;gap:14px;cursor:pointer;
+  transition:border-color .2s,transform .15s;}
+.plan:hover{transform:translateY(-2px);}
+.plan.popular{border-color:#764ba2;}
+.plan-ico{font-size:2rem;flex-shrink:0;}
+.plan-info{flex:1;}
+.plan-name{font-size:1rem;font-weight:800;color:#333;}
+.plan-desc{font-size:.78rem;color:#999;margin-top:2px;}
+.plan-badge{font-size:.65rem;font-weight:800;padding:3px 9px;border-radius:20px;
+  background:#764ba222;color:#764ba2;margin-top:4px;display:inline-block;}
+.plan-price{text-align:right;flex-shrink:0;}
+.plan-amt{font-size:1.25rem;font-weight:900;color:#333;}
+.plan-unit{font-size:.7rem;color:#bbb;display:block;margin-top:1px;}
+
+/* Pay button */
+.pay-btn{border-radius:16px;padding:16px;font-size:1.05rem;font-weight:900;
+  color:#fff;background:linear-gradient(135deg,#667eea,#764ba2);
+  box-shadow:0 6px 22px #764ba244;width:100%;transition:transform .13s;}
+.pay-btn:hover{transform:scale(1.03);}
+.pay-btn:disabled{opacity:.5;transform:none!important;}
+
+/* Payment modal */
+.pay-modal-overlay{position:fixed;inset:0;background:#00000077;z-index:9000;
+  display:flex;align-items:flex-end;justify-content:center;}
+.pay-modal{background:#fff;border-radius:28px 28px 0 0;padding:24px 20px 40px;
+  width:100%;max-width:440px;animation:slideUp .3s ease;}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.pay-modal-title{font-size:1.1rem;font-weight:900;color:#333;margin-bottom:4px;}
+.pay-modal-sub{font-size:.82rem;color:#aaa;margin-bottom:20px;}
+.pay-amount-display{background:linear-gradient(135deg,#f8f0ff,#eef4ff);
+  border-radius:14px;padding:14px 18px;text-align:center;margin-bottom:16px;}
+.pay-amount-display .amt{font-size:2rem;font-weight:900;color:#764ba2;}
+.pay-amount-display .amtlbl{font-size:.78rem;color:#aaa;margin-top:2px;}
+.pay-methods{display:flex;flex-direction:column;gap:10px;margin-bottom:18px;}
+.pay-method{background:#fafafa;border:2px solid #eee;border-radius:14px;
+  padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;
+  transition:border-color .15s,background .15s;font-size:.9rem;font-weight:700;color:#444;}
+.pay-method:hover,.pay-method.sel{border-color:#764ba2;background:#f8f0ff;}
+.pay-method .pm-ico{font-size:1.5rem;flex-shrink:0;}
+.pay-confirm-btn{border-radius:14px;padding:15px;font-size:1rem;font-weight:900;
+  color:#fff;background:linear-gradient(135deg,#667eea,#764ba2);
+  box-shadow:0 4px 16px #764ba244;width:100%;transition:transform .13s;}
+.pay-confirm-btn:hover{transform:scale(1.03);}
+.pay-cancel{background:none;color:#aaa;font-size:.82rem;font-weight:700;
+  width:100%;padding:12px;margin-top:6px;}
+
+/* Credit pill in home header */
+.credit-pill{display:inline-flex;align-items:center;gap:6px;
+  background:linear-gradient(135deg,#667eea22,#764ba222);
+  border:1.5px solid #764ba244;border-radius:20px;padding:5px 14px;
+  font-size:.78rem;font-weight:800;color:#764ba2;cursor:pointer;
+  transition:background .15s;}
+.credit-pill:hover{background:linear-gradient(135deg,#667eea33,#764ba233);}
+.credit-pill .cp-ico{font-size:1rem;}
+
+/* Trial banner */
+.trial-banner{background:linear-gradient(135deg,#fffbea,#fff3e0);
+  border:2px solid #FFD93D;border-radius:16px;padding:12px 16px;
+  display:flex;align-items:center;gap:10px;font-size:.82rem;font-weight:700;
+  color:#c08000;cursor:pointer;}
+.trial-banner:hover{background:linear-gradient(135deg,#fff5cc,#ffe8b0);}
+
+/* Processing overlay */
+.processing-overlay{position:fixed;inset:0;background:#fff;z-index:9999;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;}
+.processing-spinner{width:48px;height:48px;border:5px solid #eee;
+  border-top-color:#764ba2;border-radius:50%;animation:spin 0.8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.processing-msg{font-size:1rem;font-weight:800;color:#764ba2;}
+
+/* ══════════════════════════════════════════
+   CERTIFICATE SCREEN
+══════════════════════════════════════════ */
+#scr-cert{
+  min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:flex-start;
+  padding:20px 14px 60px;background:#f8f4ff;
+  overflow-y:auto;
+}
+.cert-actions{display:flex;gap:10px;width:100%;max-width:540px;margin-bottom:16px;flex-shrink:0;}
+.cert-act-btn{flex:1;padding:13px;border-radius:14px;font-size:.9rem;font-weight:800;
+  border:none;cursor:pointer;transition:transform .13s;}
+.cert-act-btn.print{background:linear-gradient(135deg,#6B3FA0,#4D96FF);color:#fff;
+  box-shadow:0 4px 16px #6B3FA044;}
+.cert-act-btn.print:hover{transform:scale(1.04);}
+.cert-act-btn.back{background:#f0f0f0;color:#666;}
+.cert-act-btn.back:hover{background:#e4e4e4;}
+
+/* The certificate card itself */
+#cert-card{
+  width:100%;max-width:540px;
+  background:#fff;border-radius:24px;
+  box-shadow:0 12px 50px #6B3FA022;
+  position:relative;overflow:hidden;
+  border:6px solid #6B3FA0;
+}
+.cert-border-top{
+  height:14px;width:100%;
+  background:linear-gradient(90deg,#FFD93D,#FF6B6B,#C77DFF,#4D96FF,#6BCB77,#FFD93D);
+}
+.cert-inner{padding:28px 24px 32px;text-align:center;}
+
+/* Gold seal */
+.cert-seal{
+  width:90px;height:90px;border-radius:50%;margin:0 auto 16px;
+  background:radial-gradient(circle at 35% 35%,#FFE066,#FFD700,#B8860B);
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.6rem;
+  box-shadow:0 0 0 6px #fff,0 0 0 10px #FFD70088,0 6px 24px #FFD70066;
+  animation:spinGlow 4s linear infinite;
+}
+@keyframes spinGlow{
+  0%,100%{box-shadow:0 0 0 6px #fff,0 0 0 10px #FFD70088,0 6px 24px #FFD70066;}
+  50%{box-shadow:0 0 0 6px #fff,0 0 0 14px #FFD700cc,0 8px 32px #FFD700aa;}
+}
+
+.cert-presents{font-size:.75rem;letter-spacing:2px;text-transform:uppercase;
+  color:#bbb;font-weight:700;margin-bottom:8px;}
+.cert-title{
+  font-size:clamp(1.6rem,6vw,2.4rem);font-weight:900;line-height:1.1;
+  background:linear-gradient(135deg,#6B3FA0,#FF6B6B,#4D96FF);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:16px;
+}
+.cert-awarded{font-size:.78rem;letter-spacing:1.5px;text-transform:uppercase;
+  color:#bbb;font-weight:700;margin-bottom:6px;}
+.cert-name{
+  font-size:clamp(1.8rem,7vw,2.8rem);font-weight:900;color:#6B3FA0;
+  font-style:italic;border-bottom:3px solid #FFD93D;padding-bottom:8px;
+  margin-bottom:16px;display:inline-block;
+}
+.cert-body{font-size:.88rem;color:#777;line-height:1.8;max-width:380px;margin:0 auto 20px;}
+.cert-body strong{color:#444;}
+
+/* Stats row */
+.cert-stats{
+  display:flex;gap:0;margin:16px 0;
+  background:linear-gradient(135deg,#f8f4ff,#eef4ff);
+  border-radius:16px;overflow:hidden;border:1.5px solid #e0d4ff;
+}
+.cert-stat{flex:1;padding:12px 8px;text-align:center;position:relative;}
+.cert-stat:not(:last-child)::after{
+  content:'';position:absolute;right:0;top:20%;height:60%;
+  width:1px;background:#e0d4ff;
+}
+.cert-stat-val{font-size:1.35rem;font-weight:900;color:#6B3FA0;line-height:1;}
+.cert-stat-lbl{font-size:.65rem;color:#bbb;font-weight:700;text-transform:uppercase;
+  letter-spacing:.5px;margin-top:3px;}
+
+/* Curriculum badge */
+.cert-curriculum{
+  display:inline-block;background:linear-gradient(135deg,#6B3FA022,#4D96FF11);
+  border:1.5px solid #6B3FA033;border-radius:20px;
+  padding:7px 18px;font-size:.78rem;font-weight:800;color:#6B3FA0;
+  margin-bottom:20px;
+}
+
+/* Signature row */
+.cert-sig-row{display:flex;justify-content:space-between;align-items:flex-end;
+  margin-top:20px;padding-top:16px;border-top:1.5px dashed #eee;}
+.cert-sig{text-align:center;}
+.cert-sig-line{width:110px;border-bottom:2px solid #ccc;margin-bottom:5px;}
+.cert-sig-name{font-size:.7rem;color:#bbb;font-weight:700;}
+.cert-sig-title{font-size:.62rem;color:#ccc;}
+.cert-date-box{text-align:center;}
+.cert-date-val{font-size:.85rem;font-weight:800;color:#555;}
+.cert-date-lbl{font-size:.62rem;color:#ccc;font-weight:700;text-transform:uppercase;}
+
+/* Decorative corner stars */
+.cert-corner{position:absolute;font-size:1.4rem;opacity:.25;}
+.cert-corner.tl{top:20px;left:18px;}
+.cert-corner.tr{top:20px;right:18px;}
+.cert-corner.bl{bottom:20px;left:18px;}
+.cert-corner.br{bottom:20px;right:18px;}
+
+.cert-border-bot{
+  height:14px;width:100%;
+  background:linear-gradient(90deg,#6BCB77,#4D96FF,#C77DFF,#FF6B6B,#FFD93D,#6BCB77);
+}
+
+/* Print styles */
+@media print{
+  body *{visibility:hidden;}
+  #cert-card,#cert-card *{visibility:visible;}
+  #cert-card{position:fixed;top:0;left:0;width:100vw;border:none;border-radius:0;
+    box-shadow:none;margin:0;max-width:100%;}
+  .cert-actions{display:none!important;}
+  #scr-cert{padding:0;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ SIGNUP ══ -->
+<div id="scr-signup">
+  <div class="su-card fadeup">
+    <div class="su-hero">🌟</div>
+    <div class="su-title">Smart Learning<br>Adventure!</div>
+    <div class="su-sub">100 fun questions daily · Personalised for your child's age · Unlock a new day each morning!</div>
+    <div class="su-form">
+      <div class="su-field">
+        <label class="su-label">👦 Child's Name</label>
+        <input class="su-input" id="su-name" type="text" placeholder="Enter child's name" maxlength="40" autocomplete="off">
+      </div>
+      <div class="su-field">
+        <label class="su-label">📧 Parent's Email</label>
+        <input class="su-input" id="su-email" type="email" placeholder="parent@example.com" maxlength="80" autocomplete="off">
+      </div>
+      <div class="su-field">
+        <label class="su-label">🎂 Child's Age (years)</label>
+        <input class="su-input" id="su-age" type="number" placeholder="1 – 7" min="1" max="18" autocomplete="off">
+        <div class="age-hint">📚 Worksheets available for ages 1 – 7</div>
+        <div class="age-badges">
+          <span class="age-badge">1–2 🎨 Toddler</span>
+          <span class="age-badge">3–4 🌱 Pre-K</span>
+          <span class="age-badge">5 📖 Grade 1</span>
+          <span class="age-badge">6–7 🎓 Grade 2-3</span>
+        </div>
+      </div>
+      <div class="su-errmsg" id="su-errmsg"></div>
+      <button class="su-btn" onclick="handleSignup()">Start Adventure! 🚀</button>
+    </div>
+    <div class="su-privacy">🔒 All data stays on this device only.</div>
+  </div>
+</div>
+
+<!-- ══ SORRY ══ -->
+<div id="scr-sorry" class="hidden">
+  <div class="sr-card fadeup">
+    <div class="sr-hero">🌈</div>
+    <div class="sr-title" id="sr-title">Oops!</div>
+    <div class="sr-range" id="sr-range">This worksheet is for ages 1 – 7</div>
+    <div class="sr-msg" id="sr-msg">Please check the age and try again.</div>
+    <button class="sr-back" onclick="goSignup()">← Back to Sign Up</button>
+  </div>
+</div>
+
+<!-- ══ WALLET / CREDITS SCREEN ══ -->
+<div id="scr-wallet" class="hidden">
+  <div class="wlt-wrap">
+    <!-- Balance header -->
+    <div class="wlt-hdr">
+      <div class="wlt-greeting">Welcome back,</div>
+      <div class="wlt-name" id="wlt-name">Learner</div>
+      <div class="wlt-balance-label">Available Credits</div>
+      <div class="wlt-balance"><span>🪙</span><span id="wlt-bal">0</span></div>
+      <div class="wlt-bal-sub" id="wlt-bal-sub">1 credit = 1 day's full worksheet</div>
+      <div class="wlt-access-badge" id="wlt-access-badge">📚 Age Group Access</div>
+    </div>
+
+    <!-- Status card -->
+    <div class="wlt-status" id="wlt-status-card">
+      <div class="wlt-status-ico" id="wlt-status-ico">🔓</div>
+      <div class="wlt-status-info">
+        <div class="wlt-status-title" id="wlt-status-title">You're all set!</div>
+        <div class="wlt-status-sub" id="wlt-status-sub">Start today's worksheet</div>
+      </div>
+    </div>
+
+    <!-- Go to worksheet (if credits available) -->
+    <button class="pay-btn" id="wlt-start-btn" onclick="goToWorksheet()" style="display:none">
+      ▶️ Start Today's Worksheet
+    </button>
+
+    <!-- Plans section -->
+    <div class="wlt-section-title">Top up Credits</div>
+    <div class="plans">
+      <div class="plan" onclick="selectPlan('daily',10,1)">
+        <div class="plan-ico">📅</div>
+        <div class="plan-info">
+          <div class="plan-name">Daily Pass</div>
+          <div class="plan-desc">1 day · 100 questions · Your age group</div>
+        </div>
+        <div class="plan-price">
+          <div class="plan-amt">₹10</div>
+          <div class="plan-unit">per day</div>
+        </div>
+      </div>
+      <div class="plan popular" onclick="selectPlan('weekly',65,7)">
+        <div class="plan-ico">📆</div>
+        <div class="plan-info">
+          <div class="plan-name">Weekly Pack</div>
+          <div class="plan-desc">7 days · No day timer · Just finish &amp; continue</div>
+          <div class="plan-badge">🔥 Most Popular</div>
+        </div>
+        <div class="plan-price">
+          <div class="plan-amt">₹65</div>
+          <div class="plan-unit">₹9.3/day</div>
+        </div>
+      </div>
+      <div class="plan" onclick="selectPlan('monthly',280,30)">
+        <div class="plan-ico">🗓️</div>
+        <div class="plan-info">
+          <div class="plan-name">Monthly Bundle</div>
+          <div class="plan-desc">31 days · No day timer · Finish at your pace</div>
+          <div class="plan-badge">💎 Best Value · No Timer Stress!</div>
+        </div>
+        <div class="plan-price">
+          <div class="plan-amt">₹280</div>
+          <div class="plan-unit">₹9.3/day</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Back button -->
+    <button style="background:#f0f0f0;color:#888;border-radius:14px;padding:13px;
+      font-size:.9rem;font-weight:800;width:100%;" onclick="goHome()">
+      ← Back to Home
+    </button>
+    <button class="hact danger" style="margin:0 auto;" onclick="signOut()">✗ Sign Out</button>
+  </div>
+</div>
+
+<!-- ══ PAYMENT MODAL ══ -->
+<div id="scr-paymodal" class="pay-modal-overlay hidden">
+  <div class="pay-modal">
+    <div class="pay-modal-title" id="pm-title">Daily Pass</div>
+    <div class="pay-modal-sub">One-time payment · Instant credit</div>
+    <div class="pay-amount-display">
+      <div class="amt" id="pm-amount">₹10</div>
+      <div class="amtlbl" id="pm-credits">1 credit will be added</div>
+    </div>
+    <div class="pay-methods">
+      <div class="pay-method sel" id="pm-upi" onclick="selMethod('upi')">
+        <span class="pm-ico">🇮🇳</span>
+        <span>UPI · PhonePe / GPay / Paytm</span>
+      </div>
+      <div class="pay-method" id="pm-card" onclick="selMethod('card')">
+        <span class="pm-ico">💳</span>
+        <span>Debit / Credit Card</span>
+      </div>
+      <div class="pay-method" id="pm-nb" onclick="selMethod('nb')">
+        <span class="pm-ico">🏦</span>
+        <span>Net Banking</span>
+      </div>
+    </div>
+    <button class="pay-confirm-btn" id="pm-confirm-btn" onclick="confirmPayment()">
+      Pay &amp; Get Credits 🚀
+    </button>
+    <button class="pay-cancel" onclick="closePayModal()">Cancel</button>
+  </div>
+</div>
+
+<!-- ══ PROCESSING OVERLAY ══ -->
+<div id="scr-processing" class="processing-overlay hidden">
+  <div class="processing-spinner"></div>
+  <div class="processing-msg" id="proc-msg">Processing payment...</div>
+</div>
+
+
+<!-- ══ HOME ══ -->
+<div id="scr-home" class="hidden">
+  <div class="hdr">
+    <h1 id="hdr-title">🌟 30-Day Learning Adventure 🌟</h1>
+    <div class="hdr-chips">
+      <span class="hchip name" id="hdr-name">👦 Learner</span>
+      <span class="hchip grade" id="hdr-grade">🎓 Grade</span>
+      <span class="hchip cur" id="hdr-cur">📚 Curriculum</span>
+      <button class="credit-pill" onclick="showWallet()">
+        <span class="cp-ico">🪙</span>
+        <span id="hdr-credits">0 Credits</span>
+      </button>
+    </div>
+    <div class="pb-wrap"><div class="pb-fill" id="pb" style="width:0%"></div></div>
+    <p class="pb-txt" id="pbtxt">0 / 31 days completed</p>
+    <div class="hdr-acts">
+      <button class="hact" onclick="resetProg()">↺ Reset Progress</button>
+      <button class="hact danger" onclick="signOut()">✗ Sign Out</button>
+    </div>
+  </div>
+  <div id="unlock-banner" class="unlock-banner hidden">
+    <div class="ub-ico">⏰</div>
+    <div id="unlock-msg">Complete today's day to unlock tomorrow's worksheet!</div>
+  </div>
+  <div class="dgrid" id="dgrid"></div>
+</div>
+
+<!-- ══ PLAY ══ -->
+<div id="scr-play" class="hidden">
+  <div class="ptop">
+    <button class="bkb" onclick="goHome()">‹ Menu</button>
+    <div class="pinf">
+      <div class="pdn" id="pdn">Day 1 of 31</div>
+      <div class="pdt" id="pdt">Let's Go!</div>
+    </div>
+    <div class="schip" id="schip">0/100</div>
+  </div>
+  <div class="pbar-section">
+    <div class="qpb-wrap"><div class="qpb-fill" id="qpbfill" style="width:0%"></div></div>
+    <div class="qpb-row">
+      <span class="sect-lbl" id="sectlbl">Section</span>
+      <span class="q-lbl" id="qlbl">Q 1 of 100</span>
+    </div>
+  </div>
+  <div class="qcard" id="qcard"></div>
+  <button class="nxtbtn hidden" id="nxtbtn">Next →</button>
+</div>
+
+<!-- ══ COMPLETE ══ -->
+<div id="scr-complete" class="hidden">
+  <div class="troph" id="troph">🏆</div>
+  <div class="ctitle" id="ctitle">Day Complete!</div>
+  <div class="cstars" id="cstars">⭐⭐⭐⭐⭐</div>
+  <div class="cmsg" id="cmsg"></div>
+  <div class="unlock-info hidden" id="unlock-info"></div>
+  <div class="cbtns">
+    <button class="ndbtn hidden" id="ndbtn" onclick="goNextDay()">Next Day →</button>
+    <button class="mnbtn" onclick="goHome()">🏠 Back to Menu</button>
+  </div>
+</div>
+
+<!-- ══ CERTIFICATE SCREEN ══ -->
+<div id="scr-cert" class="hidden">
+  <div class="cert-actions">
+    <button class="cert-act-btn print" onclick="printCert()">🖨️ Download / Print</button>
+    <button class="cert-act-btn back" onclick="goHome()">🏠 Back to Menu</button>
+  </div>
+
+  <div id="cert-card">
+    <div class="cert-border-top"></div>
+    <div class="cert-inner">
+      <div class="cert-corner tl">⭐</div>
+      <div class="cert-corner tr">⭐</div>
+      <div class="cert-corner bl">⭐</div>
+      <div class="cert-corner br">⭐</div>
+
+      <div class="cert-seal">🏆</div>
+      <div class="cert-presents">Smart Learning Adventure · Presents</div>
+      <div class="cert-title">Certificate of<br>Excellence</div>
+
+      <div class="cert-awarded">This certificate is proudly awarded to</div>
+      <div class="cert-name" id="cert-name">Champion</div>
+
+      <div class="cert-body">
+        for successfully completing the <strong>31-Day Learning Adventure</strong>,
+        answering <strong>3,100 questions</strong> across all sections with full marks every day,
+        and demonstrating outstanding dedication, curiosity and brilliance! 🌟
+      </div>
+
+      <div class="cert-curriculum" id="cert-curriculum">📚 Grade 1 · Cambridge Curriculum</div>
+
+      <div class="cert-stats">
+        <div class="cert-stat">
+          <div class="cert-stat-val">31</div>
+          <div class="cert-stat-lbl">Days</div>
+        </div>
+        <div class="cert-stat">
+          <div class="cert-stat-val">3,100</div>
+          <div class="cert-stat-lbl">Questions</div>
+        </div>
+        <div class="cert-stat">
+          <div class="cert-stat-val">100%</div>
+          <div class="cert-stat-lbl">Score</div>
+        </div>
+        <div class="cert-stat">
+          <div class="cert-stat-val" id="cert-age-stat">Age 5</div>
+          <div class="cert-stat-lbl">Level</div>
+        </div>
+      </div>
+
+      <div class="cert-sig-row">
+        <div class="cert-sig">
+          <div class="cert-sig-line"></div>
+          <div class="cert-sig-name">Smart Learning Adventure</div>
+          <div class="cert-sig-title">Authorised by the Learning Team</div>
+        </div>
+        <div class="cert-date-box">
+          <div class="cert-date-val" id="cert-date">–</div>
+          <div class="cert-date-lbl">Date of Completion</div>
+        </div>
+      </div>
+    </div>
+    <div class="cert-border-bot"></div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+//  SUPABASE CONFIG
+//  ─────────────────────────────────────────────────────────────
+//  Step 1: Go to https://supabase.com → New Project
+//  Step 2: Go to Settings → API → copy Project URL & anon key
+//  Step 3: Paste both below
+//  Step 4: Create the 3 tables (see SQL in the setup guide)
+// ═══════════════════════════════════════════════════════════════
+
+const SUPABASE_URL     = 'YOUR_SUPABASE_PROJECT_URL';   // e.g. https://xyzabc.supabase.co
+const SUPABASE_ANON_KEY= 'YOUR_SUPABASE_ANON_KEY';      // starts with eyJ...
+
+// ── Generic Supabase REST upsert/insert helper ──
+// Fire-and-forget — never blocks the app
+async function sbInsert(table, row) {
+  if (!SUPABASE_URL || SUPABASE_URL.includes('YOUR_')) return;
+  try {
+    await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type':  'application/json',
+        'apikey':         SUPABASE_ANON_KEY,
+        'Authorization':  'Bearer ' + SUPABASE_ANON_KEY,
+        'Prefer':         'resolution=merge-duplicates'  // upsert on conflict
+      },
+      body: JSON.stringify(row)
+    });
+  } catch(e) {}
+}
+
+async function sbUpsert(table, row, conflictCols) {
+  if (!SUPABASE_URL || SUPABASE_URL.includes('YOUR_')) return;
+  try {
+    await fetch(`${SUPABASE_URL}/rest/v1/${table}?on_conflict=${conflictCols}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type':  'application/json',
+        'apikey':         SUPABASE_ANON_KEY,
+        'Authorization':  'Bearer ' + SUPABASE_ANON_KEY,
+        'Prefer':         'resolution=merge-duplicates'
+      },
+      body: JSON.stringify(row)
+    });
+  } catch(e) {}
+}
+
+// ── Main sender — called on signup, day completion, progress update ──
+function sendToSheets(payload) {
+  const now = new Date().toISOString();
+
+  if (payload.event === 'signup') {
+    // Upsert into `signups` table (email is unique key)
+    sbUpsert('signups', {
+      child_name:   payload.childName  || '',
+      parent_email: payload.email      || '',
+      age:          payload.age        || null,
+      grade:        payload.grade      || '',
+      curriculum:   payload.curriculum || '',
+      device:       payload.device     || '',
+      app_version:  payload.appVersion || '2.0',
+      signup_date:  now,
+      updated_at:   now
+    }, 'parent_email');
+  }
+
+  if (payload.event === 'day_done') {
+    // Insert into `day_completions` (one row per completed day)
+    sbInsert('day_completions', {
+      child_name:         payload.childName      || '',
+      parent_email:       payload.email          || '',
+      age:                payload.age            || null,
+      day_number:         payload.dayNumber      || null,
+      completion_date:    payload.completionDate || now.slice(0,10),
+      questions_answered: payload.questionsAnswered || 100,
+      pack_type:          payload.packType       || 'daily',
+      created_at:         now
+    });
+  }
+
+  if (payload.event === 'progress') {
+    // Upsert into `progress` table (one row per child, updated each time)
+    sbUpsert('progress', {
+      child_name:      payload.childName     || '',
+      parent_email:    payload.email         || '',
+      age:             payload.age           || null,
+      days_completed:  payload.daysCompleted || 0,
+      last_day_done:   payload.lastDayDone   || null,
+      credits_balance: payload.creditsBalance|| 0,
+      pack_type:       payload.packType      || 'daily',
+      updated_at:      now
+    }, 'parent_email');
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  VIEWPORT HEIGHT FIX (iOS Safari / GitHub Pages)
+// ═══════════════════════════════════════════════════════════════
+(function(){
+  function setVh(){document.documentElement.style.setProperty('--vh',(window.innerHeight*0.01)+'px');}
+  setVh();
+  window.addEventListener('resize',setVh);
+  window.addEventListener('orientationchange',function(){setTimeout(setVh,200);});
+})();
+
+// ═══════════════════════════════════════════════════════════════
+//  CURRICULUM CONFIG  (International: EYFS, IB PYP, Cambridge)
+// ═══════════════════════════════════════════════════════════════
+const AGE_PROFILE = {
+  1:{grade:'Nursery',label:'🍼 Nursery',cur:'Toddler Sensory Play',mode:'baby',dayTheme:'🌈 Play & Discover'},
+  2:{grade:'Pre-Nursery',label:'⭐ Pre-Nursery',cur:'Early Years (EYFS)',mode:'baby',dayTheme:'🌟 Explore & Learn'},
+  3:{grade:'LKG / Pre-K',label:'🎈 LKG',cur:'Pre-K (IB-PYP)',mode:'baby',dayTheme:'🎨 Think & Grow'},
+  4:{grade:'UKG / Kindergarten',label:'🎯 UKG',cur:'Kindergarten (CBSE/IB)',mode:'child',dayTheme:'📖 Build & Discover'},
+  5:{grade:'Class 1 / Grade 1',label:'📚 Class 1',cur:'Grade 1 (Cambridge/CBSE)',mode:'child',dayTheme:'🚀 Learn & Explore'},
+  6:{grade:'Class 2 / Grade 2',label:'📖 Class 2',cur:'Grade 2 (Cambridge/IB)',mode:'',dayTheme:'🔬 Study & Grow'},
+  7:{grade:'Class 3 / Grade 3',label:'🎓 Class 3',cur:'Grade 3 (Cambridge/IB)',mode:'',dayTheme:'🏆 Master & Excel'},
+};
+
+const DAY_THEMES=[
+  {t:"Day 1",e:"🌟",c:"#FF6B6B",bg:"#fff0ed"},{t:"Day 2",e:"🐾",c:"#FF9A3C",bg:"#fff4ee"},
+  {t:"Day 3",e:"🎨",c:"#c08000",bg:"#fffbea"},{t:"Day 4",e:"🍎",c:"#2d9e56",bg:"#f0fff4"},
+  {t:"Day 5",e:"🔢",c:"#4D96FF",bg:"#eef4ff"},{t:"Day 6",e:"🔷",c:"#C77DFF",bg:"#fdf0ff"},
+  {t:"Day 7",e:"🤸",c:"#FF6B6B",bg:"#fff0ed"},{t:"Day 8",e:"🔟",c:"#FF9A3C",bg:"#fff4ee"},
+  {t:"Day 9",e:"➖",c:"#2d9e56",bg:"#f0fff4"},{t:"Day 10",e:"🌿",c:"#4D96FF",bg:"#eef4ff"},
+  {t:"Day 11",e:"🚗",c:"#C77DFF",bg:"#fdf0ff"},{t:"Day 12",e:"❄️",c:"#FF6B6B",bg:"#fff0ed"},
+  {t:"Day 13",e:"🍽️",c:"#c08000",bg:"#fffbea"},{t:"Day 14",e:"📅",c:"#2d9e56",bg:"#f0fff4"},
+  {t:"Day 15",e:"🎯",c:"#4D96FF",bg:"#eef4ff"},{t:"Day 16",e:"🌱",c:"#C77DFF",bg:"#fdf0ff"},
+  {t:"Day 17",e:"↔️",c:"#FF6B6B",bg:"#fff0ed"},{t:"Day 18",e:"🏠",c:"#FF9A3C",bg:"#fff4ee"},
+  {t:"Day 19",e:"🎵",c:"#2d9e56",bg:"#f0fff4"},{t:"Day 20",e:"🏆",c:"#4D96FF",bg:"#eef4ff"},
+  {t:"Day 21",e:"✖️",c:"#C77DFF",bg:"#fdf0ff"},{t:"Day 22",e:"🔢",c:"#FF6B6B",bg:"#fff0ed"},
+  {t:"Day 23",e:"🌍",c:"#c08000",bg:"#fffbea"},{t:"Day 24",e:"⏰",c:"#2d9e56",bg:"#f0fff4"},
+  {t:"Day 25",e:"✏️",c:"#4D96FF",bg:"#eef4ff"},{t:"Day 26",e:"🔬",c:"#C77DFF",bg:"#fdf0ff"},
+  {t:"Day 27",e:"🧮",c:"#FF6B6B",bg:"#fff0ed"},{t:"Day 28",e:"📝",c:"#FF9A3C",bg:"#fff4ee"},
+  {t:"Day 29",e:"🚀",c:"#2d9e56",bg:"#f0fff4"},{t:"Day 30",e:"🌈",c:"#c08000",bg:"#fffbea"},
+  {t:"Day 31 🏆",e:"👑",c:"#6B3FA0",bg:"#f4f0ff"},
+];
+
+// Section definitions per age group
+const SECT_DEFS = {
+  '1-2':[
+    {n:'👆 Find the Same!',c:'#FF6B6B',d:'Tap the picture that matches the big one!'},
+    {n:'🔢 Count with Me',c:'#FF9A3C',d:'Count the pictures and tap the number!'},
+    {n:'🎨 What Colour?',c:'#c08000',d:'Tap the colour of the big picture!'},
+    {n:'👑 Big or Small?',c:'#4D96FF',d:'Tap the bigger one!'},
+    {n:'🤔 Odd One Out',c:'#C77DFF',d:'Tap the one that is different!'},
+  ],
+  '3-4':[
+    {n:'🌟 Mix & Play!',c:'#FF6B6B',d:'Counting, letters, animals — all mixed!'},
+    {n:'🎲 Fun Round',c:'#FF9A3C',d:'Puzzles, riddles and surprises!'},
+    {n:'🔤 ABC Adventure',c:'#4D96FF',d:'Letters, spelling and word fun!'},
+    {n:'🐾 Animal Kingdom',c:'#C77DFF',d:'Animals, colours and nature!'},
+    {n:'🎯 Final Fun',c:'#2d9e56',d:'Last stretch — you are amazing!'},
+  ],
+  '5':[
+    {n:'🎯 Mix-Up Round 1',c:'#FF6B6B',d:'Maths, puzzles, spelling — all mixed up!'},
+    {n:'🧩 Puzzle Time',c:'#FF9A3C',d:'Riddles, patterns & fun challenges!'},
+    {n:'🔤 Word Wizard',c:'#4D96FF',d:'Alphabet and spelling surprises!'},
+    {n:'🚀 Brain Boost',c:'#C77DFF',d:'Stories, science and quiz time!'},
+    {n:'🏆 Final Sprint',c:'#2d9e56',d:'You are nearly there — give it all!'},
+  ],
+  '6':[
+    {n:'🎯 Mix-Up Round 1',c:'#FF6B6B',d:'Maths, riddles, grammar — all mixed!'},
+    {n:'🧩 Puzzle Power',c:'#FF9A3C',d:'Patterns, logic & tricky questions!'},
+    {n:'📝 Language Lab',c:'#4D96FF',d:'Grammar, spelling and word puzzles!'},
+    {n:'🔬 Brain Science',c:'#C77DFF',d:'GK, science and world knowledge!'},
+    {n:'🏆 Champion Round',c:'#2d9e56',d:'Last 20 — go for gold!'},
+  ],
+  '7':[
+    {n:'🎯 Mix-Up Round 1',c:'#FF6B6B',d:'Advanced maths, logic & word puzzles!'},
+    {n:'🧩 Mind Bender',c:'#FF9A3C',d:'Riddles, codes and tricky reasoning!'},
+    {n:'📝 Language Master',c:'#4D96FF',d:'Grammar, vocabulary and spelling!'},
+    {n:'🌍 World Explorer',c:'#C77DFF',d:'Science, geography and GK!'},
+    {n:'🏆 Grand Finale',c:'#2d9e56',d:'The final 20 — show your brilliance!'},
+  ],
+};
+function getSectDefs(age){
+  if(age<=2)return SECT_DEFS['1-2'];
+  if(age<=4)return SECT_DEFS['3-4'];
+  if(age===5)return SECT_DEFS['5'];
+  if(age===6)return SECT_DEFS['6'];
+  return SECT_DEFS['7'];
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  WORD BANKS
+// ═══════════════════════════════════════════════════════════════
+const WBANK={
+  // Age 4: simple CVC 2-3 letter
+  4:[{w:'CAT',e:'🐱'},{w:'DOG',e:'🐶'},{w:'PIG',e:'🐷'},{w:'COW',e:'🐄'},{w:'HEN',e:'🐔'},
+     {w:'ANT',e:'🐜'},{w:'BEE',e:'🐝'},{w:'OWL',e:'🦉'},{w:'BAT',e:'🦇'},{w:'RAT',e:'🐀'},
+     {w:'CUP',e:'☕'},{w:'PEN',e:'✏️'},{w:'BAG',e:'👜'},{w:'CAR',e:'🚗'},{w:'SUN',e:'☀️'},
+     {w:'BED',e:'🛏️'},{w:'BOX',e:'📦'},{w:'JAM',e:'🍓'},{w:'BIN',e:'🗑️'},{w:'PIN',e:'📌'},
+     {w:'HUG',e:'🤗'},{w:'BUG',e:'🐛'},{w:'JUG',e:'🫗'},{w:'MUD',e:'🌧️'},{w:'RUG',e:'🛋️'},
+     {w:'FOX',e:'🦊'},{w:'APE',e:'🦧'},{w:'HOT',e:'🔥'},{w:'FAN',e:'🌬️'},{w:'MAP',e:'🗺️'}],
+  // Age 5: 3-4 letter words
+  5:[{w:'FROG',e:'🐸'},{w:'CRAB',e:'🦀'},{w:'STAR',e:'⭐'},{w:'FISH',e:'🐟'},{w:'BIRD',e:'🐦'},
+     {w:'DUCK',e:'🦆'},{w:'BEAR',e:'🐻'},{w:'DEER',e:'🦌'},{w:'LION',e:'🦁'},{w:'WOLF',e:'🐺'},
+     {w:'TREE',e:'🌳'},{w:'BOOK',e:'📚'},{w:'MOON',e:'🌙'},{w:'RAIN',e:'🌧️'},{w:'CAKE',e:'🎂'},
+     {w:'KITE',e:'🪁'},{w:'BIKE',e:'🚲'},{w:'ROSE',e:'🌹'},{w:'HOME',e:'🏠'},{w:'LAMP',e:'💡'},
+     {w:'NEST',e:'🪹'},{w:'WAVE',e:'🌊'},{w:'GATE',e:'🚪'},{w:'BLUE',e:'💙'},{w:'DUST',e:'🌫️'},
+     {w:'HAWK',e:'🦅'},{w:'PALM',e:'🌴'},{w:'SAIL',e:'⛵'},{w:'WORM',e:'🐛'},{w:'FAWN',e:'🦌'}],
+  // Age 6: 4-5 letter words
+  6:[{w:'TIGER',e:'🐯'},{w:'HORSE',e:'🐴'},{w:'SNAKE',e:'🐍'},{w:'EAGLE',e:'🦅'},{w:'MOUSE',e:'🐭'},
+     {w:'SHEEP',e:'🐑'},{w:'CAMEL',e:'🐪'},{w:'ZEBRA',e:'🦓'},{w:'WHALE',e:'🐋'},{w:'SHARK',e:'🦈'},
+     {w:'CLOUD',e:'☁️'},{w:'LIGHT',e:'💡'},{w:'GRASS',e:'🌿'},{w:'PLANT',e:'🌱'},{w:'EARTH',e:'🌍'},
+     {w:'APPLE',e:'🍎'},{w:'MANGO',e:'🥭'},{w:'LEMON',e:'🍋'},{w:'GRAPE',e:'🍇'},{w:'PEACH',e:'🍑'},
+     {w:'TRAIN',e:'🚂'},{w:'PLANE',e:'✈️'},{w:'TRUCK',e:'🚚'},{w:'CHAIR',e:'🪑'},{w:'PAPER',e:'📄'},
+     {w:'FLAME',e:'🔥'},{w:'CHEST',e:'📦'},{w:'FROST',e:'❄️'},{w:'SLOPE',e:'⛷️'},{w:'CRANE',e:'🏗️'}],
+  // Age 7: 5-7 letter words
+  7:[{w:'PENCIL',e:'✏️'},{w:'COLOUR',e:'🎨'},{w:'FLOWER',e:'🌸'},{w:'FOREST',e:'🌳'},{w:'GARDEN',e:'🌻'},
+     {w:'WINTER',e:'❄️'},{w:'SPRING',e:'🌸'},{w:'MONKEY',e:'🐵'},{w:'PARROT',e:'🦜'},{w:'RABBIT',e:'🐰'},
+     {w:'TURTLE',e:'🐢'},{w:'BRIDGE',e:'🌉'},{w:'BUTTER',e:'🧈'},{w:'CANDLE',e:'🕯️'},{w:'DESERT',e:'🏜️'},
+     {w:'PLANET',e:'🪐'},{w:'JUNGLE',e:'🌴'},{w:'CASTLE',e:'🏰'},{w:'BOTTLE',e:'🍶'},{w:'COTTON',e:'🌾'},
+     {w:'GENTLE',e:'🕊️'},{w:'INSECT',e:'🐛'},{w:'MIRROR',e:'🪞'},{w:'NEEDLE',e:'🪡'},{w:'ORANGE',e:'🍊'},
+     {w:'PURPLE',e:'💜'},{w:'ROCKET',e:'🚀'},{w:'SILVER',e:'🥈'},{w:'TONGUE',e:'👅'},{w:'VIOLIN',e:'🎻'}],
+};
+
+// ═══════════════════════════════════════════════════════════════
+//  MCQ BANKS
+// ═══════════════════════════════════════════════════════════════
+//  MCQ BANKS
+// ═══════════════════════════════════════════════════════════════
+
+// ══ TODDLER VISUAL BANK (Ages 1-2) — NO READING REQUIRED ══
+// tp:'viz'  qi=big question emoji displayed  ql=task label (parent reads aloud)
+// o=emoji/number options (no text reading needed)  a=correct answer index
+const VIZ_BANK=[
+  // ── FIND THE SAME — Match the animal! ──
+  {tp:'viz',qi:'🐱',ql:'👆 Find the same!',o:['🐶','🐱','🐰','🦊'],a:1},
+  {tp:'viz',qi:'🐶',ql:'👆 Find the same!',o:['🐱','🦊','🐶','🐰'],a:2},
+  {tp:'viz',qi:'🐸',ql:'👆 Find the same!',o:['🐸','🐟','🐢','🦋'],a:0},
+  {tp:'viz',qi:'🦁',ql:'👆 Find the same!',o:['🐯','🦊','🐻','🦁'],a:3},
+  {tp:'viz',qi:'🐯',ql:'👆 Find the same!',o:['🦁','🐯','🐻','🦊'],a:1},
+  {tp:'viz',qi:'🐔',ql:'👆 Find the same!',o:['🦆','🐧','🐔','🦅'],a:2},
+  {tp:'viz',qi:'🐰',ql:'👆 Find the same!',o:['🐱','🐶','🦊','🐰'],a:3},
+  {tp:'viz',qi:'🦋',ql:'👆 Find the same!',o:['🦋','🐝','🐛','🐞'],a:0},
+  {tp:'viz',qi:'🐟',ql:'👆 Find the same!',o:['🐙','🦀','🐟','🦈'],a:2},
+  {tp:'viz',qi:'🐘',ql:'👆 Find the same!',o:['🦒','🦓','🐘','🦏'],a:2},
+  {tp:'viz',qi:'🍎',ql:'👆 Find the same!',o:['🍊','🍋','🍎','🍇'],a:2},
+  {tp:'viz',qi:'🍋',ql:'👆 Find the same!',o:['🍋','🍊','🍎','🍇'],a:0},
+  {tp:'viz',qi:'🍇',ql:'👆 Find the same!',o:['🍊','🍇','🍎','🍋'],a:1},
+  {tp:'viz',qi:'🍓',ql:'👆 Find the same!',o:['🍊','🍋','🍇','🍓'],a:3},
+  {tp:'viz',qi:'🍌',ql:'👆 Find the same!',o:['🍌','🍎','🍊','🍋'],a:0},
+  {tp:'viz',qi:'🚗',ql:'👆 Find the same!',o:['✈️','🚂','🚗','🚌'],a:2},
+  {tp:'viz',qi:'⭐',ql:'👆 Find the same!',o:['🌙','⭐','☀️','🌈'],a:1},
+  {tp:'viz',qi:'🌸',ql:'👆 Find the same!',o:['🌺','🌻','🌸','🌹'],a:2},
+  {tp:'viz',qi:'🎈',ql:'👆 Find the same!',o:['🎁','🎈','🎀','🎂'],a:1},
+  {tp:'viz',qi:'🏠',ql:'👆 Find the same!',o:['🏰','🏠','🏔️','🌳'],a:1},
+  {tp:'viz',qi:'🐻',ql:'👆 Find the same!',o:['🐻','🐼','🦊','🦁'],a:0},
+  {tp:'viz',qi:'🦆',ql:'👆 Find the same!',o:['🐧','🦅','🦆','🐦'],a:2},
+  {tp:'viz',qi:'🐼',ql:'👆 Find the same!',o:['🐻','🐨','🦁','🐼'],a:3},
+  {tp:'viz',qi:'🐨',ql:'👆 Find the same!',o:['🐼','🐨','🐻','🦊'],a:1},
+  {tp:'viz',qi:'🦊',ql:'👆 Find the same!',o:['🦊','🐰','🐱','🐶'],a:0},
+
+  // ── COUNT IT — How many? (tap the number) ──
+  {tp:'viz',qi:'🍎',ql:'🔢 How many?',o:['1','2','3','4'],a:0,cnt:true},
+  {tp:'viz',qi:'🍎🍎',ql:'🔢 How many?',o:['1','2','3','4'],a:1,cnt:true},
+  {tp:'viz',qi:'🍎🍎🍎',ql:'🔢 How many?',o:['1','2','3','4'],a:2,cnt:true},
+  {tp:'viz',qi:'⭐⭐',ql:'🔢 How many?',o:['1','2','3','4'],a:1,cnt:true},
+  {tp:'viz',qi:'⭐⭐⭐',ql:'🔢 How many?',o:['2','3','4','5'],a:1,cnt:true},
+  {tp:'viz',qi:'🎈🎈🎈🎈',ql:'🔢 How many?',o:['2','3','4','5'],a:2,cnt:true},
+  {tp:'viz',qi:'🐱🐱',ql:'🔢 How many?',o:['1','2','3','4'],a:1,cnt:true},
+  {tp:'viz',qi:'🌸🌸🌸',ql:'🔢 How many?',o:['2','3','4','5'],a:1,cnt:true},
+  {tp:'viz',qi:'🍭🍭🍭🍭🍭',ql:'🔢 How many?',o:['3','4','5','6'],a:2,cnt:true},
+  {tp:'viz',qi:'🐶',ql:'🔢 How many?',o:['1','2','3','4'],a:0,cnt:true},
+  {tp:'viz',qi:'🌟🌟🌟🌟',ql:'🔢 How many?',o:['3','4','5','6'],a:1,cnt:true},
+  {tp:'viz',qi:'🐱🐱🐱',ql:'🔢 How many?',o:['2','3','4','5'],a:1,cnt:true},
+  {tp:'viz',qi:'🎈🎈',ql:'🔢 How many?',o:['1','2','3','4'],a:1,cnt:true},
+  {tp:'viz',qi:'🍭🍭🍭',ql:'🔢 How many?',o:['2','3','4','5'],a:1,cnt:true},
+  {tp:'viz',qi:'🌸🌸🌸🌸🌸',ql:'🔢 How many?',o:['3','4','5','6'],a:2,cnt:true},
+  {tp:'viz',qi:'🍊🍊',ql:'🔢 How many?',o:['1','2','3','4'],a:1,cnt:true},
+  {tp:'viz',qi:'🐸🐸🐸🐸',ql:'🔢 How many?',o:['3','4','5','6'],a:1,cnt:true},
+  {tp:'viz',qi:'🦋🦋',ql:'🔢 How many?',o:['1','2','3','4'],a:1,cnt:true},
+  {tp:'viz',qi:'⭐',ql:'🔢 How many?',o:['1','2','3','4'],a:0,cnt:true},
+  {tp:'viz',qi:'🐶🐶🐶',ql:'🔢 How many?',o:['2','3','4','5'],a:1,cnt:true},
+
+  // ── WHAT COLOUR? — Tap the right colour circle! ──
+  {tp:'viz',qi:'🍎',ql:'🎨 What colour?',o:['🔴','🟡','🟢','🔵'],a:0},
+  {tp:'viz',qi:'🍌',ql:'🎨 What colour?',o:['🔴','🟡','🟢','🔵'],a:1},
+  {tp:'viz',qi:'🌿',ql:'🎨 What colour?',o:['🔴','🟡','🟢','🔵'],a:2},
+  {tp:'viz',qi:'🌊',ql:'🎨 What colour?',o:['🔴','🟡','🟢','🔵'],a:3},
+  {tp:'viz',qi:'☁️',ql:'🎨 What colour?',o:['⚫','⚪','🟠','🟤'],a:1},
+  {tp:'viz',qi:'🍊',ql:'🎨 What colour?',o:['🔴','🟡','🟢','🟠'],a:3},
+  {tp:'viz',qi:'🍇',ql:'🎨 What colour?',o:['🟣','🔴','🟡','🟢'],a:0},
+  {tp:'viz',qi:'🌙',ql:'🎨 What colour?',o:['🔴','🟡','🔵','🟢'],a:1},
+  {tp:'viz',qi:'🍓',ql:'🎨 What colour?',o:['🔵','🔴','🟡','🟢'],a:1},
+  {tp:'viz',qi:'🐸',ql:'🎨 What colour?',o:['🔴','🟡','🔵','🟢'],a:3},
+  {tp:'viz',qi:'☀️',ql:'🎨 What colour?',o:['🔴','🟡','🔵','🟢'],a:1},
+  {tp:'viz',qi:'🌹',ql:'🎨 What colour?',o:['🔴','🟡','🟢','🔵'],a:0},
+  {tp:'viz',qi:'🫐',ql:'🎨 What colour?',o:['🔴','🟡','🟢','🔵'],a:3},
+  {tp:'viz',qi:'🥦',ql:'🎨 What colour?',o:['🔴','🟡','🟢','🔵'],a:2},
+  {tp:'viz',qi:'🍋',ql:'🎨 What colour?',o:['🔴','🟡','🟢','🔵'],a:1},
+
+  // ── BIGGER OR SMALLER? — Tap the BIG one! ──
+  {tp:'viz',qi:'🐘  or  🐜',ql:'👆 Tap the BIG one!',o:['🐘','🐜'],a:0},
+  {tp:'viz',qi:'🦁  or  🐱',ql:'👆 Tap the BIG one!',o:['🦁','🐱'],a:0},
+  {tp:'viz',qi:'🐋  or  🐟',ql:'👆 Tap the BIG one!',o:['🐋','🐟'],a:0},
+  {tp:'viz',qi:'🌳  or  🌱',ql:'👆 Tap the TALL one!',o:['🌳','🌱'],a:0},
+  {tp:'viz',qi:'🚂  or  🚗',ql:'👆 Tap the BIG one!',o:['🚂','🚗'],a:0},
+  {tp:'viz',qi:'🐘  or  🐰',ql:'👆 Tap the BIG one!',o:['🐰','🐘'],a:1},
+  {tp:'viz',qi:'🏰  or  🏠',ql:'👆 Tap the BIG one!',o:['🏰','🏠'],a:0},
+  {tp:'viz',qi:'🐯  or  🐭',ql:'👆 Tap the BIG one!',o:['🐭','🐯'],a:1},
+  {tp:'viz',qi:'☀️  or  🌟',ql:'👆 Tap the BIG one!',o:['☀️','🌟'],a:0},
+  {tp:'viz',qi:'🐊  or  🐛',ql:'👆 Tap the LONG one!',o:['🐊','🐛'],a:0},
+
+  // ── ODD ONE OUT — Tap the one that is different! ──
+  {tp:'viz',qi:'🍎 🍊 🍋 🚗',ql:'👆 Tap the ODD one!',o:['🍎','🍊','🍋','🚗'],a:3},
+  {tp:'viz',qi:'🐱 🐶 🐰 ✈️',ql:'👆 Tap the ODD one!',o:['🐱','🐶','🐰','✈️'],a:3},
+  {tp:'viz',qi:'🚗 🚌 🚂 🌸',ql:'👆 Tap the ODD one!',o:['🚗','🚌','🚂','🌸'],a:3},
+  {tp:'viz',qi:'🌸 🌺 🌻 🚀',ql:'👆 Tap the ODD one!',o:['🌸','🌺','🌻','🚀'],a:3},
+  {tp:'viz',qi:'🍕 🍔 🌮 🐱',ql:'👆 Tap the ODD one!',o:['🍕','🍔','🌮','🐱'],a:3},
+  {tp:'viz',qi:'🎈 🎁 🎂 🦁',ql:'👆 Tap the ODD one!',o:['🎈','🎁','🎂','🦁'],a:3},
+  {tp:'viz',qi:'☀️ 🌙 ⭐ 🚂',ql:'👆 Tap the ODD one!',o:['☀️','🌙','⭐','🚂'],a:3},
+  {tp:'viz',qi:'🔴 🔵 🟡 🐘',ql:'👆 Tap the ODD one!',o:['🔴','🔵','🟡','🐘'],a:3},
+  {tp:'viz',qi:'🐱 🐶 🐰 🍎',ql:'👆 Tap the ODD one!',o:['🐱','🐶','🐰','🍎'],a:3},
+  {tp:'viz',qi:'🍎 🍊 🍋 🐶',ql:'👆 Tap the ODD one!',o:['🍎','🍊','🍋','🐶'],a:3},
+];
+
+// Build 100 shuffled visual questions for one day
+function buildVizDay(rng){
+  const bank=[...VIZ_BANK];
+  for(let i=bank.length-1;i>0;i--){const j=~~(rng()*(i+1));[bank[i],bank[j]]=[bank[j],bank[i]];}
+  const qs=[];
+  for(let i=0;i<100;i++){const q={...bank[i%bank.length]};q.o=[...q.o];qs.push(q);}
+  return qs;
+}
+
+
+
+// ═══════════════════════════════════════════════════════════════
+//  SEEDED RNG
+// ═══════════════════════════════════════════════════════════════
+function mkRng(seed){
+  let s=(seed^0xDEADBEEF)>>>0;if(!s)s=1;
+  return()=>{s^=s<<13;s^=s>>17;s^=s<<5;return(s>>>0)/4294967296;};
+}
+const ABC='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const ICONS=['🍎','🍊','🍋','🍇','🍓','🍑','🍒','🥝','🍌','🍉','🌸','🌺','🌻','🌹','🌷',
+  '⭐','🌟','💫','✨','🔥','🎈','🎁','🎯','🎲','🎮','🚗','🚂','🚀','✈️','🐱',
+  '🐶','🐭','🐰','🦊','🐻','🦋','🐝','🐞','🎵','🌈','💎','🦁','🐸','🐼','🦄'];
+
+// ═══════════════════════════════════════════════════════════════
+//  BASE QUESTION GENERATORS (used inside buildDay helpers)
+// ═══════════════════════════════════════════════════════════════
+function genCountQ(rng, age, day){
+  const ic=ICONS[~~(rng()*ICONS.length)];
+  // Minimum 3 items — never count 1 or 2 for older ages
+  const minC = age<=2 ? 1 : age<=4 ? 3 : Math.max(3, ~~(day/5)+3);
+  const maxC = age===1?4 : age===2?6 : age<=4?10 : Math.min(6+day,20);
+  const n = minC+~~(rng()*Math.max(1,maxC-minC));
+  return{tp:'count',q:`How many ${ic} are there?`,ic,ans:n};
+}
+
+function genMathQ(rng, age, day){
+  let a,b,ans,label,q;
+  if(age<=2){
+    a=1+~~(rng()*3);b=1+~~(rng()*3);ans=a+b;
+    return{tp:'mcq',q:`${a} + ${b} = ?`,o:[String(ans-1),String(ans),String(ans+1),String(ans+2)],a:1};
+  }
+  if(age===3){
+    a=1+~~(rng()*4);b=1+~~(rng()*4);ans=a+b;
+    return{tp:'mcq',q:`${a} + ${b} = ?`,o:[String(ans-1),String(ans),String(ans+1),String(ans+2)],a:1};
+  }
+  if(age===4){
+    const ops=['+'];if(day>=8)ops.push('-');
+    const op=ops[~~(rng()*ops.length)];
+    if(op==='+'){a=2+~~(rng()*8);b=2+~~(rng()*8);while(a+b>15){b=2+~~(rng()*8);}ans=a+b;label=`${a} + ${b}`;q=`${a} + ${b} = ?`;}
+    else{b=2+~~(rng()*6);a=b+2+~~(rng()*6);ans=a-b;label=`${a} − ${b}`;q=`${a} − ${b} = ?`;}
+    return{tp:'math',q,mx:label,ans:String(ans)};
+  }
+  if(age===5){
+    const ops=['+','-'];
+    const op=ops[~~(rng()*ops.length)];
+    if(op==='+'){a=5+~~(rng()*25);b=5+~~(rng()*25);ans=a+b;label=`${a} + ${b}`;q=`${a} plus ${b} = ?`;}
+    else{b=5+~~(rng()*20);a=b+5+~~(rng()*20);ans=a-b;label=`${a} − ${b}`;q=`${a} minus ${b} = ?`;}
+    return{tp:'math',q,mx:label,ans:String(ans)};
+  }
+  if(age===6){
+    const ops=['+','-','×'];if(day>=10)ops.push('÷');
+    const op=ops[~~(rng()*ops.length)];
+    if(op==='+'){a=15+~~(rng()*50);b=15+~~(rng()*50);ans=a+b;label=`${a} + ${b}`;}
+    else if(op==='-'){b=15+~~(rng()*40);a=b+15+~~(rng()*40);ans=a-b;label=`${a} − ${b}`;}
+    else if(op==='×'){const t=[2,3,4,5,6,10];a=t[~~(rng()*t.length)];b=2+~~(rng()*10);ans=a*b;label=`${a} × ${b}`;}
+    else{const ts=[2,3,4,5,6];b=ts[~~(rng()*ts.length)];ans=2+~~(rng()*10);a=b*ans;label=`${a} ÷ ${b}`;}
+    q=`${label} = ?`;
+    return{tp:'math',q,mx:label,ans:String(ans)};
+  }
+  // Age 7: complex
+  const ops=['+','-','×','÷'];
+  const op=ops[~~(rng()*ops.length)];
+  if(op==='+'){a=100+~~(rng()*400);b=100+~~(rng()*400);ans=a+b;label=`${a} + ${b}`;}
+  else if(op==='-'){b=100+~~(rng()*300);a=b+100+~~(rng()*300);ans=a-b;label=`${a} − ${b}`;}
+  else if(op==='×'){const t=[3,4,6,7,8,9,11,12];a=t[~~(rng()*t.length)];b=3+~~(rng()*12);ans=a*b;label=`${a} × ${b}`;}
+  else{b=3+~~(rng()*11);ans=3+~~(rng()*12);a=b*ans;label=`${a} ÷ ${b}`;}
+  return{tp:'math',q:`${label} = ?`,mx:label,ans:String(ans)};
+}
+
+function genAlphaQ(rng,age,idx){
+  const sub=~~(idx/5);let sq,ans,q;
+  if(sub===0){const p=~~(rng()*24);sq=[ABC[p],null,ABC[p+2]];ans=ABC[p+1];q='Fill in the missing letter:';}
+  else if(sub===1){const p=1+~~(rng()*24);if(rng()>.5){sq=[ABC[p],null];ans=ABC[p+1];q=`What letter comes AFTER "${ABC[p]}"?`;}else{sq=[null,ABC[p]];ans=ABC[p-1];q=`What letter comes BEFORE "${ABC[p]}"?`;}}
+  else if(sub===2){const p=~~(rng()*23),gp=1+~~(rng()*2),ls=[ABC[p],ABC[p+1],ABC[p+2],ABC[p+3]];ans=ls[gp];ls[gp]=null;sq=ls;q='Fill in the missing letter:';}
+  else{
+    if(age>=6&&rng()>.5){const p=2+~~(rng()*23);sq=[ABC[p],null,ABC[p-2]];ans=ABC[p-1];q='Fill in (going backwards!):';}
+    else{const p2=~~(rng()*22);sq=[ABC[p2],null,ABC[p2+4]];ans=ABC[p2+2];q='Fill in (every other letter!):';}
+  }
+  return{tp:'alpha',q,sq,ans};
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  QUESTION BANKS — 150+ unique questions per age group
+//  Each question has d:1(easy) d:2(medium) d:3(hard) for ordering
+// ═══════════════════════════════════════════════════════════════
+
+// ── AGE 3-4 MCQ (120 unique questions, difficulty tagged) ──
+const MCQ34=[
+  // d:1 EASY — Animals & basic facts
+  {tp:'mcq',d:1,q:"A Dog 🐶 says...?",o:["Moo","Meow","Woof","Cluck"],a:2},
+  {tp:'mcq',d:1,q:"A Cat 🐱 says...?",o:["Bark","Meow","Moo","Roar"],a:1},
+  {tp:'mcq',d:1,q:"A Cow 🐄 says...?",o:["Moo","Neigh","Cluck","Squeak"],a:0},
+  {tp:'mcq',d:1,q:"A Duck 🦆 says...?",o:["Moo","Quack","Woof","Hiss"],a:1},
+  {tp:'mcq',d:1,q:"A Lion 🦁 says...?",o:["Moo","Bark","Roar","Quack"],a:2},
+  {tp:'mcq',d:1,q:"Which animal has 4 legs?",o:["Fish 🐟","Bird 🐦","Dog 🐶","Snake 🐍"],a:2},
+  {tp:'mcq',d:1,q:"Which can fly? 🦅",o:["Dog","Fish","Cat","Bird"],a:3},
+  {tp:'mcq',d:1,q:"Which lives in water?",o:["Cat","Dog","Fish 🐟","Rabbit"],a:2},
+  {tp:'mcq',d:1,q:"Which gives us milk? 🥛",o:["Hen","Dog","Cow","Rabbit"],a:2},
+  {tp:'mcq',d:1,q:"Which gives us eggs? 🥚",o:["Cow","Hen 🐔","Dog","Cat"],a:1},
+  {tp:'mcq',d:1,q:"What colour is the sky? ☁️",o:["Green","Red","Blue","Yellow"],a:2},
+  {tp:'mcq',d:1,q:"What colour is grass? 🌿",o:["Red","Blue","Yellow","Green"],a:3},
+  {tp:'mcq',d:1,q:"What colour is a banana? 🍌",o:["Red","Green","Yellow","Blue"],a:2},
+  {tp:'mcq',d:1,q:"What colour is a tomato? 🍅",o:["Blue","Green","Red","Yellow"],a:2},
+  {tp:'mcq',d:1,q:"What colour is snow? ❄️",o:["Black","Blue","White","Grey"],a:2},
+  {tp:'mcq',d:1,q:"1 + 1 = ?",o:["1","2","3","4"],a:1},
+  {tp:'mcq',d:1,q:"2 + 2 = ?",o:["2","3","4","5"],a:2},
+  {tp:'mcq',d:1,q:"1 + 2 = ?",o:["2","3","4","5"],a:1},
+  {tp:'mcq',d:1,q:"3 + 1 = ?",o:["3","4","5","6"],a:1},
+  {tp:'mcq',d:1,q:"Which number comes after 5?",o:["4","5","6","7"],a:2},
+  {tp:'mcq',d:1,q:"Which number comes before 3?",o:["1","2","4","5"],a:1},
+  {tp:'mcq',d:1,q:"How many fingers on one hand? ✋",o:["3","4","5","6"],a:2},
+  {tp:'mcq',d:1,q:"🍎 is a...?",o:["Vegetable","Fruit","Flower","Rock"],a:1},
+  {tp:'mcq',d:1,q:"Which is biggest? 🐘",o:["Ant","Bee","Cat","Elephant"],a:3},
+  {tp:'mcq',d:1,q:"A ball is what shape?",o:["Square","Triangle","Circle","Star"],a:2},
+  {tp:'mcq',d:1,q:"We use 👀 to...?",o:["Hear","Smell","See","Taste"],a:2},
+  {tp:'mcq',d:1,q:"We use 👂 to...?",o:["See","Hear","Smell","Taste"],a:1},
+  {tp:'mcq',d:1,q:"Which letter comes first? 🔤",o:["Z","M","A","T"],a:2},
+  {tp:'mcq',d:1,q:"Apple starts with...?",o:["B","C","A","D"],a:2},
+  {tp:'mcq',d:1,q:"Ball starts with...?",o:["A","B","C","D"],a:1},
+  // d:2 MEDIUM — Patterns, more complex
+  {tp:'mcq',d:2,q:"2 + 3 = ?",o:["4","5","6","7"],a:1},
+  {tp:'mcq',d:2,q:"4 + 2 = ?",o:["5","6","7","8"],a:1},
+  {tp:'mcq',d:2,q:"3 + 3 = ?",o:["4","5","6","7"],a:2},
+  {tp:'mcq',d:2,q:"5 + 2 = ?",o:["5","6","7","8"],a:2},
+  {tp:'mcq',d:2,q:"4 − 2 = ?",o:["1","2","3","4"],a:1},
+  {tp:'mcq',d:2,q:"5 − 3 = ?",o:["1","2","3","4"],a:1},
+  {tp:'mcq',d:2,q:"How many days in a week?",o:["5","6","7","8"],a:2},
+  {tp:'mcq',d:2,q:"Which season is hot? ☀️",o:["Winter","Autumn","Spring","Summer"],a:3},
+  {tp:'mcq',d:2,q:"Snow falls in...?",o:["Summer","Spring","Winter","Autumn"],a:2},
+  {tp:'mcq',d:2,q:"What colour is chocolate? 🍫",o:["White","Brown","Blue","Pink"],a:1},
+  {tp:'mcq',d:2,q:"Which is a fruit? 🍎",o:["Carrot","Stone","Apple","Leaf"],a:2},
+  {tp:'mcq',d:2,q:"Emoji story: 🌱➡️🌻 A seed grew into a...?",o:["Fruit","Tree","Flower","Cloud"],a:2},
+  {tp:'mcq',d:2,q:"Pattern: A B A B A __ ?",o:["A","B","C","D"],a:1},
+  {tp:'mcq',d:2,q:"🔴🟡🔴🟡__ What comes next?",o:["🔴","🟡","🟢","🔵"],a:0},
+  {tp:'mcq',d:2,q:"Odd one out: 🍎 🍊 🍋 🚗",o:["Apple","Orange","Lemon","Car 🚗"],a:3},
+  {tp:'mcq',d:2,q:"Which word RHYMES with CAT?",o:["Dog","Mat","Fish","Car"],a:1},
+  {tp:'mcq',d:2,q:"Which word RHYMES with SUN?",o:["Star","Fun","Fish","Sky"],a:1},
+  {tp:'mcq',d:2,q:"True or False: Fish can live on land?",o:["True","False","Maybe","Sometimes"],a:1},
+  {tp:'mcq',d:2,q:"A caterpillar 🐛 turns into a...?",o:["Spider","Butterfly 🦋","Beetle","Ant"],a:1},
+  {tp:'mcq',d:2,q:"Which season do we use an umbrella? ☔",o:["Summer","Rainy","Winter","Spring"],a:1},
+  {tp:'mcq',d:2,q:"How many legs does a butterfly have? 🦋",o:["2","4","6","8"],a:2},
+  {tp:'mcq',d:2,q:"What shape is a pizza? 🍕",o:["Square","Triangle","Circle","Star"],a:2},
+  {tp:'mcq',d:2,q:"🌧️+☀️ = ?",o:["Snow","Rainbow 🌈","Night","Wind"],a:1},
+  {tp:'mcq',d:2,q:"Which is NOT a vehicle?",o:["Car 🚗","Train 🚂","Plane ✈️","Elephant 🐘"],a:3},
+  {tp:'mcq',d:2,q:"Which number is BETWEEN 4 and 6?",o:["3","5","7","8"],a:1},
+  {tp:'mcq',d:2,q:"How many sides does a triangle have?",o:["2","3","4","5"],a:1},
+  {tp:'mcq',d:2,q:"How many sides does a square have?",o:["3","4","5","6"],a:1},
+  {tp:'mcq',d:2,q:"🐣➡️🐥➡️🐔 What does a chick grow into?",o:["Duck","Hen 🐔","Goose","Parrot"],a:1},
+  {tp:'mcq',d:2,q:"Riddle: I have hands but no arms. I tick! ⏰",o:["Book","Clock","Door","Hat"],a:1},
+  {tp:'mcq',d:2,q:"Which is smallest? 🐜",o:["Dog","Elephant","Ant","Horse"],a:2},
+  // d:3 HARD — Logic, missing numbers, sequence
+  {tp:'mcq',d:3,q:"Spot the missing number: 1, 2, 3, __, 5",o:["6","4","7","0"],a:1},
+  {tp:'mcq',d:3,q:"Spot the missing number: 2, 4, __, 8, 10",o:["5","6","7","3"],a:1},
+  {tp:'mcq',d:3,q:"Count: 🍎🍎🍎+🍊🍊 How many total?",o:["4","5","6","7"],a:1},
+  {tp:'mcq',d:3,q:"5 birds on a wire. 2 fly away. How many left?",o:["2","3","4","5"],a:1},
+  {tp:'mcq',d:3,q:"A hen 🐔 gives us eggs. A cow 🐄 gives us...?",o:["Eggs","Honey","Milk","Wool"],a:2},
+  {tp:'mcq',d:3,q:"3 + 3 + 3 = ?",o:["6","7","8","9"],a:2},
+  {tp:'mcq',d:3,q:"Which letter comes LAST in DUCK? 🦆",o:["D","U","C","K"],a:3},
+  {tp:'mcq',d:3,q:"True/False: 🐬 dolphins are fish.",o:["True","False — mammals","True — they swim","False — birds"],a:1},
+  {tp:'mcq',d:3,q:"Riddle: I am white, cold, fall from sky ❄️",o:["Rain","Snow","Cloud","Wind"],a:1},
+  {tp:'mcq',d:3,q:"What comes after Monday?",o:["Sunday","Wednesday","Tuesday","Saturday"],a:2},
+  {tp:'mcq',d:3,q:"A🐛 → 🫛 → 🦋 — how many stages?",o:["1","2","3","4"],a:2},
+  {tp:'mcq',d:3,q:"How many months in a year?",o:["10","11","12","13"],a:2},
+  {tp:'mcq',d:3,q:"Which is heavier — a feather or a brick? 🧱",o:["Feather","Brick","Same","Neither"],a:1},
+  {tp:'mcq',d:3,q:"Half of 8 = ?",o:["2","3","4","5"],a:2},
+  {tp:'mcq',d:3,q:"Which comes first — egg 🥚 or chick 🐣?",o:["Chick","Egg","Same time","Neither"],a:1},
+  {tp:'mcq',d:3,q:"10 − 4 = ?",o:["4","5","6","7"],a:2},
+  {tp:'mcq',d:3,q:"Which day comes BEFORE Friday?",o:["Saturday","Wednesday","Thursday","Sunday"],a:2},
+  {tp:'mcq',d:3,q:"I have 6 sweets. I eat 2. How many left?",o:["2","3","4","5"],a:2},
+  {tp:'mcq',d:3,q:"Which weighs MORE — 🐘 or 🐭?",o:["Mouse","Elephant","Same","Depends"],a:1},
+  {tp:'mcq',d:3,q:"7 + 3 = ?",o:["8","9","10","11"],a:2},
+  {tp:'mcq',d:3,q:"8 − 5 = ?",o:["2","3","4","5"],a:1},
+  {tp:'mcq',d:3,q:"Which is NOT a colour?",o:["Red","Blue","Happy","Green"],a:2},
+  {tp:'mcq',d:3,q:"2 × 3 = ? (2 groups of 3)",o:["4","5","6","7"],a:2},
+  {tp:'mcq',d:3,q:"A dozen = how many?",o:["6","10","12","15"],a:2},
+  {tp:'mcq',d:3,q:"I have 10 fingers. 3 are hidden. I can see...?",o:["5","6","7","8"],a:2},
+  {tp:'mcq',d:3,q:"Pattern: 1, 3, 5, 7, __ ?",o:["8","9","10","11"],a:1},
+  {tp:'mcq',d:3,q:"Spot odd one: Red Blue Green Tuesday",o:["Red","Blue","Green","Tuesday"],a:3},
+  {tp:'mcq',d:3,q:"🐸 + 🐸 + 🐸 + 🐸 = ?",o:["3","4","5","6"],a:1},
+  {tp:'mcq',d:3,q:"Which is a mammal?",o:["Goldfish","Parrot","Dolphin 🐬","Crocodile"],a:2},
+  {tp:'mcq',d:3,q:"Double of 6 = ?",o:["10","11","12","13"],a:2},
+];
+
+// ── AGE 5 MCQ (150 unique, difficulty tagged) ──
+const MCQ5=[
+  // d:1 EASY
+  {tp:'mcq',d:1,q:"Which animal gives us milk? 🥛",o:["Hen","Cow 🐄","Dog","Cat"],a:1},
+  {tp:'mcq',d:1,q:"Which gives us eggs? 🥚",o:["Cow","Dog","Hen 🐔","Cat"],a:2},
+  {tp:'mcq',d:1,q:"Which is the tallest animal? 🦒",o:["Elephant","Giraffe","Horse","Lion"],a:1},
+  {tp:'mcq',d:1,q:"Which animal makes honey? 🍯",o:["Ant","Butterfly","Bee 🐝","Spider"],a:2},
+  {tp:'mcq',d:1,q:"Which bird cannot fly? 🐧",o:["Eagle","Parrot","Penguin","Sparrow"],a:2},
+  {tp:'mcq',d:1,q:"How many days in a week? 📅",o:["5","6","7","8"],a:2},
+  {tp:'mcq',d:1,q:"How many months in a year?",o:["10","11","12","13"],a:2},
+  {tp:'mcq',d:1,q:"Which shape is round? ⭕",o:["Square","Triangle","Circle","Rectangle"],a:2},
+  {tp:'mcq',d:1,q:"Capital of India? 🇮🇳",o:["Mumbai","New Delhi","Chennai","Kolkata"],a:1},
+  {tp:'mcq',d:1,q:"What do plants need to grow? 🌱",o:["Sand","Sunlight & water","Darkness","Wind"],a:1},
+  {tp:'mcq',d:1,q:"The Sun rises in the...?",o:["West","North","South","East"],a:3},
+  {tp:'mcq',d:1,q:"Which vehicle flies? ✈️",o:["Car","Train","Aeroplane","Boat"],a:2},
+  {tp:'mcq',d:1,q:"Which travels on rails? 🚂",o:["Car","Train","Bus","Lorry"],a:1},
+  {tp:'mcq',d:1,q:"'Big' is the opposite of...?",o:["Long","Small","Fast","Hot"],a:1},
+  {tp:'mcq',d:1,q:"'Hot' is opposite of...?",o:["Warm","Cold","Cool","Icy"],a:1},
+  {tp:'mcq',d:1,q:"Which word rhymes with CAT?",o:["Dog","Mat","Fish","Bird"],a:1},
+  {tp:'mcq',d:1,q:"Which word rhymes with SUN?",o:["Star","Moon","Run","Sky"],a:2},
+  {tp:'mcq',d:1,q:"How many vowels in the alphabet?",o:["3","4","5","6"],a:2},
+  {tp:'mcq',d:1,q:"Which is a vowel?",o:["B","C","E","G"],a:2},
+  {tp:'mcq',d:1,q:"Which is a fruit? 🍎",o:["Carrot","Potato","Apple","Onion"],a:2},
+  {tp:'mcq',d:1,q:"Which is a vegetable? 🥦",o:["Mango","Grape","Broccoli","Orange"],a:2},
+  {tp:'mcq',d:1,q:"What organ do we think with? 🧠",o:["Heart","Liver","Brain","Lungs"],a:2},
+  {tp:'mcq',d:1,q:"What organ pumps blood? ❤️",o:["Brain","Liver","Kidney","Heart"],a:3},
+  {tp:'mcq',d:1,q:"Half of 10 = ?",o:["3","4","5","6"],a:2},
+  {tp:'mcq',d:1,q:"Double of 5 = ?",o:["8","10","12","15"],a:1},
+  {tp:'mcq',d:1,q:"Which number is even?",o:["3","5","7","8"],a:3},
+  {tp:'mcq',d:1,q:"Which number is odd?",o:["2","4","6","7"],a:3},
+  {tp:'mcq',d:1,q:"India's national bird is the...? 🦚",o:["Sparrow","Peacock","Eagle","Parrot"],a:1},
+  {tp:'mcq',d:1,q:"India's national animal is the...?",o:["Lion","Elephant","Tiger","Peacock"],a:2},
+  {tp:'mcq',d:1,q:"A group of fish is called a...?",o:["Pack","Herd","School","Flock"],a:2},
+  // d:2 MEDIUM
+  {tp:'mcq',d:2,q:"'Dog' is a...?",o:["Verb","Adjective","Noun","Adverb"],a:2},
+  {tp:'mcq',d:2,q:"'Run' is a...?",o:["Noun","Verb","Adjective","Pronoun"],a:1},
+  {tp:'mcq',d:2,q:"'Happy' is a...?",o:["Noun","Verb","Adjective","Pronoun"],a:2},
+  {tp:'mcq',d:2,q:"How many syllables in 'but-ter-fly'? 🦋",o:["1","2","3","4"],a:2},
+  {tp:'mcq',d:2,q:"Which word is spelled correctly?",o:["Appel","Apple","Appl","Aple"],a:1},
+  {tp:'mcq',d:2,q:"What is double 9?",o:["16","17","18","19"],a:2},
+  {tp:'mcq',d:2,q:"Half of 18 = ?",o:["7","8","9","10"],a:2},
+  {tp:'mcq',d:2,q:"3 × 4 = ?",o:["10","11","12","14"],a:2},
+  {tp:'mcq',d:2,q:"20 ÷ 5 = ?",o:["3","4","5","6"],a:1},
+  {tp:'mcq',d:2,q:"What is 38 + 25?",o:["53","61","63","73"],a:2},
+  {tp:'mcq',d:2,q:"What is 72 − 38?",o:["24","34","44","54"],a:1},
+  {tp:'mcq',d:2,q:"What is the tens digit in 47?",o:["7","4","0","1"],a:1},
+  {tp:'mcq',d:2,q:"What is the ones digit in 83?",o:["8","0","3","1"],a:2},
+  {tp:'mcq',d:2,q:"Which is the largest number?",o:["49","51","38","72"],a:3},
+  {tp:'mcq',d:2,q:"Which is the smallest number?",o:["55","42","67","38"],a:3},
+  {tp:'mcq',d:2,q:"What number is 10 more than 35?",o:["36","40","45","25"],a:2},
+  {tp:'mcq',d:2,q:"Which unit measures weight? ⚖️",o:["Metres","Litres","Kilograms","Seconds"],a:2},
+  {tp:'mcq',d:2,q:"Which unit measures length? 📏",o:["Litres","Kilograms","Metres","Grams"],a:2},
+  {tp:'mcq',d:2,q:"How many hours in a day? ⏰",o:["12","20","24","36"],a:2},
+  {tp:'mcq',d:2,q:"Which sense does your tongue use? 👅",o:["Sight","Hearing","Taste","Touch"],a:2},
+  {tp:'mcq',d:2,q:"Which is a living thing? 🌱",o:["Rock","Chair","Plant","Pencil"],a:2},
+  {tp:'mcq',d:2,q:"What is a tadpole? 🐸",o:["Baby fish","Baby frog","Baby bird","Baby snake"],a:1},
+  {tp:'mcq',d:2,q:"Which season has the most sunlight? ☀️",o:["Winter","Autumn","Spring","Summer"],a:3},
+  {tp:'mcq',d:2,q:"2, 4, 6, 8, __ ? What comes next?",o:["9","10","11","12"],a:1},
+  {tp:'mcq',d:2,q:"5, 10, 15, 20, __ ?",o:["22","24","25","30"],a:2},
+  {tp:'mcq',d:2,q:"1, 3, 5, 7, __ ?",o:["8","9","10","11"],a:1},
+  {tp:'mcq',d:2,q:"Tom has 7 sweets. He eats 3. How many left?",o:["3","4","5","6"],a:1},
+  {tp:'mcq',d:2,q:"Riya has 4 red & 3 blue balloons. Total?",o:["5","6","7","8"],a:2},
+  {tp:'mcq',d:2,q:"Sam reads 3 pages Mon, 4 Tue. Total pages?",o:["5","6","7","8"],a:2},
+  {tp:'mcq',d:2,q:"Mixing red + blue = ?",o:["Green","Orange","Purple","Pink"],a:2},
+  {tp:'mcq',d:2,q:"Mixing blue + yellow = ?",o:["Purple","Green","Orange","Pink"],a:1},
+  {tp:'mcq',d:2,q:"What shape is the Earth? 🌍",o:["Flat","Square","Sphere","Triangle"],a:2},
+  {tp:'mcq',d:2,q:"Which planet do we live on?",o:["Mars","Venus","Earth","Jupiter"],a:2},
+  {tp:'mcq',d:2,q:"How many seconds in a minute?",o:["30","45","60","100"],a:2},
+  // d:3 HARD
+  {tp:'mcq',d:3,q:"A bag has 10 apples. 6 are taken. How many remain?",o:["2","3","4","5"],a:2},
+  {tp:'mcq',d:3,q:"A box has 3 rows of 2 pencils. Total pencils?",o:["4","5","6","7"],a:2},
+  {tp:'mcq',d:3,q:"8 children play. 3 go home. How many left?",o:["4","5","6","7"],a:1},
+  {tp:'mcq',d:3,q:"A jar has 10 sweets. You eat 4. How many left?",o:["4","5","6","7"],a:2},
+  {tp:'mcq',d:3,q:"There are 6 dogs. 2 are black. How many are NOT black?",o:["2","3","4","5"],a:2},
+  {tp:'mcq',d:3,q:"Meera has 5 toffees. She buys 4 more. Total?",o:["7","8","9","10"],a:2},
+  {tp:'mcq',d:3,q:"7 flowers. Half wilt. How many fresh?",o:["2","3","4","5"],a:1},
+  {tp:'mcq',d:3,q:"Count by 2s: 2, 4, 6, ___",o:["7","8","9","10"],a:1},
+  {tp:'mcq',d:3,q:"Count by 5s: 5, 10, 15, ___",o:["18","19","20","25"],a:2},
+  {tp:'mcq',d:3,q:"Which is the BIGGEST: 34, 43, 39, 30?",o:["34","43","39","30"],a:1},
+  {tp:'mcq',d:3,q:"Tom has 15 stickers and gives 6. How many left?",o:["7","8","9","10"],a:2},
+  {tp:'mcq',d:3,q:"Pattern: 🌸🌸🌺🌸🌸🌺 — What comes next?",o:["🌸","🌺","🌻","🌷"],a:0},
+  {tp:'mcq',d:3,q:"True/False: A whale 🐋 is a fish.",o:["True — it swims","False — it is a mammal","True — it has fins","False — it is a bird"],a:1},
+  {tp:'mcq',d:3,q:"Number mystery: 4, 8, 12, __, 20",o:["14","16","15","18"],a:1},
+  {tp:'mcq',d:3,q:"How many days in February (non-leap year)?",o:["28","29","30","31"],a:0},
+  {tp:'mcq',d:3,q:"3 children share 12 chocolates equally. Each gets?",o:["3","4","5","6"],a:1},
+  {tp:'mcq',d:3,q:"The Moon goes around...?",o:["Sun","Earth 🌍","Mars","Stars"],a:1},
+  {tp:'mcq',d:3,q:"A train leaves at 9am, arrives 11am. Journey time?",o:["1 hour","2 hours","3 hours","4 hours"],a:1},
+  {tp:'mcq',d:3,q:"Riddle: I have keys but no locks. What am I?",o:["Door","Piano 🎹","Map","Bag"],a:1},
+  {tp:'mcq',d:3,q:"Spot odd one: Monday Tuesday Wednesday Apple",o:["Monday","Tuesday","Wednesday","Apple 🍎"],a:3},
+  {tp:'mcq',d:3,q:"Riddle: I am always in front of you but cannot be seen.",o:["Face","Future","Shadow","Mirror"],a:1},
+  {tp:'mcq',d:3,q:"Emoji decode: 🌊+🐟+🪝 = ?",o:["Cooking","Fishing 🎣","Swimming","Diving"],a:1},
+  {tp:'mcq',d:3,q:"A shopkeeper has 50 apples, sells 23. How many left?",o:["17","25","27","33"],a:2},
+  {tp:'mcq',d:3,q:"Riddle: The more you take, the more you leave behind.",o:["Water","Footsteps 👣","Time","Shadow"],a:1},
+  {tp:'mcq',d:3,q:"Word puzzle: R_N — what letter makes a real word?",o:["A (RAN)","U (RUN)","Both A and U","O"],a:2},
+  {tp:'mcq',d:3,q:"How many planets are in our solar system?",o:["7","8","9","10"],a:1},
+  {tp:'mcq',d:3,q:"What is photosynthesis? 🌿",o:["How fish swim","How plants make food","How rain forms","How birds fly"],a:1},
+  {tp:'mcq',d:3,q:"Which of these is NOT a continent?",o:["Asia","Africa","Atlantic","Europe"],a:2},
+  {tp:'mcq',d:3,q:"5 × 5 = ?",o:["20","25","30","35"],a:1},
+  {tp:'mcq',d:3,q:"40 ÷ 8 = ?",o:["4","5","6","7"],a:1},
+];
+
+// ── AGE 6-7 MCQ (180 unique questions, difficulty tagged) ──
+const MCQ67=[
+  // d:1 EASY — Core Grade 2-3 knowledge
+  {tp:'mcq',d:1,q:"What is the place value of 3 in 35?",o:["Ones","Tens","Hundreds","Thousands"],a:1},
+  {tp:'mcq',d:1,q:"What is the place value of 7 in 73?",o:["Ones","Tens","Hundreds","Thousands"],a:1},
+  {tp:'mcq',d:1,q:"1 kilometre = how many metres?",o:["10","100","1000","10000"],a:2},
+  {tp:'mcq',d:1,q:"1 kilogram = how many grams?",o:["10","100","1000","10000"],a:2},
+  {tp:'mcq',d:1,q:"1 litre = how many millilitres?",o:["10","100","1000","10000"],a:2},
+  {tp:'mcq',d:1,q:"Which planet is closest to the Sun?",o:["Venus","Mars","Mercury","Earth"],a:2},
+  {tp:'mcq',d:1,q:"Which is the largest planet? 🪐",o:["Saturn","Jupiter","Neptune","Earth"],a:1},
+  {tp:'mcq',d:1,q:"Earth goes around the Sun in...?",o:["1 day","1 month","1 year","10 years"],a:2},
+  {tp:'mcq',d:1,q:"The Moon goes around Earth in...?",o:["1 day","About 1 month","1 year","1 week"],a:1},
+  {tp:'mcq',d:1,q:"What gas do plants release? 🌿",o:["CO₂","Hydrogen","Oxygen","Nitrogen"],a:2},
+  {tp:'mcq',d:1,q:"What gas do humans breathe IN?",o:["CO₂","Hydrogen","Oxygen","Nitrogen"],a:2},
+  {tp:'mcq',d:1,q:"Chemical formula for water?",o:["CO₂","H₂O","NaCl","O₂"],a:1},
+  {tp:'mcq',d:1,q:"How many bones in the human body?",o:["106","206","306","406"],a:1},
+  {tp:'mcq',d:1,q:"The largest continent is...?",o:["Africa","Europe","America","Asia"],a:3},
+  {tp:'mcq',d:1,q:"The largest ocean is...?",o:["Atlantic","Indian","Arctic","Pacific"],a:3},
+  {tp:'mcq',d:1,q:"Capital of UK? 🇬🇧",o:["Paris","Berlin","London","Madrid"],a:2},
+  {tp:'mcq',d:1,q:"Capital of USA? 🇺🇸",o:["New York","Washington DC","Los Angeles","Chicago"],a:1},
+  {tp:'mcq',d:1,q:"Capital of France? 🇫🇷",o:["Rome","Berlin","Madrid","Paris"],a:3},
+  {tp:'mcq',d:1,q:"Capital of India? 🇮🇳",o:["Mumbai","New Delhi","Chennai","Kolkata"],a:1},
+  {tp:'mcq',d:1,q:"Longest river in the world? 🌊",o:["Amazon","Nile","Ganga","Yangtze"],a:1},
+  {tp:'mcq',d:1,q:"A noun is a...?",o:["Action word","Naming word","Describing word","Joining word"],a:1},
+  {tp:'mcq',d:1,q:"A verb is a...?",o:["Naming word","Action word","Describing word","Joining word"],a:1},
+  {tp:'mcq',d:1,q:"An adjective is a...?",o:["Naming word","Action word","Describing word","Joining word"],a:2},
+  {tp:'mcq',d:1,q:"Which is a noun?",o:["Run","Jump","Happy","Apple"],a:3},
+  {tp:'mcq',d:1,q:"Which is a verb?",o:["Chair","Table","Jump","Floor"],a:2},
+  {tp:'mcq',d:1,q:"Plural of 'child' is...?",o:["Childs","Children","Childes","Childre"],a:1},
+  {tp:'mcq',d:1,q:"Plural of 'mouse' is...?",o:["Mouses","Mousies","Mice","Mices"],a:2},
+  {tp:'mcq',d:1,q:"What is a fraction?",o:["A big number","Part of a whole","An even number","An odd number"],a:1},
+  {tp:'mcq',d:1,q:"What is 1/2 of 20?",o:["5","8","10","12"],a:2},
+  {tp:'mcq',d:1,q:"What is 1/4 of 40?",o:["5","10","15","20"],a:1},
+  {tp:'mcq',d:1,q:"Light travels faster than...?",o:["Water","Sound","Wind","Rain"],a:1},
+  {tp:'mcq',d:1,q:"Photosynthesis is done by...?",o:["Animals","Fungi","Plants","Bacteria"],a:2},
+  {tp:'mcq',d:1,q:"Three states of matter are...?",o:["Hot warm cold","Solid liquid gas","Small medium large","Earth water air"],a:1},
+  {tp:'mcq',d:1,q:"Which force pulls objects to Earth?",o:["Friction","Magnetism","Gravity","Wind"],a:2},
+  {tp:'mcq',d:1,q:"A decade = how many years?",o:["5","10","100","1000"],a:1},
+  {tp:'mcq',d:1,q:"A century = how many years?",o:["10","50","100","1000"],a:2},
+  // d:2 MEDIUM
+  {tp:'mcq',d:2,q:"A train carries 125 passengers. 48 get off. How many remain?",o:["67","77","87","97"],a:1},
+  {tp:'mcq',d:2,q:"Mia reads 15 pages Mon, 23 Tue, 18 Wed. Total?",o:["46","54","56","66"],a:2},
+  {tp:'mcq',d:2,q:"A box has 6 rows of 8 chocolates. Total?",o:["42","46","48","54"],a:2},
+  {tp:'mcq',d:2,q:"Raj has Rs50. Buys pen for Rs18. Change?",o:["28","32","33","38"],a:1},
+  {tp:'mcq',d:2,q:"Rope 120cm, cut into 6 equal pieces. Each piece?",o:["15cm","18cm","20cm","24cm"],a:2},
+  {tp:'mcq',d:2,q:"7 days in a week. How many days in 5 weeks?",o:["30","35","40","42"],a:1},
+  {tp:'mcq',d:2,q:"32 students, 1/4 absent. How many present?",o:["20","22","24","28"],a:2},
+  {tp:'mcq',d:2,q:"3 apples cost Rs15. What do 9 apples cost?",o:["Rs35","Rs40","Rs45","Rs50"],a:2},
+  {tp:'mcq',d:2,q:"Round 347 to nearest hundred.",o:["300","350","400","340"],a:0},
+  {tp:'mcq',d:2,q:"What is the value of 4 in 4,352?",o:["40","400","4000","4"],a:2},
+  {tp:'mcq',d:2,q:"Perimeter of square with side 5cm?",o:["10cm","15cm","20cm","25cm"],a:2},
+  {tp:'mcq',d:2,q:"Area of rectangle 4cm x 6cm?",o:["10cm²","20cm²","24cm²","28cm²"],a:2},
+  {tp:'mcq',d:2,q:"How many faces does a cube have?",o:["4","5","6","8"],a:2},
+  {tp:'mcq',d:2,q:"How many edges does a cube have?",o:["6","8","10","12"],a:3},
+  {tp:'mcq',d:2,q:"Triangle with all equal sides is...?",o:["Scalene","Isosceles","Equilateral","Right-angled"],a:2},
+  {tp:'mcq',d:2,q:"'She ___ to school every day.' Correct word?",o:["go","goes","going","gone"],a:1},
+  {tp:'mcq',d:2,q:"Choose correct: 'The children ___ playing.'",o:["is","was","are","am"],a:2},
+  {tp:'mcq',d:2,q:"Past tense of 'go'?",o:["goes","going","gone","went"],a:3},
+  {tp:'mcq',d:2,q:"Plural of 'tooth' is...?",o:["Tooths","Toothes","Teeths","Teeth"],a:3},
+  {tp:'mcq',d:2,q:"Plural of 'foot' is...?",o:["Foots","Feets","Feet","Footes"],a:2},
+  {tp:'mcq',d:2,q:"'Tall' — what type of word?",o:["Noun","Verb","Adverb","Adjective"],a:3},
+  {tp:'mcq',d:2,q:"'Quickly' is a...?",o:["Noun","Adverb","Adjective","Verb"],a:1},
+  {tp:'mcq',d:2,q:"Which word is a conjunction?",o:["Run","Beautiful","Because","Apple"],a:2},
+  {tp:'mcq',d:2,q:"'Biggest' is the ___ form of 'big'.",o:["Comparative","Superlative","Positive","Plural"],a:1},
+  {tp:'mcq',d:2,q:"Which is a prime number?",o:["9","15","17","21"],a:2},
+  {tp:'mcq',d:2,q:"LCM of 4 and 6 is?",o:["8","10","12","16"],a:2},
+  {tp:'mcq',d:2,q:"What is 3/4 of 48?",o:["24","32","36","40"],a:2},
+  {tp:'mcq',d:2,q:"0.5 is the same as?",o:["1/3","1/4","1/2","2/3"],a:2},
+  {tp:'mcq',d:2,q:"15% of 100 = ?",o:["10","12","15","20"],a:2},
+  {tp:'mcq',d:2,q:"Which planet is called Red Planet?",o:["Venus","Mars","Jupiter","Saturn"],a:1},
+  {tp:'mcq',d:2,q:"Sound cannot travel through...?",o:["Water","Air","Wood","Vacuum"],a:3},
+  {tp:'mcq',d:2,q:"The process of water turning to vapour?",o:["Condensation","Evaporation","Freezing","Melting"],a:1},
+  {tp:'mcq',d:2,q:"Capital of Japan? 🇯🇵",o:["Beijing","Seoul","Bangkok","Tokyo"],a:3},
+  {tp:'mcq',d:2,q:"Capital of Australia? 🇦🇺",o:["Sydney","Melbourne","Brisbane","Canberra"],a:3},
+  {tp:'mcq',d:2,q:"Which is the smallest continent?",o:["Europe","Antarctica","Australia","South America"],a:2},
+  {tp:'mcq',d:2,q:"Which ocean is on India's west coast?",o:["Pacific","Atlantic","Indian","Arctic"],a:2},
+  {tp:'mcq',d:2,q:"Which sentence is CORRECT?",o:["she run fast","She run fast","She runs fast","she runs fast"],a:2},
+  {tp:'mcq',d:2,q:"Correct: 'The dog wagged ___ tail.'",o:["it is","its","their","it"],a:1},
+  {tp:'mcq',d:2,q:"Which Roman numeral is 10?",o:["V","X","L","C"],a:1},
+  {tp:'mcq',d:2,q:"A bicycle has 2 wheels. 5 bicycles have?",o:["7","8","10","12"],a:2},
+  {tp:'mcq',d:2,q:"50% of 80 = ?",o:["20","30","40","50"],a:2},
+  {tp:'mcq',d:2,q:"Which is NOT a source of energy?",o:["Sun","Wind","Rock","Water"],a:2},
+  {tp:'mcq',d:2,q:"What causes rainbows? 🌈",o:["Just rain","Just sun","Rain + sunlight","Thunder"],a:2},
+  {tp:'mcq',d:2,q:"How many sides does a hexagon have?",o:["5","6","7","8"],a:1},
+  {tp:'mcq',d:2,q:"Past tense of 'see'?",o:["Seen","Sawed","Saw","Seed"],a:2},
+  // d:3 HARD
+  {tp:'mcq',d:3,q:"12 × 12 = ?",o:["124","132","144","148"],a:2},
+  {tp:'mcq',d:3,q:"11 × 11 = ?",o:["111","121","131","141"],a:1},
+  {tp:'mcq',d:3,q:"7 × 9 = ?",o:["54","56","61","63"],a:3},
+  {tp:'mcq',d:3,q:"144 ÷ 12 = ?",o:["10","11","12","13"],a:2},
+  {tp:'mcq',d:3,q:"456 + 278 = ?",o:["624","714","734","744"],a:2},
+  {tp:'mcq',d:3,q:"900 − 347 = ?",o:["443","453","543","563"],a:3},
+  {tp:'mcq',d:3,q:"Round 2,645 to nearest thousand.",o:["2,000","2,600","3,000","2,700"],a:2},
+  {tp:'mcq',d:3,q:"Which number has 7 in the hundreds place?",o:["7,234","3,742","2,371","1,726"],a:1},
+  {tp:'mcq',d:3,q:"Pattern: 3, 6, 12, 24, ___",o:["36","42","48","64"],a:2},
+  {tp:'mcq',d:3,q:"Pattern: 1, 4, 9, 16, ___ (squares)",o:["20","24","25","36"],a:2},
+  {tp:'mcq',d:3,q:"If 3 pens cost Rs18, how much do 7 pens cost?",o:["Rs36","Rs40","Rs42","Rs48"],a:2},
+  {tp:'mcq',d:3,q:"Train travels 60km/hr. Distance in 3 hours?",o:["120km","150km","180km","200km"],a:2},
+  {tp:'mcq',d:3,q:"Riddle: I speak without mouth, no body but alive with wind. Echo?",o:["Shadow","Echo","Dream","Reflection"],a:1},
+  {tp:'mcq',d:3,q:"Logic: All roses are flowers. Some flowers fade fast. Do all roses fade fast?",o:["Yes always","No, not necessarily","Yes if roses","No never"],a:1},
+  {tp:'mcq',d:3,q:"Fibonacci: 1,1,2,3,5,8,13,__ ?",o:["18","19","20","21"],a:3},
+  {tp:'mcq',d:3,q:"If A=1, B=2, C=3... CAT = ?",o:["6","24","23","32"],a:1},
+  {tp:'mcq',d:3,q:"Which fraction is largest?",o:["2/3","3/4","5/8","7/10"],a:1},
+  {tp:'mcq',d:3,q:"True/False: Antarctica is a desert.",o:["True — little precipitation","False — deserts are hot","True — only in summer","False — it has rivers"],a:0},
+  {tp:'mcq',d:3,q:"A palindrome reads same backwards. Which is it?",o:["LEVEL","SLEEP","BRAIN","WATER"],a:0},
+  {tp:'mcq',d:3,q:"Missing months: J,F,M,A,M,J,J,A,__,O,N,D",o:["P","R","S","Q"],a:2},
+  {tp:'mcq',d:3,q:"A snail travels 2m/hour. Distance in 2.5 hours?",o:["4m","4.5m","5m","5.5m"],a:2},
+  {tp:'mcq',d:3,q:"3 cats catch 3 mice in 3 min. 9 mice in 9 min needs?",o:["9 cats","6 cats","3 cats","1 cat"],a:2},
+  {tp:'mcq',d:3,q:"Roman numerals: XIV + VI = ?",o:["XVIII","XIX","XX","XXI"],a:2},
+  {tp:'mcq',d:3,q:"If 5x = 35, what is x?",o:["5","6","7","8"],a:2},
+  {tp:'mcq',d:3,q:"Analogy: Eye:See = Ear:___",o:["Smell","Feel","Hear","Taste"],a:2},
+  {tp:'mcq',d:3,q:"Area of a triangle with base 10, height 6?",o:["30","40","60","16"],a:0},
+  {tp:'mcq',d:3,q:"What is 1000 - 356?",o:["644","654","744","754"],a:0},
+  {tp:'mcq',d:3,q:"Which is NOT a programming concept?",o:["Loop","Function","Variable","Photosynthesis"],a:3},
+  {tp:'mcq',d:3,q:"The Amazon rainforest produces 20% of Earth's...?",o:["Water","Oxygen","Food","Animals"],a:1},
+  {tp:'mcq',d:3,q:"GCF of 12 and 18 is?",o:["3","4","6","9"],a:2},
+];
+
+// ── GRAMMAR (60 questions, difficulty tagged) ──
+const GRAMMAR67=[
+  {tp:'mcq',d:1,q:"'The cat ___ sleeping.' Choose correct word.",o:["am","is","are","be"],a:1},
+  {tp:'mcq',d:1,q:"'Dogs ___ barking loudly.' Choose correct.",o:["is","was","are","am"],a:2},
+  {tp:'mcq',d:1,q:"Choose CORRECTLY punctuated sentence.",o:["she is happy","She is happy","She is happy.","she Is Happy."],a:2},
+  {tp:'mcq',d:1,q:"A sentence starts with a...?",o:["lowercase","full stop","capital letter","comma"],a:2},
+  {tp:'mcq',d:1,q:"A question ends with a...?",o:["Full stop","Exclamation mark","Question mark","Comma"],a:2},
+  {tp:'mcq',d:1,q:"Which word is a noun?",o:["Quickly","Beautiful","River","Jump"],a:2},
+  {tp:'mcq',d:1,q:"Which word is a verb?",o:["Happy","Chair","Swimming","Blue"],a:2},
+  {tp:'mcq',d:1,q:"Plural of 'box' is...?",o:["Boxs","Boxies","Boxes","Boxen"],a:2},
+  {tp:'mcq',d:1,q:"Plural of 'child' is...?",o:["Childs","Childes","Children","Childern"],a:2},
+  {tp:'mcq',d:1,q:"Plural of 'leaf' is...?",o:["Leafs","Leaves","Leafes","Leaven"],a:1},
+  {tp:'mcq',d:1,q:"'She ___ to school.' Choose correct.",o:["go","goes","going","gone"],a:1},
+  {tp:'mcq',d:1,q:"'Beautiful' is a...?",o:["Noun","Verb","Adjective","Pronoun"],a:2},
+  {tp:'mcq',d:1,q:"'Quickly' is a...?",o:["Noun","Adverb","Adjective","Verb"],a:1},
+  {tp:'mcq',d:1,q:"Which has a silent letter?",o:["Cat","Know","Hat","Bat"],a:1},
+  {tp:'mcq',d:1,q:"An exclamation ends with...?",o:["Full stop","Exclamation mark !","Question mark","Comma"],a:1},
+  {tp:'mcq',d:2,q:"Past tense of 'eat'?",o:["Eated","Eaten","Ate","Eating"],a:2},
+  {tp:'mcq',d:2,q:"Past tense of 'run'?",o:["Runned","Ran","Runed","Running"],a:1},
+  {tp:'mcq',d:2,q:"Past tense of 'see'?",o:["Seen","Sawed","Saw","Seed"],a:2},
+  {tp:'mcq',d:2,q:"'Bigger' is what form of 'big'?",o:["Positive","Comparative","Superlative","Plural"],a:1},
+  {tp:'mcq',d:2,q:"'Smallest' is what form of 'small'?",o:["Positive","Comparative","Superlative","Plural"],a:2},
+  {tp:'mcq',d:2,q:"Which word is a pronoun?",o:["Apple","Running","She","The cat"],a:2},
+  {tp:'mcq',d:2,q:"Plural of 'foot' is...?",o:["Foots","Feets","Feet","Footes"],a:2},
+  {tp:'mcq',d:2,q:"Plural of 'tooth' is...?",o:["Tooths","Toothes","Teeth","Teethes"],a:2},
+  {tp:'mcq',d:2,q:"Plural of 'mouse' is...?",o:["Mouses","Mousies","Mice","Mices"],a:2},
+  {tp:'mcq',d:2,q:"'They ___ playing.' Choose correct.",o:["is","was","are","am"],a:2},
+  {tp:'mcq',d:2,q:"Which conjunction can join sentences?",o:["Run","Beautiful","Because","Apple"],a:2},
+  {tp:'mcq',d:2,q:"Correct apostrophe: 'It___ raining.'",o:["Its","It's","Its'","It is' "],a:1},
+  {tp:'mcq',d:2,q:"'The tall tree fell.' — 'tall' is a...?",o:["Noun","Verb","Adverb","Adjective"],a:3},
+  {tp:'mcq',d:2,q:"'She ran quickly.' — 'quickly' is a...?",o:["Noun","Adverb","Adjective","Verb"],a:1},
+  {tp:'mcq',d:2,q:"Which is the adverb?",o:["Dog","Slowly","Red","Table"],a:1},
+  {tp:'mcq',d:3,q:"Which sentence is ACTIVE voice?",o:["The ball was kicked by Tom.","Tom kicked the ball.","The ball kicked Tom.","Kicked was the ball."],a:1},
+  {tp:'mcq',d:3,q:"Correct: 'There ___ many children here.'",o:["is","are","was","am"],a:1},
+  {tp:'mcq',d:3,q:"'I have eaten.' — what tense?",o:["Simple past","Present perfect","Past perfect","Future"],a:1},
+  {tp:'mcq',d:3,q:"Identify the subject: 'The red car stopped.'",o:["red","car","stopped","The red car"],a:3},
+  {tp:'mcq',d:3,q:"Which sentence has correct punctuation?",o:["Wow that was great","Wow, that was great!","wow that was great!","Wow That was great"],a:1},
+  {tp:'mcq',d:3,q:"Antonym of 'ancient' is...?",o:["Old","New / Modern","Historic","Aged"],a:1},
+  {tp:'mcq',d:3,q:"Synonym of 'brave' is...?",o:["Scared","Timid","Courageous","Careful"],a:2},
+  {tp:'mcq',d:3,q:"'The team ___ won the trophy.' Choose correct.",o:["have","has","had","having"],a:1},
+  {tp:'mcq',d:3,q:"Which is a compound sentence?",o:["The dog ran.","She sang and he danced.","Although tired she worked.","Running is fun."],a:1},
+  {tp:'mcq',d:3,q:"'Neither the boys nor the girl ___ ready.' Choose correct.",o:["were","are","is","am"],a:2},
+];
+
+// ═══════════════════════════════════════════════════════════════
+//  BUILD DAY — Difficulty-progressive: easy→medium→hard
+//  Day number shifts which slice of the bank is used,
+//  so every day has genuinely different questions
+// ═══════════════════════════════════════════════════════════════
+function buildDay(dayNum, age){
+  const rng=mkRng(dayNum*98761 + age*1337 + 42);
+
+  if(age<=2) return buildVizDay(rng);
+
+  // ── Helpers ──
+  function sh(arr){for(let i=arr.length-1;i>0;i--){const j=~~(rng()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];} return arr;}
+
+  // Difficulty-rotated pick: uses dayNum as offset so each day picks different questions
+  // Returns n questions: first third easy, middle third medium, last third hard
+  function dpick(pool, n){
+    const easy  = sh(pool.filter(q=>q.d===1));
+    const med   = sh(pool.filter(q=>q.d===2));
+    const hard  = sh(pool.filter(q=>q.d===3));
+    const t3 = Math.floor(n/3);
+    const offset = dayNum-1;
+    const get = (arr,cnt) => {
+      const out=[];
+      for(let i=0;i<cnt;i++) out.push({...arr[(offset*cnt+i)%arr.length], o:[...arr[(offset*cnt+i)%arr.length].o]});
+      return out;
+    };
+    return [...get(easy,t3), ...get(med,t3), ...get(hard,n-t3*2)];
+  }
+
+  // Spell questions — shifted by dayNum to pick different words each day
+  function spellQs(wp,n){
+    const pool=[...wp];
+    const out=[];
+    for(let i=0;i<n;i++){
+      const w=pool[(dayNum*7+i*3)%pool.length];
+      out.push({tp:'spell',d:Math.min(3,1+~~(w.w.length/4)),
+        q:'Look at the picture and spell:',si:w.e,ans:w.w,
+        h:`${w.w.length} letter${w.w.length>1?'s':''} — starts with "${w.w[0]}"`});
+    }
+    return out;
+  }
+
+  // Math questions with progressive difficulty (easy first, harder later in the array)
+  function mathQs(n){
+    const arr=[];
+    for(let i=0;i<n;i++){
+      // Bias: first third of questions use simpler numbers, last third harder
+      const diffBias = i < n/3 ? 0.3 : i < 2*n/3 ? 0.6 : 1.0;
+      const localRng = mkRng(dayNum*1234+age*567+i*89);
+      const q=genMathQ(localRng, age, Math.max(1, ~~(dayNum*diffBias)));
+      arr.push({...q, d: i<n/3?1 : i<2*n/3?2 : 3});
+    }
+    return arr;
+  }
+
+  // Count questions — min 3, scales with day progress (never count 1 or 2)
+  function countQs(n){
+    const arr=[];
+    for(let i=0;i<n;i++){
+      const localRng = mkRng(dayNum*4321+age*987+i*123);
+      const q=genCountQ(localRng, age, dayNum);
+      q.d = q.ans<=4?1 : q.ans<=9?2 : 3;
+      arr.push(q);
+    }
+    return arr;
+  }
+
+  // Alpha questions — sorted easy→hard (simple gap → reverse/skip)
+  function alphaQs(n){
+    const arr=[];
+    for(let i=0;i<n;i++){
+      const localRng=mkRng(dayNum*5678+age*321+i*77);
+      const q=genAlphaQ(localRng,age,i);
+      q.d = i<n/3?1 : i<2*n/3?2 : 3;
+      arr.push(q);
+    }
+    return arr;
+  }
+
+  // INTERLEAVE with difficulty ordering — easy Q first, harder later
+  function buildOrdered(sections){
+    // accepts either a flat array of questions OR array of arrays
+    const flat = Array.isArray(sections[0]) ? sections.flat() : sections;
+    const byD = {1:[],2:[],3:[]};
+    flat.forEach(q=>{ const d=q.d||2; (byD[d]=byD[d]||[]).push(q); });
+    sh(byD[1]); sh(byD[2]); sh(byD[3]);
+    const all = [...byD[1],...byD[2],...byD[3]];
+    // Interleave adjacent types so same type doesn't repeat consecutively
+    const byType={};all.forEach(q=>{const t=q.tp;(byType[t]=byType[t]||[]).push(q);});
+    const types=Object.keys(byType);
+    const out=[];let safety=0;
+    // Keep difficulty order but avoid consecutive same-type
+    const src=[...all];
+    while(out.length<src.length&&safety++<5000){
+      let placed=false;
+      for(let i=out.length;i<src.length;i++){
+        const q=src[i];
+        const last=out[out.length-1];
+        if(!last||last.tp!==q.tp){
+          // Swap into position
+          [src[out.length],src[i]]=[src[i],src[out.length]];
+          out.push(src[out.length-1]);
+          placed=true; break;
+        }
+      }
+      if(!placed){out.push(src[out.length]);} // force-place if stuck
+    }
+    return out.slice(0,100);
+  }
+
+  // ══════════════════════ AGE 3 ══════════════════════
+  if(age===3){
+    const letterQs=[];
+    for(let i=0;i<26;i++) letterQs.push({tp:'mcq',d:i<9?1:i<18?2:3,
+      q:`Which letter comes after "${ABC[i]}"? 🔤`,
+      o:[ABC[(i+2)%26],ABC[(i+1)%26],ABC[(i+3)%26],ABC[(i-1+26)%26]],a:1});
+
+    const FUN3_EASY=[
+      {tp:'mcq',d:1,q:'A hen 🐔 gives us...?',o:['Milk','Eggs 🥚','Wool','Honey'],a:1},
+      {tp:'mcq',d:1,q:'What shape is a pizza? 🍕',o:['Square','Triangle','Circle','Star'],a:2},
+      {tp:'mcq',d:1,q:'Which is NOT a vehicle?',o:['Car 🚗','Train 🚂','Plane ✈️','Elephant 🐘'],a:3},
+      {tp:'mcq',d:1,q:'I shine at night in the sky 🌙 I am the...?',o:['Sun','Moon 🌙','Star','Cloud'],a:1},
+      {tp:'mcq',d:1,q:'Which animal lives in water?',o:['Dog','Cat','Fish 🐟','Bird'],a:2},
+      {tp:'mcq',d:1,q:'🔴🟡🔵🟢 How many colours?',o:['2','3','4','5'],a:2},
+      {tp:'mcq',d:1,q:'Which one is ROUND like a ball?',o:['Book','Circle ⭕','Box','Ruler'],a:1},
+      {tp:'mcq',d:1,q:'The Sun ☀️ is...?',o:['Cold and dark','Hot and bright','Wet and cold','Small and blue'],a:1},
+      {tp:'mcq',d:1,q:'How many legs does a butterfly have? 🦋',o:['2','4','6','8'],a:2},
+      {tp:'mcq',d:1,q:'Which comes AFTER 3?',o:['1','2','4','5'],a:2},
+    ];
+    const FUN3_MED=[
+      {tp:'mcq',d:2,q:'Emoji story: 🐛➡️🦋 What did the caterpillar become?',o:['Bee','Butterfly 🦋','Bird','Worm'],a:1},
+      {tp:'mcq',d:2,q:'Which is the ODD one out? 🍎🍊🍋🚗',o:['Apple','Orange','Lemon','Car 🚗'],a:3},
+      {tp:'mcq',d:2,q:'Tap the BIGGEST animal: 🐘 🐜 🐱 🐦',o:['Ant','Cat','Elephant 🐘','Bird'],a:2},
+      {tp:'mcq',d:2,q:'🌧️+☀️ = What do you see after rain and sun?',o:['Snow','Rainbow 🌈','Night','Wind'],a:1},
+      {tp:'mcq',d:2,q:'Pattern: 🔴🔴🔵🔴🔴🔵 — What comes next?',o:['🔴','🔵','🟢','🟡'],a:0},
+      {tp:'mcq',d:2,q:'Which number comes BEFORE 8?',o:['9','6','7','10'],a:2},
+      {tp:'mcq',d:2,q:'🍎+🍎+🍎 = how many apples?',o:['1','2','3','4'],a:2},
+      {tp:'mcq',d:2,q:'Spot: 1 2 3 __ 5 — missing number?',o:['4','6','7','0'],a:0},
+      {tp:'mcq',d:2,q:'Which is NOT yellow: apple, banana, lemon, corn?',o:['Apple 🍎','Banana 🍌','Lemon 🍋','Corn 🌽'],a:0},
+      {tp:'mcq',d:2,q:'A tadpole grows into a...?',o:['Fish','Frog 🐸','Turtle','Snake'],a:1},
+    ];
+    const FUN3_HARD=[
+      {tp:'mcq',d:3,q:'1 + 1 + 1 + 1 = ?',o:['2','3','4','5'],a:2},
+      {tp:'mcq',d:3,q:'Which has MORE: 7 or 4?',o:['4','7','Equal','Neither'],a:1},
+      {tp:'mcq',d:3,q:'5 birds on a wire. 2 fly away. How many left?',o:['2','3','4','5'],a:1},
+      {tp:'mcq',d:3,q:'Pattern: A B A B A __ ?',o:['A','B','C','D'],a:1},
+      {tp:'mcq',d:3,q:'Which day comes AFTER Monday?',o:['Sunday','Wednesday','Tuesday','Saturday'],a:2},
+      {tp:'mcq',d:3,q:'True/False: Fish can live on land?',o:['True','False','Maybe','Sometimes'],a:1},
+      {tp:'mcq',d:3,q:'Half of 6 = ?',o:['2','3','4','5'],a:1},
+      {tp:'mcq',d:3,q:'4 − 1 = ?',o:['2','3','4','5'],a:1},
+      {tp:'mcq',d:3,q:'Which is a mammal: fish, parrot, dog, frog?',o:['Fish','Parrot','Dog 🐕','Frog'],a:2},
+      {tp:'mcq',d:3,q:'I have 4 cookies. I eat 1. How many left?',o:['2','3','4','5'],a:1},
+    ];
+
+    const all=[...countQs(20),...mathQs(20),
+      ...dpick([...letterQs,...FUN3_EASY,...FUN3_MED,...FUN3_HARD,...MCQ34],60)];
+    return buildOrdered(all.map(q=>q));
+  }
+
+  // ══════════════════════ AGE 4 ══════════════════════
+  if(age===4){
+    const FUN4=[
+      {tp:'mcq',d:1,q:'Which word RHYMES with CAT?',o:['Dog','Bat 🦇','Fish','Car'],a:1},
+      {tp:'mcq',d:1,q:'Which season do we use umbrella?',o:['Summer','Rainy','Winter','Spring'],a:1},
+      {tp:'mcq',d:1,q:'True/False: The Sun is a star ⭐',o:['True','False','Maybe','Sometimes'],a:0},
+      {tp:'mcq',d:1,q:'A caterpillar 🐛 turns into a...?',o:['Spider','Butterfly 🦋','Beetle','Ant'],a:1},
+      {tp:'mcq',d:1,q:'Odd one out: 🍎 🍊 🍋 🧱',o:['Apple','Orange','Lemon','Brick 🧱'],a:3},
+      {tp:'mcq',d:1,q:'🌞 Day or 🌙 Night — when do owls come out?',o:['Day','Night 🌙','Both','Neither'],a:1},
+      {tp:'mcq',d:1,q:'Which word starts with the letter B?',o:['Apple','Dog','Ball ⚽','Kite'],a:2},
+      {tp:'mcq',d:1,q:'How many wheels does a bicycle have?',o:['1','2','3','4'],a:1},
+      {tp:'mcq',d:1,q:'What do fish breathe with?',o:['Lungs','Gills','Nose','Skin'],a:1},
+      {tp:'mcq',d:1,q:'Which is the largest? 🌍🌕⭐',o:['Earth','Moon','Star (Sun)','All same'],a:2},
+      {tp:'mcq',d:2,q:'Emoji story: 🌱➡️🌻 A seed grew into a...?',o:['Fruit','Tree','Flower 🌻','Cloud'],a:2},
+      {tp:'mcq',d:2,q:'Riddle: I have hands but cannot clap. ⏰',o:['Book','Clock','Door','Hat'],a:1},
+      {tp:'mcq',d:2,q:'Riddle: I carry people on water with sails.',o:['Car','Train','Boat ⛵','Plane'],a:2},
+      {tp:'mcq',d:2,q:'Pattern: A B A B A __ ?',o:['A','B','C','D'],a:1},
+      {tp:'mcq',d:2,q:'Spot the missing number: 1, 2, 3, __, 5',o:['6','4','7','0'],a:1},
+      {tp:'mcq',d:2,q:'Spot the missing number: 2, 4, __, 8',o:['5','6','7','3'],a:1},
+      {tp:'mcq',d:2,q:'True/False: Snow is hot?',o:['True','False','Sometimes','Only in India'],a:1},
+      {tp:'mcq',d:2,q:'I live in the jungle and roar! I am a...?',o:['Tiger','Bear','Lion 🦁','Wolf'],a:2},
+      {tp:'mcq',d:2,q:'🐣➡️🐥➡️🐔 What does a chick grow into?',o:['Duck','Hen 🐔','Goose','Parrot'],a:1},
+      {tp:'mcq',d:2,q:'2 + 3 + 1 = ?',o:['4','5','6','7'],a:2},
+      {tp:'mcq',d:3,q:'Riddle: I am white, cold, fall from sky ❄️',o:['Rain','Snow','Cloud','Wind'],a:1},
+      {tp:'mcq',d:3,q:'3 + 3 + 3 = ?',o:['6','7','8','9'],a:2},
+      {tp:'mcq',d:3,q:'Half of 8 = ?',o:['2','3','4','5'],a:2},
+      {tp:'mcq',d:3,q:'What comes after Sunday?',o:['Saturday','Friday','Monday','Tuesday'],a:2},
+      {tp:'mcq',d:3,q:'Double of 7 = ?',o:['12','13','14','15'],a:2},
+      {tp:'mcq',d:3,q:'Pip has 5 balloons. 2 pop! How many left?',o:['1','2','3','4'],a:2},
+      {tp:'mcq',d:3,q:'7 + 8 = ?',o:['13','14','15','16'],a:2},
+      {tp:'mcq',d:3,q:'Which is heavier — feather or brick?',o:['Feather','Brick','Same','Neither'],a:1},
+      {tp:'mcq',d:3,q:'A dozen = how many?',o:['6','10','12','15'],a:2},
+      {tp:'mcq',d:3,q:'Pattern: 2, 4, 6, 8, __ ?',o:['9','10','11','12'],a:1},
+    ];
+
+    const all=[...countQs(15),...mathQs(15),...alphaQs(15),
+      ...spellQs(WBANK[4],15),...dpick([...FUN4,...MCQ34],40)];
+    return buildOrdered(all);
+  }
+
+  // ══════════════════════ AGE 5 ══════════════════════
+  if(age===5){
+    const FUN5=[
+      {tp:'mcq',d:1,q:'Which sense does your tongue use? 👅',o:['Sight','Hearing','Taste','Touch'],a:2},
+      {tp:'mcq',d:1,q:'Which is a living thing?',o:['Rock','Chair','Plant 🌱','Pencil'],a:2},
+      {tp:'mcq',d:1,q:'What is a tadpole? 🐸',o:['Baby fish','Baby frog','Baby bird','Baby snake'],a:1},
+      {tp:'mcq',d:1,q:'Which season has the most sunlight?',o:['Winter','Autumn','Spring','Summer ☀️'],a:3},
+      {tp:'mcq',d:1,q:'A shopkeeper has 50 apples, sells 23. How many left?',o:['17','25','27','33'],a:2},
+      {tp:'mcq',d:1,q:'Tom has 7 sweets. He eats 3. How many left?',o:['3','4','5','6'],a:1},
+      {tp:'mcq',d:1,q:'Riya has 4 red and 3 blue balloons. Total?',o:['5','6','7','8'],a:2},
+      {tp:'mcq',d:1,q:'Which unit measures weight?',o:['Metres','Litres','Kilograms','Seconds'],a:2},
+      {tp:'mcq',d:1,q:'Which unit measures liquid?',o:['Metres','Litres','Kilograms','Seconds'],a:1},
+      {tp:'mcq',d:1,q:'True/False: The sun rises in the West.',o:['True','False'],a:1},
+      {tp:'mcq',d:2,q:'Pattern: 🌸🌸🌺🌸🌸🌺 — What comes next?',o:['🌸','🌺','🌻','🌷'],a:0},
+      {tp:'mcq',d:2,q:'Number mystery: 4, 8, 12, __, 20',o:['14','16','15','18'],a:1},
+      {tp:'mcq',d:2,q:'How many days in February (non-leap year)?',o:['28','29','30','31'],a:0},
+      {tp:'mcq',d:2,q:'Which is the HEAVIEST?',o:['Feather','Cotton ball','Elephant 🐘','Balloon'],a:2},
+      {tp:'mcq',d:2,q:'3 children share 12 chocolates equally. Each gets?',o:['3','4','5','6'],a:1},
+      {tp:'mcq',d:2,q:'Emoji decode: 🌊+🐟+🪝 = ?',o:['Cooking','Fishing 🎣','Swimming','Diving'],a:1},
+      {tp:'mcq',d:2,q:'A train leaves 9am, arrives 11am. Journey time?',o:['1 hr','2 hrs','3 hrs','4 hrs'],a:1},
+      {tp:'mcq',d:2,q:'What do plants need to make food?',o:['Darkness','Sunlight and water','Sand','Wind'],a:1},
+      {tp:'mcq',d:2,q:'2, 4, 6, 8, __ ?',o:['9','10','11','12'],a:1},
+      {tp:'mcq',d:2,q:'Spot odd one: Monday Tuesday Wednesday Apple',o:['Monday','Tuesday','Wednesday','Apple 🍎'],a:3},
+      {tp:'mcq',d:3,q:'Riddle: I have keys but no locks. What am I?',o:['Door','Piano 🎹','Map','Bag'],a:1},
+      {tp:'mcq',d:3,q:'True/False: A whale is a fish.',o:['True — it swims','False — it is a mammal','True — fins','False — bird'],a:1},
+      {tp:'mcq',d:3,q:'Word puzzle: R_N — what letter makes a word?',o:['A (RAN)','U (RUN)','Both A and U','O'],a:2},
+      {tp:'mcq',d:3,q:'Riddle: More you take, more you leave behind.',o:['Water','Footsteps 👣','Time','Shadow'],a:1},
+      {tp:'mcq',d:3,q:'Riddle: Always in front of you but cannot be seen.',o:['Face','Future','Shadow','Mirror'],a:1},
+      {tp:'mcq',d:3,q:'Emoji story: 🐛➡️🫛➡️🦋 How many stages shown?',o:['1','2','3','4'],a:2},
+      {tp:'mcq',d:3,q:'Which comes first in lifecycle: egg or chicken?',o:['Chicken','Egg','Same time','Neither'],a:1},
+      {tp:'mcq',d:3,q:'5 × 5 = ?',o:['20','25','30','35'],a:1},
+      {tp:'mcq',d:3,q:'40 ÷ 8 = ?',o:['4','5','6','7'],a:1},
+      {tp:'mcq',d:3,q:'3 × 7 = ?',o:['18','20','21','24'],a:2},
+    ];
+
+    const all=[...mathQs(15),...alphaQs(15),...spellQs(WBANK[5],15),
+      ...dpick([...FUN5,...MCQ5],55)];
+    return buildOrdered(all);
+  }
+
+  // ══════════════════════ AGE 6 ══════════════════════
+  if(age===6){
+    const FUN6=[
+      {tp:'mcq',d:1,q:'Riddle: I have a face and two hands but no arms. ⏰',o:['Mirror','Clock','Map','Compass'],a:1},
+      {tp:'mcq',d:1,q:'True/False: Bats are mammals.',o:['True — they are mammals','False — they are birds','False — reptiles','True — insects'],a:0},
+      {tp:'mcq',d:1,q:'Emoji decode: 🏃+💨+🏁 = ?',o:['Walking slowly','Running a race','Flying kite','Riding bike'],a:1},
+      {tp:'mcq',d:1,q:'50% of 80 = ?',o:['20','30','40','50'],a:2},
+      {tp:'mcq',d:1,q:'A bicycle has 2 wheels. 5 bicycles have?',o:['7','8','10','12'],a:2},
+      {tp:'mcq',d:1,q:'Analogy: Sun is to Day as Moon is to...?',o:['Rain','Night 🌙','Cold','Stars'],a:1},
+      {tp:'mcq',d:1,q:'Which Roman numeral is 10?',o:['V','X','L','C'],a:1},
+      {tp:'mcq',d:1,q:'Decode: 🇮🇳 = which country?',o:['Pakistan','India','Bangladesh','Sri Lanka'],a:1},
+      {tp:'mcq',d:1,q:'Which is the correct plural?',o:['Childs','Childen','Children','Childes'],a:2},
+      {tp:'mcq',d:1,q:'Spot odd one: Red Blue Green Tuesday',o:['Red','Blue','Green','Tuesday'],a:3},
+      {tp:'mcq',d:2,q:'Analogy: Dog is to Puppy as Cat is to...?',o:['Cub','Kitten','Foal','Calf'],a:1},
+      {tp:'mcq',d:2,q:'Number spiral: 2,3,5,8,13,__ (add last two)',o:['18','20','21','22'],a:2},
+      {tp:'mcq',d:2,q:'Spot error: "She go to school every day." Fix it!',o:['She going','She goes','She gone','She goed'],a:1},
+      {tp:'mcq',d:2,q:'A square has perimeter 20cm. Each side?',o:['4cm','5cm','6cm','10cm'],a:1},
+      {tp:'mcq',d:2,q:'Emoji story: 🌱➡️🌳➡️🪵➡️🛏️ A tree becomes...?',o:['Food','Paper','Furniture','Cloth'],a:2},
+      {tp:'mcq',d:2,q:'Missing: 36, 30, 24, 18, __',o:['14','10','12','16'],a:2},
+      {tp:'mcq',d:2,q:'An ice cream cone shape is a...?',o:['Cube','Cylinder','Cone','Sphere'],a:2},
+      {tp:'mcq',d:2,q:'3 × 7 = ?',o:['18','20','21','24'],a:2},
+      {tp:'mcq',d:2,q:'3 apples cost Rs15. What do 9 apples cost?',o:['Rs35','Rs40','Rs45','Rs50'],a:2},
+      {tp:'mcq',d:2,q:'42 + 39 = ?',o:['71','79','81','91'],a:2},
+      {tp:'mcq',d:3,q:'Riddle: The more you add to it, the smaller it becomes.',o:['Balloon','Hole','Puddle','Shadow'],a:1},
+      {tp:'mcq',d:3,q:'A train has 6 coaches with 12 seats each. Total?',o:['62','66','72','76'],a:2},
+      {tp:'mcq',d:3,q:'25 children split into 5 groups. Each group has?',o:['3','4','5','6'],a:2},
+      {tp:'mcq',d:3,q:'85 - 47 = ?',o:['32','37','38','42'],a:2},
+      {tp:'mcq',d:3,q:'Complete: "She ___ her homework every night."',o:['do','does','doing','done'],a:1},
+      {tp:'mcq',d:3,q:'Which fraction of 20 is 5?',o:['1/2','1/3','1/4','1/5'],a:2},
+      {tp:'mcq',d:3,q:'Perimeter of rectangle 8cm × 5cm?',o:['24cm','26cm','28cm','40cm'],a:1},
+      {tp:'mcq',d:3,q:'Area of rectangle 7cm × 6cm?',o:['36cm²','40cm²','42cm²','48cm²'],a:2},
+      {tp:'mcq',d:3,q:'Double 17 = ?',o:['24','30','34','36'],a:2},
+      {tp:'mcq',d:3,q:'Half of 48 = ?',o:['14','22','24','26'],a:2},
+    ];
+
+    const all=[...mathQs(20),...alphaQs(10),...spellQs(WBANK[6],15),
+      ...dpick([...FUN6,...MCQ67,...GRAMMAR67],55)];
+    return buildOrdered(all);
+  }
+
+  // ══════════════════════ AGE 7 ══════════════════════
+  {
+    const FUN7=[
+      {tp:'mcq',d:1,q:'True/False: Light travels faster than sound.',o:['True','False','Same speed','Depends'],a:0},
+      {tp:'mcq',d:1,q:'Analogy: Author is to Book as Composer is to...?',o:['Stage','Music/Symphony','Painting','Building'],a:1},
+      {tp:'mcq',d:1,q:'How many sides does a hexagon have?',o:['5','6','7','8'],a:1},
+      {tp:'mcq',d:1,q:'What is 15% of 100?',o:['10','12','15','20'],a:2},
+      {tp:'mcq',d:1,q:'Which fraction is largest?',o:['2/3','3/4','5/8','7/10'],a:1},
+      {tp:'mcq',d:1,q:'12 × 12 = ?',o:['124','132','144','148'],a:2},
+      {tp:'mcq',d:1,q:'7 × 9 = ?',o:['54','56','61','63'],a:3},
+      {tp:'mcq',d:1,q:'144 ÷ 12 = ?',o:['10','11','12','13'],a:2},
+      {tp:'mcq',d:1,q:'GCF of 12 and 18 is?',o:['3','4','6','9'],a:2},
+      {tp:'mcq',d:1,q:'LCM of 4 and 6 is?',o:['8','10','12','16'],a:2},
+      {tp:'mcq',d:2,q:'Riddle: I speak without mouth, no body. Echo?',o:['Shadow','Echo','Dream','Reflection'],a:1},
+      {tp:'mcq',d:2,q:'Fibonacci: 1,1,2,3,5,8,13,__ ?',o:['18','19','20','21'],a:3},
+      {tp:'mcq',d:2,q:'Code: If A=1,B=2,C=3... CAT = ?',o:['6','24','23','32'],a:1},
+      {tp:'mcq',d:2,q:'True/False: Antarctica is a desert.',o:['True — little precipitation','False — deserts are hot','True — only summer','False — has rivers'],a:0},
+      {tp:'mcq',d:2,q:'Roman numerals: XIV + VI = ?',o:['XVIII','XIX','XX','XXI'],a:2},
+      {tp:'mcq',d:2,q:'If 5x = 35, what is x?',o:['5','6','7','8'],a:2},
+      {tp:'mcq',d:2,q:'A palindrome: which word reads same backwards?',o:['LEVEL','SLEEP','BRAIN','WATER'],a:0},
+      {tp:'mcq',d:2,q:'Missing: J,F,M,A,M,J,J,A,__,O,N,D',o:['P','R','S','Q'],a:2},
+      {tp:'mcq',d:2,q:'A snail travels 2m/hr. Distance in 2.5 hours?',o:['4m','4.5m','5m','5.5m'],a:2},
+      {tp:'mcq',d:2,q:'3 cats catch 3 mice in 3 min. 9 mice in 9 min?',o:['9 cats','6 cats','3 cats','1 cat'],a:2},
+      {tp:'mcq',d:3,q:'Word puzzle: HELLO➡️IFMMP (each letter +1). Decode XPSME:',o:['WORLD','WORKS','WORSE','WORTH'],a:0},
+      {tp:'mcq',d:3,q:'Logic: All roses are flowers. Some flowers fade. Do all roses fade?',o:['Yes always','No not necessarily','Yes if roses','No never'],a:1},
+      {tp:'mcq',d:3,q:'456 + 278 = ?',o:['624','714','734','744'],a:2},
+      {tp:'mcq',d:3,q:'1002 - 347 = ?',o:['545','554','645','655'],a:3},
+      {tp:'mcq',d:3,q:'Pattern: 3, 6, 12, 24, ___',o:['36','42','48','64'],a:2},
+      {tp:'mcq',d:3,q:'Pattern: 1, 4, 9, 16, ___ (squares)',o:['20','24','25','36'],a:2},
+      {tp:'mcq',d:3,q:'Area of triangle: base 10, height 6?',o:['30','40','60','16'],a:0},
+      {tp:'mcq',d:3,q:'GCF of 24 and 36?',o:['4','6','8','12'],a:3},
+      {tp:'mcq',d:3,q:'Amazon rainforest produces 20% of Earth?',o:['Water','Oxygen','Food','Animals'],a:1},
+      {tp:'mcq',d:3,q:'Round 3,847 to nearest 1000.',o:['3,000','3,800','4,000','4,800'],a:2},
+    ];
+
+    const all=[...mathQs(20),...spellQs(WBANK[7],15),
+      ...dpick([...FUN7,...MCQ67,...GRAMMAR67],65)];
+    return buildOrdered(all);
+  }
+}
+
+const SECT_BOUNDS=[0,20,40,60,80,100];
+function getSectIdx(qi){
+  for(let i=0;i<5;i++)if(qi<SECT_BOUNDS[i+1])return i;
+  return 4;
+}
+
+
+// ═══════════════════════════════════════════════════════════════
+//  STORAGE + DATE UTILS
+// ═══════════════════════════════════════════════════════════════
+const KEY_U='sla_user', KEY_P='sla_prog', KEY_C='sla_credits';
+let USER=null, PROG={completions:{},cur:null};
+let CREDITS={balance:0,history:[],trial:true}; // trial: first session free
+
+// ── Credit helpers ──
+function loadCredits(){
+  try{const c=localStorage.getItem(KEY_C);if(c)CREDITS=JSON.parse(c);}catch(e){}
+  if(CREDITS.trial===undefined)CREDITS.trial=true;
+}
+function saveCredits(){localStorage.setItem(KEY_C,JSON.stringify(CREDITS));}
+function getBalance(){return CREDITS.balance||0;}
+function hasAccess(){return CREDITS.trial||getBalance()>0;}
+function useCredit(){
+  if(CREDITS.trial){CREDITS.trial=false;saveCredits();return true;}
+  if(getBalance()>0){
+    CREDITS.balance--;
+    CREDITS.history.push({type:'use',date:todayStr(),bal:CREDITS.balance});
+    saveCredits();return true;
+  }
+  return false;
+}
+function addCredits(n,plan){
+  CREDITS.balance+=n;
+  CREDITS.trial=false;
+  // Store subscription expiry for weekly/monthly — removes day-timer during active period
+  if(plan==='weekly'||plan==='monthly'){
+    const days=plan==='weekly'?7:30;
+    const exp=new Date();exp.setDate(exp.getDate()+days);
+    CREDITS.sub={plan,days,start:todayStr(),expiry:exp.toLocaleDateString('en-CA')};
+  }
+  CREDITS.history.push({type:'topup',plan,credits:n,date:todayStr(),bal:CREDITS.balance});
+  saveCredits();
+}
+
+// Returns true if user has an active weekly or monthly subscription (timer removed)
+function isSubscribed(){
+  if(!CREDITS.sub||!CREDITS.sub.expiry)return false;
+  return todayStr()<=CREDITS.sub.expiry;
+}
+// Days remaining on active subscription
+function subDaysLeft(){
+  if(!isSubscribed())return 0;
+  const now=new Date(todayStr()), exp=new Date(CREDITS.sub.expiry);
+  return Math.max(0,Math.round((exp-now)/(1000*60*60*24))+1);
+}
+
+function todayStr(){return new Date().toLocaleDateString('en-CA');} // YYYY-MM-DD
+function tomorrowStr(){const d=new Date();d.setDate(d.getDate()+1);return d.toLocaleDateString('en-CA');}
+function fmtDate(s){if(!s)return'';const[y,m,d]=s.split('-');const mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return `${d} ${mo[+m-1]}`;}
+
+function loadData(){
+  try{const u=localStorage.getItem(KEY_U);if(u)USER=JSON.parse(u);}catch(e){}
+  try{const p=localStorage.getItem(KEY_P);if(p)PROG=JSON.parse(p);}catch(e){}
+  loadCredits();
+  if(!PROG.completions)PROG.completions={};
+}
+const saveUser=()=>localStorage.setItem(KEY_U,JSON.stringify(USER));
+const saveProg=()=>localStorage.setItem(KEY_P,JSON.stringify(PROG));
+
+function isDone(n){return!!(PROG.completions[n]);}
+function isCompletedToday(n){return isDone(n)&&PROG.completions[n].date===todayStr();}
+function isOpen(n){
+  if(isDone(n))return false; // already done
+  if(n===1)return true;
+  if(!isDone(n-1))return false;
+  // Active weekly/monthly subscription: skip date gate — just need prev day done
+  if(isSubscribed())return true;
+  return todayStr()>PROG.completions[n-1].date; // daily: next calendar day
+}
+function isWaitTomorrow(n){
+  if(isDone(n))return false;
+  if(n===1)return false;
+  if(!isDone(n-1))return false;
+  if(isSubscribed())return false; // no waiting with active subscription
+  return PROG.completions[n-1].date===todayStr(); // daily: prev done today
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  SCREEN CONTROLLER
+// ═══════════════════════════════════════════════════════════════
+const SCRNS=['signup','sorry','wallet','home','play','complete','cert'];
+// ── Screen history stack for Android back button ──
+const _scrHistory=[];
+let _currentScr='signup';
+
+function show(s,{skipHistory=false}={}){
+  // Push current screen to history stack before switching
+  if(!skipHistory && s!==_currentScr){
+    _scrHistory.push(_currentScr);
+    // Push a fake browser history entry so Android back fires popstate
+    try{ history.pushState({scr:s},'',''); }catch(e){}
+  }
+  _currentScr=s;
+  SCRNS.forEach(x=>document.getElementById('scr-'+x).classList.toggle('hidden',x!==s));
+  document.body.classList.toggle('playing', s==='play');
+  // Hide modals when switching screens
+  if(s!=='paymodal'){
+    const pm=document.getElementById('scr-paymodal');
+    const pr=document.getElementById('scr-processing');
+    if(pm)pm.classList.add('hidden');
+    if(pr)pr.classList.add('hidden');
+  }
+}
+
+// Handle Android back button / browser back gesture
+window.addEventListener('popstate', function(e){
+  // Close any open modal first
+  const pm=document.getElementById('scr-paymodal');
+  if(pm && !pm.classList.contains('hidden')){ pm.classList.add('hidden'); return; }
+  const modal=document.getElementById('_modal');
+  if(modal){ modal.remove(); return; }
+
+  // Navigate back in our screen stack
+  if(_scrHistory.length>0){
+    const prev=_scrHistory.pop();
+    // Special cases: don't go back into play mid-question without warning
+    if(prev==='play' && _currentScr!=='play'){
+      // Already left play — go to home instead
+      _currentScr='play'; // trick to avoid re-pushing
+      show('home',{skipHistory:true});
+    } else {
+      show(prev,{skipHistory:true});
+    }
+    // Push another state so back keeps working
+    try{ history.pushState({scr:_currentScr},'',''); }catch(e){}
+  } else {
+    // Stack empty — minimise app instead of exiting (Android WebView)
+    // Push a dummy state to prevent exit on first back
+    try{ history.pushState({scr:_currentScr},'',''); }catch(e){}
+  }
+});
+
+// Seed the initial history entry so the first back press doesn't exit
+(function(){ try{ history.pushState({scr:'signup'},'',''); }catch(e){} })();
+
+// ═══════════════════════════════════════════════════════════════
+//  SIGNUP
+// ═══════════════════════════════════════════════════════════════
+function goSignup(){
+  USER=null;localStorage.removeItem(KEY_U);
+  ['su-name','su-email','su-age'].forEach(id=>{const el=document.getElementById(id);el.value='';el.classList.remove('err','ok');});
+  document.getElementById('su-errmsg').textContent='';
+  show('signup');
+}
+function handleSignup(){
+  const nm=document.getElementById('su-name').value.trim();
+  const em=document.getElementById('su-email').value.trim();
+  const age=parseInt(document.getElementById('su-age').value);
+  const err=document.getElementById('su-errmsg');
+  ['su-name','su-email','su-age'].forEach(id=>document.getElementById(id).classList.remove('err','ok'));
+  err.textContent='';
+  let bad=false;
+  if(!nm){document.getElementById('su-name').classList.add('err');bad=true;}
+  if(!em||!em.includes('@')||!em.includes('.')){document.getElementById('su-email').classList.add('err');bad=true;}
+  if(!age||isNaN(age)||age<1||age>18){document.getElementById('su-age').classList.add('err');bad=true;}
+  if(bad){err.textContent='⚠️ Please fill all fields correctly';return;}
+  ['su-name','su-email','su-age'].forEach(id=>document.getElementById(id).classList.add('ok'));
+  const prof=AGE_PROFILE[age]||{grade:'Age '+age,cur:''};
+  USER={name:nm,email:em,age,joined:new Date().toISOString()};saveUser();
+
+  // Send signup to Google Sheets
+  sendToSheets({
+    event:'signup',
+    childName:nm,
+    email:em,
+    age:age,
+    grade:prof.grade||('Age '+age),
+    curriculum:prof.cur||'',
+    device:navigator.userAgent.includes('Android')?'Android':navigator.userAgent.includes('iPhone')?'iPhone':'Web',
+    signupDate:new Date().toLocaleDateString('en-IN'),
+    appVersion:'2.0'
+  });
+
+  setTimeout(()=>{
+    if(age<1||age>7){showSorry(age);}
+    else{applyAgeMode(age);renderHome();}
+  },350);
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  AGE MODE (CSS class on body)
+// ═══════════════════════════════════════════════════════════════
+function applyAgeMode(age){
+  document.body.classList.remove('baby','child');
+  const mode=AGE_PROFILE[age]?.mode||'';
+  if(mode)document.body.classList.add(mode);
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  SORRY
+// ═══════════════════════════════════════════════════════════════
+function showSorry(age){
+  show('sorry');
+  const fn=(USER?.name||'there').split(' ')[0];
+  if(age<1){
+    document.getElementById('sr-title').textContent='Hmm, that seems too young! 🤔';
+    document.getElementById('sr-range').textContent='Please enter a valid age (1–7 years)';
+    document.getElementById('sr-msg').textContent='Please go back and enter the correct age.';
+  } else {
+    document.getElementById('sr-title').textContent=`Sorry, ${fn}! 😊`;
+    document.getElementById('sr-range').textContent='This worksheet is for children aged 1 – 7 years';
+    document.getElementById('sr-msg').textContent=`This app is designed for children up to age 7. It looks like ${fn} is ${age} — perhaps try an age-appropriate curriculum for older learners! Come back anytime for younger siblings.`;
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  HOME
+// ═══════════════════════════════════════════════════════════════
+function renderHome(){
+  show('home');
+  if(!USER)return;
+  const age=USER.age,prof=AGE_PROFILE[age];
+  const fn=USER.name.split(' ')[0];
+  document.getElementById('hdr-title').textContent=`🌟 ${fn}'s 30-Day Adventure 🌟`;
+  document.getElementById('hdr-name').textContent=`👦 ${fn}`;
+  document.getElementById('hdr-grade').textContent=`🎓 ${prof.grade}`;
+  document.getElementById('hdr-cur').textContent=`📚 ${prof.cur}`;
+  const n=Object.keys(PROG.completions).length;
+  document.getElementById('pb').style.width=(n/30*100)+'%';
+  document.getElementById('pbtxt').textContent=`${n} / 31 days completed ⭐`;
+
+  // Unlock banner
+  let showBanner=false,bannerMsg='';
+  for(let i=1;i<=31;i++){
+    if(isWaitTomorrow(i)){
+      showBanner=true;
+      bannerMsg=`✨ Day ${i} complete! Day ${i+1} will unlock tomorrow (${fmtDate(tomorrowStr())})!`;
+      break;
+    }
+  }
+  // Update credit pill
+  const cp=document.getElementById('hdr-credits');
+  if(cp){
+    const b=getBalance();
+    cp.textContent=CREDITS.trial?'🎁 Trial Active':`${b} Credit${b===1?'':'s'}`;
+  }
+  // Unlock banner — priority: no-credit > date unlock > hidden
+  const ub=document.getElementById('unlock-banner');
+  if(!hasAccess()){
+    ub.classList.remove('hidden');
+    document.getElementById('unlock-msg').innerHTML=
+      '🪙 No credits left! <strong style="cursor:pointer;text-decoration:underline" onclick="showWallet()">Top up to continue →</strong>';
+  } else if(showBanner){
+    ub.classList.remove('hidden');
+    document.getElementById('unlock-msg').textContent=bannerMsg;
+  } else {
+    ub.classList.add('hidden');
+  }
+  // Certificate button — always visible:
+  // Greyed out (locked) until day 31 done, then active
+  const done31=isDone(31);
+  const doneCount=Object.keys(PROG.completions).length;
+  let certBtn=document.getElementById('home-cert-btn');
+  if(!certBtn){
+    certBtn=document.createElement('button');
+    certBtn.id='home-cert-btn';
+    document.getElementById('scr-home').insertBefore(certBtn,
+      document.getElementById('unlock-banner'));
+  }
+  if(done31){
+    // Unlocked — full colour, clickable
+    certBtn.style.cssText='display:block;width:100%;max-width:860px;margin:0 auto 12px;padding:14px;'
+      +'border-radius:16px;background:linear-gradient(135deg,#6B3FA0,#4D96FF);color:#fff;'
+      +'font-size:1rem;font-weight:900;border:none;cursor:pointer;'
+      +'box-shadow:0 6px 22px #6B3FA033;animation:popIn .4s ease both;transition:transform .13s;';
+    certBtn.textContent='🎓 Get Your Certificate →';
+    certBtn.disabled=false;
+    certBtn.onclick=showCertificate;
+  } else {
+    // Locked — greyed out, shows progress, not clickable
+    const remaining=31-doneCount;
+    certBtn.style.cssText='display:block;width:100%;max-width:860px;margin:0 auto 12px;padding:14px;'
+      +'border-radius:16px;background:#f0f0f0;color:#bbb;font-size:.95rem;font-weight:800;'
+      +'border:2px dashed #ddd;cursor:not-allowed;text-align:center;';
+    certBtn.textContent=`🎓 Certificate — Complete all 31 days! (${doneCount}/31 done${remaining>0?' · '+remaining+' to go':''})`;
+    certBtn.disabled=true;
+    certBtn.onclick=null;
+  }
+  const g=document.getElementById('dgrid');g.innerHTML='';
+  DAY_THEMES.forEach((th,idx)=>{
+    const dn=idx+1;
+    const done=isDone(dn),open=isOpen(dn),wt=isWaitTomorrow(dn),ip=PROG.cur?.day===dn&&!done;
+    let cls='dc',ico='',sub='',bdr=th.c;
+    if(done){cls+=' ';ico='✅';bdr='#6BCB77';sub=fmtDate(PROG.completions[dn]?.date)||'';}
+    else if(ip){cls+=' ip';ico='▶️';bdr=th.c;}
+    else if(open){bdr=th.c;}
+    else if(wt){cls+=' wt';ico='⏰';bdr='#FFD93D';sub='Tomorrow';}
+    else{cls+=' lk';ico='🔒';bdr='#ddd';}
+    const el=document.createElement('div');
+    el.className=cls;
+    el.style.cssText=`background:${th.bg};border-color:${bdr}`;
+    el.innerHTML=`${ico?`<span class="d-ico">${ico}</span>`:''}
+      <div class="dn" style="color:${th.c}">${dn}</div>
+      <div class="de">${th.e}</div>
+      <div class="dl">${th.t}</div>
+      ${sub?`<div class="d-sub">${sub}</div>`:''}`;
+    if(open||ip)el.onclick=()=>openDay(dn);
+    g.appendChild(el);
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  MODAL (replaces browser confirm — works on GitHub Pages)
+// ═══════════════════════════════════════════════════════════════
+function showModal(title, msg, btnLabel, btnColor, onConfirm){
+  // Remove any existing modal
+  const existing = document.getElementById('_modal');
+  if(existing) existing.remove();
+  const el = document.createElement('div');
+  el.id = '_modal';
+  el.style.cssText = 'position:fixed;inset:0;background:#00000066;z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;';
+  el.innerHTML = `
+    <div style="background:#fff;border-radius:24px;padding:28px 24px;max-width:340px;width:100%;text-align:center;box-shadow:0 20px 60px #0003;">
+      <div style="font-size:1.3rem;font-weight:900;color:#333;margin-bottom:10px;">${title}</div>
+      <div style="font-size:.9rem;color:#888;line-height:1.6;margin-bottom:22px;">${msg}</div>
+      <div style="display:flex;gap:10px;">
+        <button onclick="document.getElementById('_modal').remove()"
+          style="flex:1;padding:13px;border-radius:13px;background:#f0f0f0;color:#666;font-size:.95rem;font-weight:800;border:none;cursor:pointer;">
+          Cancel
+        </button>
+        <button id="_modal_confirm"
+          style="flex:1;padding:13px;border-radius:13px;background:${btnColor};color:#fff;font-size:.95rem;font-weight:800;border:none;cursor:pointer;">
+          ${btnLabel}
+        </button>
+      </div>
+    </div>`;
+  document.body.appendChild(el);
+  document.getElementById('_modal_confirm').onclick = ()=>{
+    el.remove();
+    onConfirm();
+  };
+  // Close on backdrop tap
+  el.addEventListener('click', e=>{ if(e.target===el){ el.remove(); } });
+}
+
+function goHome(){renderHome();}
+function resetProg(){
+  showModal('↺ Reset Progress?',
+    'This will clear all your completed days. Your profile stays.',
+    'Yes, Reset','#FF9A3C',
+    ()=>{PROG={completions:{},cur:null};saveProg();renderHome();}
+  );
+}
+function signOut(){
+  showModal('✗ Sign Out?',
+    'This will remove your profile and all progress.',
+    'Yes, Sign Out','#cc3333',
+    ()=>{
+      localStorage.removeItem(KEY_U);
+      localStorage.removeItem(KEY_P);
+      localStorage.removeItem(KEY_C);
+      USER=null;PROG={completions:{},cur:null};
+      CREDITS={balance:0,history:[],trial:true};
+      CUR_DAY=null;CUR_QS=null;QI=0;
+      document.body.classList.remove('baby','child','playing');
+      ['su-name','su-email','su-age'].forEach(id=>{
+        const el=document.getElementById(id);
+        if(el){el.value='';el.classList.remove('err','ok');}
+      });
+      document.getElementById('su-errmsg').textContent='';
+      show('signup');
+    }
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  PLAY
+// ═══════════════════════════════════════════════════════════════
+let CUR_DAY=null,CUR_QS=null,QI=0;
+
+function openDay(n){
+  // Credit gate: check access before starting
+  if(!hasAccess()){
+    showWallet();
+    return;
+  }
+  const age=USER.age;
+  CUR_DAY=n;
+  CUR_QS=buildDay(n,age);
+  QI=PROG.cur?.day===n?PROG.cur.qi:0;
+  PROG.cur={day:n,qi:QI};saveProg();
+  const th=DAY_THEMES[n-1];
+  document.getElementById('pdn').textContent=`Day ${n} of 31 — ${AGE_PROFILE[age].grade}`;
+  document.getElementById('pdt').textContent=th.t;
+  document.getElementById('qcard').style.borderTopColor=th.c;
+  document.getElementById('qpbfill').style.background=`linear-gradient(90deg,${th.c},${th.c}88)`;
+  show('play');
+  if(SECT_BOUNDS.includes(QI)&&QI===0)showSectSplash(0);
+  else renderQForce();
+}
+
+function updateTopBar(){
+  const si=getSectIdx(QI);
+  const sd=getSectDefs(USER.age)[si];
+  document.getElementById('qpbfill').style.width=QI+'%';
+  document.getElementById('schip').textContent=`${QI}/100`;
+  document.getElementById('qlbl').textContent=`Q ${QI+1} of 100`;
+  document.getElementById('sectlbl').textContent=sd.n;
+  document.getElementById('sectlbl').style.cssText=`background:${sd.c}22;color:${sd.c}`;
+}
+
+function showSectSplash(si){
+  const sd=getSectDefs(USER.age)[si];
+  const th=DAY_THEMES[CUR_DAY-1];
+  document.getElementById('nxtbtn').classList.add('hidden');
+  document.getElementById('qcard').innerHTML=`
+    <div class="ssplash" style="background:${th.bg}">
+      <div class="ss-ico">${sd.n.split(' ')[0]}</div>
+      <div class="ss-t" style="color:${sd.c}">${sd.n}</div>
+      <div class="ss-d">${sd.d}</div>
+      <button class="ss-go" style="background:${sd.c}" onclick="renderQForce()">Let's go! →</button>
+    </div>`;
+  updateTopBar();
+}
+
+const QLABELS={count:'🔢 Count',math:'➕ Maths',alpha:'🔤 Alphabet',spell:'✏️ Spell',mcq:'💡 Quiz',viz:'👶 Play'};
+
+// Called after a section splash — skips the boundary check so we don't loop
+function renderQForce(){
+  if(QI>=100){finishDay();return;}
+  MCQ_LOCKED=false;
+  const q=CUR_QS[QI];
+  const th=DAY_THEMES[CUR_DAY-1];
+  document.getElementById('nxtbtn').classList.add('hidden');
+  updateTopBar();
+  _renderQContent(q,th);
+}
+
+function _renderQContent(q,th){
+  // Shared render logic used by both renderQ and renderQForce
+  document.getElementById('nxtbtn').classList.add('hidden');
+  updateTopBar();
+  let h = q.tp==='viz' ? '' :
+    `<div class="qbadge" style="background:${th.bg};color:${th.c}">${QLABELS[q.tp]||'💡'}</div>
+     <div class="qtext">${q.q||''}</div>`;
+  if(q.tp==='count'){
+    const sz = q.ans<=5 ? 'clamp(2rem,10vw,3.5rem)' : q.ans<=10 ? 'clamp(1.5rem,7vw,2.4rem)' : 'clamp(1rem,5vw,1.8rem)';
+    const icons = Array(q.ans).fill(`<span style="font-size:${sz}">${q.ic}</span>`).join('');
+    h+=`<div class="cbox" style="background:${th.bg}">${icons}</div>
+        <div class="arow"><input class="ai" id="ai" type="number" min="0" max="40" placeholder="Count and type..." autocomplete="off">
+        <button class="ckbtn" style="background:${th.c}" onclick="chk()">Check ✓</button></div>`;
+  }else if(q.tp==='math'){
+    h+=`<div class="mbox" style="color:${th.c}">${q.mx}</div>
+        <div class="arow"><input class="ai" id="ai" type="number" placeholder="Your answer..." autocomplete="off">
+        <button class="ckbtn" style="background:${th.c}" onclick="chk()">Check ✓</button></div>`;
+  }else if(q.tp==='alpha'){
+    const seqH=q.sq.map(l=>l?`<div class="ab" style="background:linear-gradient(135deg,${th.c},${th.c}99)">${l}</div>`
+      :`<div class="ablnk" style="border-color:${th.c}" id="ablnk"><input id="ai" maxlength="1" autocomplete="off"
+         style="color:${th.c};font-weight:900;font-size:1.4rem;text-align:center;border:none;background:transparent;
+         outline:none;width:100%;height:100%;text-transform:uppercase;" oninput="if(this.value.length===1)chk()"></div>`
+    ).join('');
+    h+=`<div class="aseq">${seqH}</div>`;
+  }else if(q.tp==='spell'){
+    h+=`<div class="semoji">${q.si}</div><div class="shint">💡 Hint: ${q.h}</div>
+        <div class="arow"><input class="ai" id="ai" type="text" maxlength="10" autocomplete="off"
+          placeholder="Spell the word..." style="text-transform:uppercase">
+        <button class="ckbtn" style="background:${th.c}" onclick="chk()">Check ✓</button></div>`;
+  }else if(q.tp==='mcq'){
+    const nc=q.o.length;
+    const colCls=nc===2?'cols1':'';
+    h+=`<div class="opts ${colCls}">${q.o.map((o,i)=>`<button class="opt" id="opt${i}" onclick="chkMCQ(${i})">${o}</button>`).join('')}</div>`;
+  }else if(q.tp==='viz'){
+    const nc=q.o.length;
+    const qiFontSz=q.qi.length>6?'clamp(1.8rem,8vw,3rem)':'clamp(2.8rem,12vw,5rem)';
+    const isNum=q.cnt;
+    const gridCls=nc===2?'viz-opts two':'viz-opts four';
+    h=`<div class="qbadge" style="background:${th.bg};color:${th.c}">${q.ql||'👆 Tap!'}</div>
+       <div class="viz-display" style="background:${th.bg}">
+         <span class="viz-emoji" style="font-size:${qiFontSz}">${q.qi}</span>
+       </div>
+       <div class="${gridCls}">${q.o.map((o,i)=>`
+         <button class="viz-opt${isNum?' num':''}" id="opt${i}" onclick="chkMCQ(${i})">${o}</button>`
+         ).join('')}</div>`;
+  }
+  h+=`<div class="${q.tp==='viz'?'fb-viz':'fb'}" id="fb"></div>`;
+  document.getElementById('qcard').innerHTML=h;
+  const inp=document.getElementById('ai');
+  if(inp&&q.tp!=='alpha')inp.addEventListener('keydown',e=>{if(e.key==='Enter')chk();});
+  if(inp)setTimeout(()=>inp.focus(),100);
+}
+
+function renderQ(){
+  if(QI>=100){finishDay();return;}
+  MCQ_LOCKED=false;
+  const q=CUR_QS[QI];
+  const th=DAY_THEMES[CUR_DAY-1];
+  // Show section splash at boundary — but skip for viz (toddler) days
+  if(SECT_BOUNDS.includes(QI)&&QI>0&&(!CUR_QS[0]||CUR_QS[0].tp!=='viz')){showSectSplash(getSectIdx(QI));return;}
+  _renderQContent(q,th);
+}
+
+function chk(){
+  const q=CUR_QS[QI],inp=document.getElementById('ai');
+  let v=inp?inp.value.trim():'';if(!v)return;
+  if(q.tp==='spell'||q.tp==='alpha')v=v.toUpperCase();
+  const ok=q.tp==='count'?parseInt(v)===q.ans:v===String(q.ans);
+  if(ok){markOk();}
+  else{
+    if(q.tp==='alpha'){const bl=document.getElementById('ablnk');if(bl){bl.classList.add('serr');setTimeout(()=>{bl.classList.remove('serr');if(inp)inp.value='';},450);}}
+    else{if(inp){inp.classList.add('aerr');setTimeout(()=>{inp.classList.remove('aerr');inp.value='';inp.focus();},480);}}
+    setFB('❌ Not quite! Try again! 💪',false);
+  }
+}
+let MCQ_LOCKED=false; // prevent multi-tap
+function chkMCQ(i){
+  if(MCQ_LOCKED)return; // block all clicks while processing
+  MCQ_LOCKED=true;
+  const q=CUR_QS[QI];
+  // Disable ALL buttons immediately on first tap
+  q.o.forEach((_,j)=>{const b=document.getElementById('opt'+j);if(b)b.disabled=true;});
+  const btn=document.getElementById('opt'+i);
+  const correct=(q.ans!=null?q.ans:q.a); // support both ans and a field names
+  if(i===correct){btn.classList.add('ok');markOk();}
+  else{
+    btn.classList.add('err');
+    setTimeout(()=>{
+      // Re-enable only WRONG button's siblings (not the one already marked err)
+      q.o.forEach((_,j)=>{const b=document.getElementById('opt'+j);if(b&&j!==i){b.disabled=false;b.classList.remove('err');}});
+      MCQ_LOCKED=false; // unlock for retry
+      setFB('❌ Not quite! Try another option! 💪',false);
+    },520);
+  }
+}
+function markOk(){
+  setFB('✅ Correct! Brilliant! 🎉',true);confetti(3);
+  const nb=document.getElementById('nxtbtn');nb.classList.remove('hidden');
+  if(QI<99){nb.textContent='Next Question →';nb.onclick=nextQ;}
+  else{nb.textContent=`🎉 Complete Day ${CUR_DAY}!`;nb.onclick=finishDay;}
+}
+function setFB(msg,ok){
+  const el=document.getElementById('fb');
+  if(!el)return;
+  const q=CUR_QS[QI];
+  if(q&&q.tp==='viz'){
+    el.textContent=ok?'⭐':'💪'; // toddler: just big emoji feedback
+    el.className='fb-viz';
+    el.classList.add('popin');
+  }else{
+    el.textContent=msg;
+    el.className='fb '+(ok?'fbok':'fbno');
+    el.classList.add('popin');
+  }
+}
+function nextQ(){QI++;PROG.cur={day:CUR_DAY,qi:QI};saveProg();renderQ();}
+
+// ═══════════════════════════════════════════════════════════════
+//  COMPLETE
+// ═══════════════════════════════════════════════════════════════
+function finishDay(){
+  const dn=CUR_DAY;
+  const isNewCompletion = !PROG.completions[dn];
+  if(isNewCompletion){PROG.completions[dn]={date:todayStr()};PROG.cur=null;saveProg();}
+  const fn=(USER?.name||'Champion').split(' ')[0];
+
+  // Send day completion to Google Sheets (only once per day)
+  if(isNewCompletion && USER){
+    const daysTotal=Object.keys(PROG.completions).length;
+    sendToSheets({
+      event:'day_done',
+      childName:USER.name,
+      email:USER.email,
+      age:USER.age,
+      dayNumber:dn,
+      completionDate:todayStr(),
+      questionsAnswered:100,
+      packType:CREDITS.sub?.plan||'daily'
+    });
+    // Also update overall progress row
+    sendToSheets({
+      event:'progress',
+      childName:USER.name,
+      email:USER.email,
+      age:USER.age,
+      daysCompleted:daysTotal,
+      lastDayDone:dn,
+      creditsBalance:getBalance(),
+      packType:CREDITS.sub?.plan||'daily',
+      streak:daysTotal
+    });
+  }
+  const age=USER?.age||5;
+  const msgs=[
+    `Amazing ${fn}! All 100 questions perfect! 🌟`,
+    `Brilliant ${fn}! You are an absolute star! ⭐`,
+    `Incredible! ${fn} — every answer correct! 🧠`,
+    `Wonderful ${fn}! You did every question right! 🚀`,
+    `Outstanding! ${fn} is unstoppable! 💪`,
+  ];
+  document.getElementById('troph').textContent=dn===31?'👑':age<=2?'🎀':age<=4?'🌟':'🏆';
+  document.getElementById('ctitle').textContent=`Day ${dn} Complete! 🎉`;
+  document.getElementById('cmsg').textContent=msgs[~~(Math.random()*msgs.length)];
+
+  // Unlock info
+  const ui=document.getElementById('unlock-info');
+  const nb=document.getElementById('ndbtn');
+  if(dn<31){
+    ui.classList.remove('hidden');
+    if(isSubscribed()){
+      // Subscription active: next day is immediately available
+      ui.textContent=`🔓 Day ${dn+1} is ready now! (${subDaysLeft()-0} days left on your pack)`;
+      nb.textContent=`▶️ Start Day ${dn+1} Now!`;
+      nb.classList.remove('hidden');
+      nb.onclick=()=>openDay(dn+1);
+    } else {
+      ui.textContent=`⏰ Day ${dn+1} unlocks tomorrow, ${fmtDate(tomorrowStr())}! Come back then!`;
+      nb.textContent=`🏠 Back to Menu`;
+      nb.classList.add('hidden');
+    }
+  } else {
+    ui.classList.add('hidden');
+    // Day 31 — show cert button
+    nb.textContent='🎓 Get Your Certificate →';
+    nb.classList.remove('hidden');
+    nb.onclick=showCertificate;
+    document.getElementById('ctitle').textContent='👑 ALL 31 DAYS DONE! 👑';
+    document.getElementById('cstars').textContent='🌟🌟🌟🌟🌟';
+    document.getElementById('cmsg').textContent=`${fn}, you are the ULTIMATE CHAMPION! 3,100 questions across 31 days — all correct! You should be SO incredibly proud! 🎊🚀👑`;
+  }
+  show('complete');confetti(40);
+}
+function goNextDay(){goHome();}
+
+// ═══════════════════════════════════════════════════════════════
+//  CERTIFICATE
+// ═══════════════════════════════════════════════════════════════
+function showCertificate(){
+  if(!USER)return;
+  const fn=USER.name.split(' ')[0];
+  const age=USER.age;
+  const prof=AGE_PROFILE[age]||{grade:'Grade '+age,cur:''};
+
+  // Populate certificate fields
+  document.getElementById('cert-name').textContent=USER.name;
+  document.getElementById('cert-curriculum').textContent=
+    '📚 '+prof.grade+' · '+prof.cur;
+  document.getElementById('cert-age-stat').textContent='Age '+age;
+
+  // Date of completion (day 31 completion date)
+  const compDate=PROG.completions[31]?.date||todayStr();
+  const[y,m,d]=compDate.split('-');
+  const months=['January','February','March','April','May','June',
+    'July','August','September','October','November','December'];
+  document.getElementById('cert-date').textContent=
+    `${d} ${months[+m-1]} ${y}`;
+
+  confetti(60);
+  show('cert');
+}
+
+function printCert(){
+  window.print();
+}
+
+
+// ═══════════════════════════════════════════════════════════════
+//  WALLET / CREDITS SYSTEM
+// ═══════════════════════════════════════════════════════════════
+let SELECTED_PLAN=null;
+let SELECTED_METHOD='upi';
+
+function showWallet(){
+  if(!USER)return;
+  const fn=USER.name.split(' ')[0];
+  const age=USER.age;
+  const prof=AGE_PROFILE[age]||{grade:'Age '+age};
+  document.getElementById('wlt-name').textContent=fn;
+  document.getElementById('wlt-bal').textContent=getBalance();
+  document.getElementById('wlt-access-badge').textContent=
+    isSubscribed()
+      ? `✅ ${CREDITS.sub.plan==='weekly'?'Weekly':'Monthly'} Pack · ${subDaysLeft()} day${subDaysLeft()===1?'':'s'} left`
+      : '📚 '+prof.grade+' Access';
+
+  // Status card
+  const sc=document.getElementById('wlt-status-card');
+  const si=document.getElementById('wlt-status-ico');
+  const st=document.getElementById('wlt-status-title');
+  const ss=document.getElementById('wlt-status-sub');
+  const sb=document.getElementById('wlt-start-btn');
+  sc.className='wlt-status';
+
+  if(CREDITS.trial){
+    sc.classList.add('trial');
+    si.textContent='🎁';
+    st.textContent='Free Trial Active!';
+    ss.textContent='Your first day is completely free. No payment needed!';
+    sb.style.display='block';
+  } else if(isSubscribed()){
+    sc.classList.add('active');
+    si.textContent=CREDITS.sub.plan==='weekly'?'📆':'🗓️';
+    const pname=CREDITS.sub.plan==='weekly'?'Weekly Pack':'Monthly Bundle';
+    st.textContent=pname+' Active — No Day Timer! 🚀';
+    ss.textContent=`${subDaysLeft()} day${subDaysLeft()===1?'':'s'} remaining · Just finish a day to unlock the next!`;
+    sb.style.display='block';
+  } else if(getBalance()>0){
+    sc.classList.add('active');
+    si.textContent='✅';
+    st.textContent=getBalance()+' Credit'+(getBalance()===1?'':'s')+' Available';
+    ss.textContent='Each credit unlocks one full day of 100 questions.';
+    sb.style.display='block';
+  } else {
+    sc.classList.add('empty');
+    si.textContent='❌';
+    st.textContent='No Credits Left';
+    ss.textContent='Top up below to continue your learning adventure!';
+    sb.style.display='none';
+  }
+  show('wallet');
+}
+
+function goToWorksheet(){
+  if(hasAccess()){renderHome();show('home');}
+  else showWallet();
+}
+
+function selectPlan(id, amount, credits){
+  SELECTED_PLAN={id,amount,credits};
+  // Show pay modal
+  document.getElementById('pm-title').textContent=
+    id==='daily'?'Daily Pass':id==='weekly'?'Weekly Pack':'Monthly Bundle';
+  document.getElementById('pm-amount').textContent='₹'+amount;
+  document.getElementById('pm-credits').textContent=
+    credits+' credit'+(credits===1?'':' s')+' will be added';
+  SELECTED_METHOD='upi';
+  ['upi','card','nb'].forEach(m=>{
+    document.getElementById('pm-'+m).classList.toggle('sel',m==='upi');
+  });
+  document.getElementById('scr-paymodal').classList.remove('hidden');
+}
+
+function selMethod(m){
+  SELECTED_METHOD=m;
+  ['upi','card','nb'].forEach(x=>{
+    document.getElementById('pm-'+x).classList.toggle('sel',x===m);
+  });
+}
+
+function closePayModal(){
+  document.getElementById('scr-paymodal').classList.add('hidden');
+}
+
+function confirmPayment(){
+  if(!SELECTED_PLAN)return;
+  closePayModal();
+  // Show processing
+  const proc=document.getElementById('scr-processing');
+  const pmsg=document.getElementById('proc-msg');
+  proc.classList.remove('hidden');
+  pmsg.textContent='Opening '+
+    (SELECTED_METHOD==='upi'?'UPI payment...':
+     SELECTED_METHOD==='card'?'payment gateway...':'net banking...');
+
+  // ── IMPORTANT: In production, replace this timeout with a real
+  //    payment gateway SDK call (Razorpay/PayU/Cashfree).
+  //    On success callback → call addCredits(SELECTED_PLAN.credits, SELECTED_PLAN.id)
+  //    This demo auto-approves after 2.5s for testing. ──
+  setTimeout(()=>{
+    pmsg.textContent='Verifying payment...';
+    setTimeout(()=>{
+      proc.classList.add('hidden');
+      // DEMO: auto-credit (replace with real gateway callback)
+      addCredits(SELECTED_PLAN.credits, SELECTED_PLAN.id);
+      SELECTED_PLAN=null;
+      showWallet(); // refresh wallet screen
+      confetti(20);
+      setTimeout(()=>{
+        showModal('🎉 Credits Added!',
+          'Your credits have been added. Ready to learn!',
+          '▶️ Start Learning','#6BCB77',
+          ()=>{renderHome();show('home');}
+        );
+      },500);
+    },800);
+  },1800);
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  CONFETTI
+// ═══════════════════════════════════════════════════════════════
+const CFC=['#FFD93D','#FF6B6B','#6BCB77','#4D96FF','#C77DFF','#FF9A3C','#ff6fb3','#00d4ff'];
+function confetti(n){for(let i=0;i<n;i++){const el=document.createElement('div');el.className='cf';
+  el.style.cssText=`left:${4+Math.random()*92}vw;top:-12px;background:${CFC[~~(Math.random()*CFC.length)]};
+  border-radius:${Math.random()>.45?'50%':'3px'};width:${6+Math.random()*8}px;height:${6+Math.random()*8}px;
+  animation-duration:${1.5+Math.random()*2.2}s;animation-delay:${Math.random()*.6}s;`;
+  document.body.appendChild(el);setTimeout(()=>el.remove(),4300);}}
+
+// ═══════════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════════
+loadData();
+if(!USER){show('signup');}
+else if(USER.age<1||USER.age>7){showSorry(USER.age);}
+else{
+  applyAgeMode(USER.age);
+  // If no access at all, go straight to wallet
+  if(!hasAccess()){showWallet();}
+  else{renderHome();} // credit gate
+}
+</script>
+</body>
+</html>
