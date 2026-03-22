@@ -1,0 +1,1638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Smart Learning — Admin Console</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0a0b0e;--surface:#111318;--surface2:#181c24;--surface3:#1e2330;
+  --border:#ffffff0f;--border2:#ffffff18;
+  --text:#f0f2f7;--text2:#8b95a8;--text3:#4a5568;
+  --accent:#6366f1;--accent2:#818cf8;--accent-glow:#6366f133;
+  --green:#22c55e;--green-bg:#052814;
+  --orange:#f59e0b;--orange-bg:#1a0e00;
+  --red:#ef4444;--red-bg:#1a0505;
+  --blue:#3b82f6;--blue-bg:#050e1a;
+  --purple:#a855f7;--purple-bg:#0d0516;
+  --mono:'DM Mono',monospace;
+  --sans:'DM Sans',sans-serif;
+  --r:12px;--r2:8px;
+}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+
+/* ── CONFIG SCREEN ── */
+#scr-config{
+  display:flex;align-items:center;justify-content:center;
+  min-height:100vh;padding:20px;
+  background:radial-gradient(ellipse at 30% 20%,#6366f115 0%,transparent 60%),
+             radial-gradient(ellipse at 80% 80%,#a855f710 0%,transparent 60%),
+             var(--bg);
+}
+.cfg-card{
+  background:var(--surface);border:1px solid var(--border2);border-radius:20px;
+  padding:44px 40px;max-width:480px;width:100%;
+  box-shadow:0 40px 80px #00000080;
+}
+.cfg-logo{font-size:2rem;margin-bottom:6px;}
+.cfg-title{font-size:1.5rem;font-weight:700;margin-bottom:6px;}
+.cfg-sub{font-size:.875rem;color:var(--text2);margin-bottom:32px;line-height:1.6;}
+.cfg-field{margin-bottom:18px;}
+.cfg-label{font-size:.75rem;font-weight:600;color:var(--text2);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;display:block;}
+.cfg-input{
+  width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:var(--r2);
+  padding:11px 14px;font-family:var(--mono);font-size:.85rem;color:var(--text);outline:none;
+  transition:border-color .15s;
+}
+.cfg-input:focus{border-color:var(--accent);}
+.cfg-input::placeholder{color:var(--text3);}
+.cfg-btn{
+  width:100%;padding:13px;border-radius:var(--r2);border:none;cursor:pointer;
+  background:linear-gradient(135deg,var(--accent),#818cf8);
+  color:#fff;font-family:var(--sans);font-size:.95rem;font-weight:600;
+  transition:opacity .15s,transform .1s;margin-top:4px;
+}
+.cfg-btn:hover{opacity:.9;transform:translateY(-1px);}
+.cfg-btn:active{transform:translateY(0);}
+.cfg-err{color:var(--red);font-size:.8rem;margin-top:12px;text-align:center;min-height:18px;}
+
+/* ── ADMIN LAYOUT ── */
+#scr-admin{display:none;min-height:100vh;display:none;}
+#scr-admin.active{display:flex;}
+
+/* Sidebar */
+.sidebar{
+  width:220px;min-width:220px;background:var(--surface);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto;
+}
+.sb-logo{padding:24px 20px 20px;border-bottom:1px solid var(--border);}
+.sb-logo-title{font-size:.9rem;font-weight:700;color:var(--text);}
+.sb-logo-sub{font-size:.7rem;color:var(--text3);margin-top:2px;}
+.sb-nav{flex:1;padding:12px 10px;}
+.sb-section{font-size:.65rem;font-weight:600;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;padding:12px 10px 6px;}
+.sb-btn{
+  display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:var(--r2);
+  cursor:pointer;font-size:.85rem;color:var(--text2);transition:all .15s;
+  border:none;background:none;width:100%;text-align:left;
+}
+.sb-btn:hover{background:var(--surface2);color:var(--text);}
+.sb-btn.active{background:var(--accent-glow);color:var(--accent2);}
+.sb-btn .sb-ico{font-size:1rem;width:20px;text-align:center;}
+.sb-footer{padding:14px 10px;border-top:1px solid var(--border);}
+.sb-cred{font-size:.7rem;color:var(--text3);font-family:var(--mono);word-break:break-all;}
+.sb-logout{
+  display:block;width:100%;margin-top:8px;padding:7px;border-radius:var(--r2);
+  background:none;border:1px solid var(--border2);color:var(--text2);
+  font-size:.8rem;cursor:pointer;transition:all .15s;
+}
+.sb-logout:hover{border-color:var(--red);color:var(--red);}
+
+/* Main content */
+.main{flex:1;overflow-y:auto;padding:28px;}
+
+/* Page header */
+.page-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;}
+.page-title{font-size:1.4rem;font-weight:700;}
+.page-sub{font-size:.8rem;color:var(--text2);margin-top:2px;}
+.refresh-btn{
+  background:var(--surface2);border:1px solid var(--border2);border-radius:var(--r2);
+  padding:8px 16px;color:var(--text2);font-size:.82rem;cursor:pointer;
+  display:flex;align-items:center;gap:6px;transition:all .15s;
+}
+.refresh-btn:hover{border-color:var(--accent);color:var(--accent2);}
+
+/* Stat cards */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:28px;}
+.stat-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r);
+  padding:20px;position:relative;overflow:hidden;transition:border-color .2s;
+}
+.stat-card:hover{border-color:var(--border2);}
+.stat-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--accent-color,var(--accent));opacity:.7;
+}
+.stat-label{font-size:.72rem;font-weight:600;color:var(--text3);letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px;}
+.stat-val{font-family:var(--mono);font-size:2rem;font-weight:500;color:var(--text);line-height:1;}
+.stat-change{font-size:.75rem;color:var(--text2);margin-top:8px;}
+.stat-change.up{color:var(--green);}
+.stat-change.warn{color:var(--orange);}
+
+/* Section card */
+.card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--r);
+  margin-bottom:20px;overflow:hidden;
+}
+.card-hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px;border-bottom:1px solid var(--border);
+}
+.card-title{font-size:.9rem;font-weight:600;}
+.card-sub{font-size:.75rem;color:var(--text2);}
+.card-body{padding:0;}
+
+/* Table */
+.tbl{width:100%;border-collapse:collapse;font-size:.82rem;}
+.tbl th{
+  text-align:left;padding:10px 16px;font-size:.68rem;font-weight:600;
+  color:var(--text3);letter-spacing:.07em;text-transform:uppercase;
+  border-bottom:1px solid var(--border);background:var(--surface2);
+  white-space:nowrap;
+}
+.tbl td{
+  padding:10px 16px;border-bottom:1px solid var(--border);
+  color:var(--text2);vertical-align:middle;
+}
+.tbl tr:last-child td{border-bottom:none;}
+.tbl tr:hover td{background:var(--surface2);color:var(--text);}
+.tbl td.mono{font-family:var(--mono);color:var(--text);}
+.tbl td .name{color:var(--text);font-weight:500;}
+
+/* Badges */
+.badge{
+  display:inline-block;padding:2px 8px;border-radius:20px;
+  font-size:.68rem;font-weight:600;letter-spacing:.04em;
+}
+.badge.green{background:var(--green-bg);color:var(--green);border:1px solid #22c55e30;}
+.badge.orange{background:var(--orange-bg);color:var(--orange);border:1px solid #f59e0b30;}
+.badge.purple{background:var(--purple-bg);color:var(--purple);border:1px solid #a855f730;}
+.badge.blue{background:var(--blue-bg);color:var(--blue);border:1px solid #3b82f630;}
+.badge.red{background:var(--red-bg);color:var(--red);border:1px solid #ef444430;}
+.badge.gray{background:var(--surface3);color:var(--text2);border:1px solid var(--border);}
+
+/* Progress bar */
+.prog-bar{background:var(--surface3);border-radius:4px;height:6px;overflow:hidden;min-width:80px;}
+.prog-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .4s;}
+
+/* Charts */
+.chart-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
+.mini-chart{height:120px;display:flex;align-items:flex-end;gap:4px;padding:0 4px;}
+.bar{
+  flex:1;background:var(--accent);opacity:.6;border-radius:3px 3px 0 0;
+  transition:opacity .15s;cursor:default;position:relative;min-width:8px;
+}
+.bar:hover{opacity:1;}
+.bar .tip{
+  display:none;position:absolute;bottom:calc(100%+4px);left:50%;transform:translateX(-50%);
+  background:var(--surface3);border:1px solid var(--border2);border-radius:4px;
+  padding:4px 8px;font-size:.7rem;white-space:nowrap;color:var(--text);
+  pointer-events:none;z-index:10;
+}
+.bar:hover .tip{display:block;}
+
+/* Age donut */
+.donut-wrap{display:flex;align-items:center;gap:20px;padding:16px 20px;}
+.donut-svg{flex-shrink:0;}
+.donut-legend{display:flex;flex-direction:column;gap:8px;}
+.dl-row{display:flex;align-items:center;gap:8px;font-size:.78rem;}
+.dl-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.dl-lbl{color:var(--text2);}
+.dl-cnt{font-family:var(--mono);color:var(--text);font-size:.82rem;margin-left:auto;padding-left:12px;}
+
+/* Search + filter */
+.tbl-controls{display:flex;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border);background:var(--surface2);}
+.tbl-search{
+  flex:1;background:var(--surface);border:1px solid var(--border2);border-radius:var(--r2);
+  padding:7px 12px;font-family:var(--sans);font-size:.82rem;color:var(--text);outline:none;
+}
+.tbl-search::placeholder{color:var(--text3);}
+.tbl-search:focus{border-color:var(--accent);}
+.tbl-filter{
+  background:var(--surface);border:1px solid var(--border2);border-radius:var(--r2);
+  padding:7px 12px;font-family:var(--sans);font-size:.82rem;color:var(--text2);outline:none;cursor:pointer;
+}
+
+/* User detail panel */
+.detail-overlay{
+  display:none;position:fixed;inset:0;background:#00000088;z-index:100;
+  align-items:flex-start;justify-content:flex-end;
+}
+.detail-overlay.open{display:flex;}
+.detail-panel{
+  width:420px;max-width:100%;height:100vh;overflow-y:auto;
+  background:var(--surface);border-left:1px solid var(--border);
+  animation:slideIn .25s ease;
+}
+@keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
+.dp-hdr{display:flex;align-items:center;justify-content:space-between;padding:20px;border-bottom:1px solid var(--border);}
+.dp-close{background:none;border:none;color:var(--text2);font-size:1.3rem;cursor:pointer;padding:4px;}
+.dp-close:hover{color:var(--text);}
+.dp-body{padding:20px;}
+.dp-name{font-size:1.2rem;font-weight:700;margin-bottom:4px;}
+.dp-email{font-family:var(--mono);font-size:.78rem;color:var(--text2);margin-bottom:16px;}
+.dp-section{margin-bottom:20px;}
+.dp-section-title{font-size:.68rem;font-weight:600;color:var(--text3);letter-spacing:.07em;text-transform:uppercase;margin-bottom:10px;}
+.dp-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);}
+.dp-row:last-child{border-bottom:none;}
+.dp-row .lbl{font-size:.8rem;color:var(--text2);}
+.dp-row .val{font-size:.82rem;color:var(--text);font-family:var(--mono);}
+.day-grid{display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;}
+.day-dot{
+  width:22px;height:22px;border-radius:4px;display:flex;align-items:center;justify-content:center;
+  font-size:.6rem;font-weight:700;background:var(--surface3);color:var(--text3);
+}
+.day-dot.done{background:#052814;color:var(--green);}
+.day-dot.current{background:var(--accent-glow);color:var(--accent2);}
+
+/* Empty state */
+.empty{text-align:center;padding:48px 20px;color:var(--text3);}
+.empty .ei{font-size:2.5rem;margin-bottom:12px;}
+.empty p{font-size:.85rem;}
+
+/* Loading */
+.loading{display:flex;align-items:center;justify-content:center;padding:40px;gap:10px;color:var(--text2);}
+.spin{width:18px;height:18px;border:2px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .6s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Tabs */
+.tabs{display:flex;border-bottom:1px solid var(--border);padding:0 20px;background:var(--surface2);}
+.tab{
+  padding:10px 16px;font-size:.82rem;color:var(--text2);cursor:pointer;
+  border-bottom:2px solid transparent;transition:all .15s;margin-bottom:-1px;
+}
+.tab:hover{color:var(--text);}
+.tab.active{color:var(--accent2);border-bottom-color:var(--accent);}
+.tab-pane{display:none;padding:20px;}
+.tab-pane.active{display:block;}
+
+/* Toast */
+.toast{
+  position:fixed;bottom:20px;right:20px;background:var(--surface3);border:1px solid var(--border2);
+  border-radius:var(--r2);padding:12px 16px;font-size:.82rem;color:var(--text);
+  animation:fadeInUp .3s ease;z-index:9999;
+}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* Revenue total */
+.rev-big{font-family:var(--mono);font-size:2.2rem;font-weight:500;color:var(--green);}
+.rev-sub{font-size:.75rem;color:var(--text2);margin-top:4px;}
+
+/* Page visibility */
+.page{display:none;}
+.page.active{display:block;}
+
+@media(max-width:768px){
+  .sidebar{display:none;}
+  .chart-row{grid-template-columns:1fr;}
+  .stats-grid{grid-template-columns:1fr 1fr;}
+  .detail-panel{width:100%;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ CONFIG SCREEN ══ -->
+<div id="scr-config">
+  <div class="cfg-card">
+    <div class="cfg-logo">🎓</div>
+    <div class="cfg-title">Admin Console</div>
+    <div class="cfg-sub">Smart Learning Adventure · Enter your Supabase credentials to access the dashboard.</div>
+    <div style="background:#1a0e00;border:1px solid #f59e0b40;border-radius:8px;padding:10px 14px;font-size:.78rem;color:#f59e0b;margin-bottom:12px;">⚠️ Must be opened from a web server — not a local file. Upload to GitHub Pages or run <code style="background:#0a0500;padding:2px 6px;border-radius:4px;">npx serve .</code></div>
+    <div class="cfg-field">
+      <label class="cfg-label">Supabase Project URL</label>
+      <input class="cfg-input" id="cfg-url" type="url" placeholder="https://xyzabc.supabase.co" autocomplete="off">
+    </div>
+    <div class="cfg-field">
+      <label class="cfg-label">Anon / Service Key</label>
+      <input class="cfg-input" id="cfg-key" type="password" placeholder="eyJhbGci..." autocomplete="off">
+    </div>
+    <button class="cfg-btn" onclick="connectSupabase()">Connect → Access Dashboard</button>
+    <div class="cfg-err" id="cfg-err"></div>
+    <div style="font-size:.7rem;color:var(--text3);margin-top:16px;text-align:center;">
+      Credentials stored only in sessionStorage — cleared when you close the browser.
+    </div>
+  </div>
+</div>
+
+<!-- ══ ADMIN SCREEN ══ -->
+<div id="scr-admin">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sb-logo">
+      <div class="sb-logo-title">🎓 SLA Admin</div>
+      <div class="sb-logo-sub">Smart Learning Adventure</div>
+    </div>
+    <div class="sb-nav">
+      <div class="sb-section">Analytics</div>
+      <button class="sb-btn active" onclick="showPage('dashboard',this)"><span class="sb-ico">📊</span>Dashboard</button>
+      <button class="sb-btn" onclick="showPage('revenue',this)"><span class="sb-ico">💰</span>Revenue</button>
+
+      <div class="sb-section">Users</div>
+      <button class="sb-btn" onclick="showPage('users',this)"><span class="sb-ico">👶</span>All Users</button>
+      <button class="sb-btn" onclick="showPage('progress',this)"><span class="sb-ico">📈</span>Progress</button>
+      <button class="sb-btn" onclick="showPage('completions',this)"><span class="sb-ico">✅</span>Day Completions</button>
+
+      <div class="sb-section">Manage</div>
+      <button class="sb-btn" onclick="showPage('credits',this)"><span class="sb-ico">🪙</span>Credits</button>
+      <button class="sb-btn" onclick="showPage('questions',this)"><span class="sb-ico">📝</span>Questions</button>
+    </div>
+    <div class="sb-footer">
+      <div class="sb-cred" id="sb-url-display"></div>
+      <button class="sb-logout" onclick="logout()">Disconnect</button>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+
+    <!-- DASHBOARD PAGE -->
+    <div class="page active" id="page-dashboard">
+      <div class="page-hdr">
+        <div>
+          <div class="page-title">Dashboard</div>
+          <div class="page-sub" id="dash-last-updated">Loading...</div>
+        </div>
+        <button class="refresh-btn" onclick="loadAll()">↻ Refresh</button>
+      </div>
+
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat-card" style="--accent-color:#6366f1">
+          <div class="stat-label">Total Users</div>
+          <div class="stat-val" id="st-total">—</div>
+          <div class="stat-change" id="st-today-new"></div>
+        </div>
+        <div class="stat-card" style="--accent-color:#22c55e">
+          <div class="stat-label">Days Completed</div>
+          <div class="stat-val" id="st-days">—</div>
+          <div class="stat-change" id="st-days-sub"></div>
+        </div>
+        <div class="stat-card" style="--accent-color:#f59e0b">
+          <div class="stat-label">Active Today</div>
+          <div class="stat-val" id="st-active">—</div>
+          <div class="stat-change">unique children</div>
+        </div>
+        <div class="stat-card" style="--accent-color:#a855f7">
+          <div class="stat-label">Credits Sold</div>
+          <div class="stat-val" id="st-credits">—</div>
+          <div class="stat-change" id="st-credits-sub"></div>
+        </div>
+      </div>
+
+      <div class="chart-row">
+        <div class="card">
+          <div class="card-hdr"><div class="card-title">Daily Completions (last 14 days)</div></div>
+          <div class="card-body" style="padding:16px 20px 12px;">
+            <div class="mini-chart" id="chart-completions"></div>
+            <div style="display:flex;justify-content:space-between;font-size:.65rem;color:var(--text3);margin-top:6px;" id="chart-labels"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-hdr"><div class="card-title">Users by Age Group</div></div>
+          <div class="card-body">
+            <div class="donut-wrap">
+              <svg class="donut-svg" width="100" height="100" viewBox="0 0 100 100" id="donut-svg">
+                <circle cx="50" cy="50" r="36" fill="none" stroke="var(--surface3)" stroke-width="14"/>
+              </svg>
+              <div class="donut-legend" id="donut-legend"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hdr">
+          <div><div class="card-title">Recent Signups</div><div class="card-sub">Latest 10 users</div></div>
+        </div>
+        <div class="card-body">
+          <table class="tbl">
+            <thead><tr><th>Name</th><th>Email</th><th>Age</th><th>Grade</th><th>Device</th><th>Joined</th></tr></thead>
+            <tbody id="tbl-recent"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- USERS PAGE -->
+    <div class="page" id="page-users">
+      <div class="page-hdr">
+        <div><div class="page-title">All Users</div><div class="page-sub" id="users-count"></div></div>
+        <button class="refresh-btn" onclick="loadUsers()">↻ Refresh</button>
+      </div>
+      <div class="card">
+        <div class="tbl-controls">
+          <input class="tbl-search" id="user-search" placeholder="Search name or email..." oninput="filterUsers()">
+          <select class="tbl-filter" id="user-age-filter" onchange="filterUsers()">
+            <option value="">All ages</option>
+            <option value="1">Age 1</option><option value="2">Age 2</option>
+            <option value="3">Age 3</option><option value="4">Age 4</option>
+            <option value="5">Age 5</option><option value="6">Age 6</option>
+            <option value="7">Age 7</option>
+          </select>
+        </div>
+        <table class="tbl">
+          <thead><tr><th>Name</th><th>Email</th><th>Age</th><th>Days Done</th><th>Credits</th><th>Pack</th><th>Last Active</th><th></th></tr></thead>
+          <tbody id="tbl-users"></tbody>
+        </table>
+        <div id="users-loading" class="loading"><div class="spin"></div>Loading users...</div>
+      </div>
+    </div>
+
+    <!-- PROGRESS PAGE -->
+    <div class="page" id="page-progress">
+      <div class="page-hdr">
+        <div><div class="page-title">Progress Tracker</div><div class="page-sub">All children's journey through the 31 days</div></div>
+        <button class="refresh-btn" onclick="loadProgress()">↻ Refresh</button>
+      </div>
+      <div class="card">
+        <table class="tbl">
+          <thead><tr><th>Name</th><th>Age</th><th>Progress</th><th>Days</th><th>Last Day</th><th>Credits</th><th>Updated</th></tr></thead>
+          <tbody id="tbl-progress"></tbody>
+        </table>
+        <div id="progress-loading" class="loading"><div class="spin"></div>Loading...</div>
+      </div>
+    </div>
+
+    <!-- COMPLETIONS PAGE -->
+    <div class="page" id="page-completions">
+      <div class="page-hdr">
+        <div><div class="page-title">Day Completions</div><div class="page-sub" id="comp-count"></div></div>
+        <button class="refresh-btn" onclick="loadCompletions()">↻ Refresh</button>
+      </div>
+      <div class="card">
+        <div class="tbl-controls">
+          <input class="tbl-search" id="comp-search" placeholder="Search name or email..." oninput="filterCompletions()">
+          <select class="tbl-filter" id="comp-day-filter" onchange="filterCompletions()">
+            <option value="">All days</option>
+          </select>
+        </div>
+        <table class="tbl">
+          <thead><tr><th>Name</th><th>Email</th><th>Age</th><th>Day</th><th>Date</th><th>Questions</th><th>Pack</th></tr></thead>
+          <tbody id="tbl-completions"></tbody>
+        </table>
+        <div id="completions-loading" class="loading"><div class="spin"></div>Loading...</div>
+      </div>
+    </div>
+
+    <!-- REVENUE PAGE -->
+    <div class="page" id="page-revenue">
+      <div class="page-hdr">
+        <div><div class="page-title">Revenue Overview</div><div class="page-sub">Estimated from credits sold (demo data)</div></div>
+        <button class="refresh-btn" onclick="loadRevenue()">↻ Refresh</button>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card" style="--accent-color:#22c55e">
+          <div class="stat-label">Est. Total Revenue</div>
+          <div class="rev-big" id="rev-total">₹—</div>
+          <div class="rev-sub">Based on ₹10/daily, ₹65/weekly, ₹280/monthly</div>
+        </div>
+        <div class="stat-card" style="--accent-color:#6366f1">
+          <div class="stat-label">Daily Pack Users</div>
+          <div class="stat-val" id="rev-daily">—</div>
+          <div class="stat-change" id="rev-daily-amt"></div>
+        </div>
+        <div class="stat-card" style="--accent-color:#f59e0b">
+          <div class="stat-label">Weekly Pack Users</div>
+          <div class="stat-val" id="rev-weekly">—</div>
+          <div class="stat-change" id="rev-weekly-amt"></div>
+        </div>
+        <div class="stat-card" style="--accent-color:#a855f7">
+          <div class="stat-label">Monthly Pack Users</div>
+          <div class="stat-val" id="rev-monthly">—</div>
+          <div class="stat-change" id="rev-monthly-amt"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-hdr"><div class="card-title">Pack Distribution</div></div>
+        <table class="tbl">
+          <thead><tr><th>Pack Type</th><th>Users</th><th>Est. Revenue</th><th>Share</th></tr></thead>
+          <tbody id="tbl-revenue"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- CREDITS PAGE -->
+    <div class="page" id="page-credits">
+      <div class="page-hdr">
+        <div><div class="page-title">Credits Management</div><div class="page-sub">View and manage credit balances</div></div>
+        <button class="refresh-btn" onclick="loadCredits()">↻ Refresh</button>
+      </div>
+      <div class="card">
+        <table class="tbl">
+          <thead><tr><th>Name</th><th>Email</th><th>Age</th><th>Balance</th><th>Pack</th><th>Days Done</th><th>Last Updated</th></tr></thead>
+          <tbody id="tbl-credits"></tbody>
+        </table>
+        <div id="credits-loading" class="loading"><div class="spin"></div>Loading...</div>
+      </div>
+    </div>
+
+
+    <!-- QUESTIONS PAGE -->
+    <div class="page" id="page-questions">
+      <div class="page-hdr">
+        <div><div class="page-title">Questions Manager</div><div class="page-sub" id="q-count-sub">Loading...</div></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="refresh-btn" onclick="checkDuplicates()">🔍 Duplicates</button>
+          <button class="refresh-btn" onclick="showAddQuestion()" style="border-color:var(--green);color:var(--green)">+ Add Question</button>
+          <button class="refresh-btn" onclick="seedQuestionsFromAdmin()" style="border-color:var(--purple);color:var(--purple)" id="seed-btn">🌱 Seed All Questions</button>
+          <button class="refresh-btn" onclick="loadQuestions()">↻ Refresh</button>
+        </div>
+      </div>
+
+      <!-- Stats row -->
+      <div class="stats-grid" id="q-stats" style="grid-template-columns:repeat(auto-fill,minmax(140px,1fr));margin-bottom:16px;"></div>
+
+      <!-- Filters -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="tbl-controls" style="flex-wrap:wrap;gap:8px;">
+          <input class="tbl-search" id="q-search" placeholder="Search question text..." oninput="filterQuestions()" style="min-width:200px;">
+          <select class="tbl-filter" id="q-age-filter" onchange="filterQuestions()">
+            <option value="">All ages</option>
+            <option value="1">Age 1</option><option value="2">Age 2</option>
+            <option value="3">Age 3</option><option value="4">Age 4</option>
+            <option value="5">Age 5</option><option value="6">Age 6</option>
+            <option value="7">Age 7</option>
+          </select>
+          <select class="tbl-filter" id="q-diff-filter" onchange="filterQuestions()">
+            <option value="">All difficulty</option>
+            <option value="1">Easy (1)</option>
+            <option value="2">Medium (2)</option>
+            <option value="3">Hard (3)</option>
+          </select>
+          <select class="tbl-filter" id="q-status-filter" onchange="filterQuestions()">
+            <option value="">All status</option>
+            <option value="true">Active</option>
+            <option value="false">Inactive</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Question Table -->
+      <div class="card">
+        <table class="tbl">
+          <thead>
+            <tr>
+              <th style="width:40px">ID</th>
+              <th style="width:50px">Age</th>
+              <th style="width:50px">Diff</th>
+              <th>Question</th>
+              <th style="width:180px">Options</th>
+              <th style="width:60px">Answer</th>
+              <th style="width:70px">Status</th>
+              <th style="width:100px">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="tbl-questions"></tbody>
+        </table>
+        <div id="q-loading" class="loading"><div class="spin"></div>Loading questions...</div>
+        <div id="q-pagination" style="display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-top:1px solid var(--border);font-size:.8rem;color:var(--text2);">
+          <span id="q-page-info"></span>
+          <div style="display:flex;gap:8px;">
+            <button class="refresh-btn" id="q-prev" onclick="qPage(-1)" style="padding:5px 12px">← Prev</button>
+            <button class="refresh-btn" id="q-next" onclick="qPage(1)"  style="padding:5px 12px">Next →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main -->
+</div><!-- /scr-admin -->
+
+<!-- Question Edit Modal -->
+<div class="detail-overlay" id="q-modal" onclick="closeQModal(event)">
+  <div class="detail-panel" id="q-modal-panel" style="width:520px;">
+    <div class="dp-hdr">
+      <div style="font-weight:600;font-size:.95rem;" id="q-modal-title">Add Question</div>
+      <button class="dp-close" onclick="closeQModalDirect()">✕</button>
+    </div>
+    <div class="dp-body" id="q-modal-body">
+      <div class="dp-section">
+        <div class="dp-section-title">Metadata</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;">
+          <div>
+            <div class="cfg-label" style="font-size:.65rem;margin-bottom:4px;">Age Group</div>
+            <select class="tbl-filter" id="qf-age" style="width:100%">
+              <option value="3">Age 3</option><option value="4">Age 4</option>
+              <option value="5">Age 5</option><option value="6">Age 6</option>
+              <option value="7">Age 7</option>
+            </select>
+          </div>
+          <div>
+            <div class="cfg-label" style="font-size:.65rem;margin-bottom:4px;">Difficulty</div>
+            <select class="tbl-filter" id="qf-diff" style="width:100%">
+              <option value="1">Easy</option>
+              <option value="2" selected>Medium</option>
+              <option value="3">Hard</option>
+            </select>
+          </div>
+          <div>
+            <div class="cfg-label" style="font-size:.65rem;margin-bottom:4px;">Active</div>
+            <select class="tbl-filter" id="qf-active" style="width:100%">
+              <option value="true" selected>Active</option>
+              <option value="false">Inactive</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="dp-section">
+        <div class="dp-section-title">Question</div>
+        <textarea id="qf-text" style="width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:10px;color:var(--text);font-family:var(--sans);font-size:.85rem;resize:vertical;min-height:70px;outline:none;margin-bottom:10px;" placeholder="Enter question text..."></textarea>
+        <div class="cfg-label" style="font-size:.65rem;margin-bottom:6px;">Options (one per line, correct answer marked with ✓)</div>
+        <div id="qf-options-wrap" style="display:flex;flex-direction:column;gap:6px;">
+          <!-- options inserted dynamically -->
+        </div>
+        <button onclick="addOptionField()" style="margin-top:8px;background:none;border:1px dashed var(--border2);border-radius:6px;padding:6px 12px;color:var(--text2);font-size:.78rem;width:100%;cursor:pointer;">+ Add Option</button>
+      </div>
+      <div class="dp-section">
+        <div class="dp-section-title">Notes (optional)</div>
+        <input id="qf-notes" type="text" style="width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:8px 12px;color:var(--text);font-size:.82rem;outline:none;" placeholder="Admin notes...">
+      </div>
+      <div style="display:flex;gap:10px;margin-top:20px;">
+        <button onclick="saveQuestion()" style="flex:1;padding:11px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:8px;color:#fff;font-weight:600;font-size:.9rem;cursor:pointer;" id="q-save-btn">Save Question</button>
+        <button onclick="closeQModalDirect()" style="padding:11px 18px;background:none;border:1px solid var(--border2);border-radius:8px;color:var(--text2);cursor:pointer;">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- User detail panel -->
+<div class="detail-overlay" id="detail-overlay" onclick="closeDetail(event)">
+  <div class="detail-panel" id="detail-panel">
+    <div class="dp-hdr">
+      <div style="font-weight:600;font-size:.9rem;">User Detail</div>
+      <button class="dp-close" onclick="closeDetailPanel()">✕</button>
+    </div>
+    <div class="dp-body" id="dp-body"></div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════
+//  CONFIG
+// ═══════════════════════════════════════
+let SB_URL='', SB_KEY='';
+let ALL_USERS=[], ALL_COMPLETIONS=[], ALL_PROGRESS=[];
+
+async function connectSupabase(){
+  const url=document.getElementById('cfg-url').value.trim().replace(/\/$/,'');
+  const key=document.getElementById('cfg-key').value.trim();
+  const err=document.getElementById('cfg-err');
+  err.textContent='';
+  if(!url||!key){err.textContent='Please fill both fields.';return;}
+  err.textContent='Connecting...';err.style.color='var(--text2)';
+  // Validate URL format
+  if(!url.startsWith('https://')&&!url.startsWith('http://')){
+    err.textContent='URL must start with https://  e.g. https://xyzabc.supabase.co';
+    err.style.color='var(--red)'; return;
+  }
+  if(key.length<20){
+    err.textContent='Key looks too short — paste the full anon key from Supabase → Settings → API';
+    err.style.color='var(--red)'; return;
+  }
+  try{
+    const r=await fetch(`${url}/rest/v1/signups?limit=1`,{
+      method:'GET',
+      mode:'cors',
+      headers:{
+        'apikey':key,
+        'Authorization':'Bearer '+key,
+        'Accept':'application/json'
+      }
+    });
+    if(r.status===200||r.status===406||r.status===400||r.status===401){
+      // 401 = wrong key but server is reachable — let it through to show real error later
+      if(r.status===401){
+        err.textContent='Wrong API key — check Supabase → Settings → API → anon/public key';
+        err.style.color='var(--red)'; return;
+      }
+      SB_URL=url; SB_KEY=key;
+      sessionStorage.setItem('sla_admin_url',url);
+      sessionStorage.setItem('sla_admin_key',key);
+      enterAdmin();
+    } else {
+      let msg='';
+      try{const t=await r.text();const j=JSON.parse(t);msg=j.message||j.hint||t;}catch(_){msg='HTTP '+r.status;}
+      err.textContent='Supabase error: '+msg;
+      err.style.color='var(--red)';
+    }
+  }catch(e){
+    // "Failed to fetch" usually means one of:
+    // 1. Opening as file:// — need to serve from a web server or GitHub Pages
+    // 2. Wrong URL (typo, no https, etc.)
+    // 3. Network issue
+    if(e.message.includes('Failed to fetch')||e.message.includes('NetworkError')){
+      err.innerHTML='⚠️ <b>Cannot connect from a local file.</b><br><br>'
+        +'You need to open this file from a web server:<br><br>'
+        +'<b>Option 1:</b> Upload <code>admin-console.html</code> to your GitHub Pages repo<br>'
+        +'and open it as <code>https://yourusername.github.io/your-repo/admin-console.html</code><br><br>'
+        +'<b>Option 2:</b> Run locally with: <code>npx serve .</code> then open <code>http://localhost:3000/admin-console.html</code>';
+      err.style.color='var(--orange)';
+    } else {
+      err.textContent='Connection failed: '+e.message;
+      err.style.color='var(--red)';
+    }
+  }
+}
+
+function logout(){
+  sessionStorage.removeItem('sla_admin_url');
+  sessionStorage.removeItem('sla_admin_key');
+  SB_URL=''; SB_KEY='';
+  document.getElementById('scr-config').style.display='flex';
+  document.getElementById('scr-admin').classList.remove('active');
+}
+
+function enterAdmin(){
+  document.getElementById('scr-config').style.display='none';
+  document.getElementById('scr-admin').classList.add('active');
+  document.getElementById('sb-url-display').textContent=SB_URL.replace('https://','');
+  loadAll();
+}
+
+// Auto-restore session
+(function(){
+  const u=sessionStorage.getItem('sla_admin_url');
+  const k=sessionStorage.getItem('sla_admin_key');
+  if(u&&k){SB_URL=u;SB_KEY=k;
+    document.getElementById('cfg-url').value=u;
+    document.getElementById('cfg-key').value=k;
+    enterAdmin();
+  }
+})();
+
+// ═══════════════════════════════════════
+//  SUPABASE HELPERS
+// ═══════════════════════════════════════
+async function sb(table, params=''){
+  const r=await fetch(`${SB_URL}/rest/v1/${table}${params?'?'+params:''}`,{
+    method:'GET', mode:'cors',
+    headers:{apikey:SB_KEY,'Authorization':'Bearer '+SB_KEY,'Accept':'application/json'}
+  });
+  if(!r.ok) throw new Error(await r.text());
+  return r.json();
+}
+
+// ═══════════════════════════════════════
+//  PAGE NAVIGATION
+// ═══════════════════════════════════════
+function showPage(id, btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.sb-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  if(btn) btn.classList.add('active');
+  // Lazy-load page data
+  if(id==='users') loadUsers();
+  else if(id==='progress') loadProgress();
+  else if(id==='completions') loadCompletions();
+  else if(id==='revenue') loadRevenue();
+  else if(id==='credits') loadCredits();
+}
+
+// ═══════════════════════════════════════
+//  LOAD ALL (dashboard)
+// ═══════════════════════════════════════
+async function loadAll(){
+  document.getElementById('dash-last-updated').textContent='Loading...';
+  try{
+    const [signups, progress, completions, daily] = await Promise.all([
+      sb('signups','order=signup_date.desc'),
+      sb('progress','order=updated_at.desc'),
+      sb('day_completions','order=created_at.desc'),
+      sb('daily_activity','order=completion_date.desc&limit=14')
+    ]);
+    ALL_USERS=signups; ALL_PROGRESS=progress; ALL_COMPLETIONS=completions;
+    renderDashboard(signups, progress, completions, daily);
+    document.getElementById('dash-last-updated').textContent='Last updated: '+new Date().toLocaleTimeString();
+  }catch(e){toast('Error loading: '+e.message,'red');}
+}
+
+function renderDashboard(signups, progress, completions, daily){
+  // Stats
+  const today=new Date().toISOString().slice(0,10);
+  const todayNew=signups.filter(u=>u.signup_date&&u.signup_date.slice(0,10)===today).length;
+  const totalDays=completions.length;
+  const activeToday=new Set(completions.filter(c=>c.completion_date===today).map(c=>c.parent_email)).size;
+  const totalCredits=progress.reduce((s,p)=>s+(p.credits_balance||0),0);
+
+  setVal('st-total',signups.length);
+  setVal('st-today-new',todayNew>0?`+${todayNew} today`:'No new today');
+  setVal('st-days',totalDays);
+  setVal('st-days-sub',`across ${signups.length} users`);
+  setVal('st-active',activeToday);
+  setVal('st-credits',totalCredits);
+  setVal('st-credits-sub','unused credits remaining');
+
+  // Daily chart
+  renderCompletionsChart(daily);
+
+  // Age donut
+  renderAgeDonut(signups);
+
+  // Recent signups
+  const tbody=document.getElementById('tbl-recent');
+  tbody.innerHTML=signups.slice(0,10).map(u=>`
+    <tr onclick="openDetail('${u.parent_email}')" style="cursor:pointer">
+      <td><span class="name">${esc(u.child_name)}</span></td>
+      <td class="mono" style="font-size:.75rem">${esc(u.parent_email)}</td>
+      <td><span class="badge ${ageBadge(u.age)}">${u.age||'?'}</span></td>
+      <td>${esc(u.grade||'—')}</td>
+      <td>${deviceIcon(u.device)} ${esc(u.device||'—')}</td>
+      <td style="color:var(--text2);font-size:.78rem">${fmtDate(u.signup_date)}</td>
+    </tr>`).join('')||'<tr><td colspan="6" class="empty"><p>No users yet</p></td></tr>';
+}
+
+function renderCompletionsChart(daily){
+  const container=document.getElementById('chart-completions');
+  const labels=document.getElementById('chart-labels');
+  if(!daily||!daily.length){container.innerHTML='<div class="empty" style="flex:1"><p>No data</p></div>';return;}
+  const sorted=[...daily].reverse().slice(-14);
+  const max=Math.max(...sorted.map(d=>d.total_completions||0),1);
+  container.innerHTML=sorted.map(d=>{
+    const h=Math.max(4,Math.round(((d.total_completions||0)/max)*100));
+    return `<div class="bar" style="height:${h}%"><div class="tip">${fmtDateShort(d.completion_date)}: ${d.total_completions}</div></div>`;
+  }).join('');
+  labels.innerHTML=sorted.filter((_,i)=>i%2===0).map(d=>`<span>${fmtDateShort(d.completion_date)}</span>`).join('');
+}
+
+function renderAgeDonut(signups){
+  const ageCounts={};
+  signups.forEach(u=>{ const a=u.age||0; ageCounts[a]=(ageCounts[a]||0)+1; });
+  const ages=Object.entries(ageCounts).sort((a,b)=>a[0]-b[0]);
+  const total=signups.length||1;
+  const colors=['#6366f1','#22c55e','#f59e0b','#ef4444','#3b82f6','#a855f7','#ec4899'];
+  const ageLabels={1:'Nursery',2:'Pre-Nursery',3:'LKG',4:'UKG',5:'Class 1',6:'Class 2',7:'Class 3'};
+  
+  let circumference=226; // 2*pi*36
+  let offset=0;
+  const paths=ages.map(([age,cnt],i)=>{
+    const pct=(cnt/total);
+    const dash=pct*circumference;
+    const path=`<circle cx="50" cy="50" r="36" fill="none" stroke="${colors[i%colors.length]}" stroke-width="14"
+      stroke-dasharray="${dash} ${circumference}" stroke-dashoffset="${-offset}" transform="rotate(-90 50 50)"/>`;
+    offset+=dash;
+    return path;
+  }).join('');
+  
+  document.getElementById('donut-svg').innerHTML=
+    `<circle cx="50" cy="50" r="36" fill="none" stroke="var(--surface3)" stroke-width="14"/>${paths}
+     <text x="50" y="54" text-anchor="middle" font-size="16" font-family="DM Mono" fill="var(--text)">${total}</text>`;
+  
+  document.getElementById('donut-legend').innerHTML=ages.map(([age,cnt],i)=>`
+    <div class="dl-row">
+      <div class="dl-dot" style="background:${colors[i%colors.length]}"></div>
+      <div class="dl-lbl">Age ${age} · ${ageLabels[age]||''}</div>
+      <div class="dl-cnt">${cnt}</div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════
+//  USERS PAGE
+// ═══════════════════════════════════════
+async function loadUsers(){
+  document.getElementById('users-loading').style.display='flex';
+  try{
+    const [signups, progress]=await Promise.all([
+      sb('signups','order=signup_date.desc'),
+      sb('progress')
+    ]);
+    ALL_USERS=signups; ALL_PROGRESS=progress;
+    const progMap={};progress.forEach(p=>progMap[p.parent_email]=p);
+    renderUsersTable(signups, progMap);
+  }catch(e){toast('Error: '+e.message,'red');}
+  document.getElementById('users-loading').style.display='none';
+}
+
+function renderUsersTable(users, progMap){
+  progMap=progMap||buildProgMap();
+  document.getElementById('users-count').textContent=users.length+' users total';
+  document.getElementById('tbl-users').innerHTML=users.map(u=>{
+    const p=progMap[u.parent_email]||{};
+    return `<tr onclick="openDetail('${esc(u.parent_email)}')" style="cursor:pointer">
+      <td><span class="name">${esc(u.child_name)}</span></td>
+      <td class="mono" style="font-size:.72rem">${esc(u.parent_email)}</td>
+      <td><span class="badge ${ageBadge(u.age)}">${u.age||'?'}</span></td>
+      <td>${p.days_completed||0} / 31</td>
+      <td class="mono">${p.credits_balance||0}</td>
+      <td>${packBadge(p.pack_type)}</td>
+      <td style="color:var(--text2);font-size:.75rem">${fmtDate(p.updated_at||u.signup_date)}</td>
+      <td><span style="color:var(--text3);font-size:.75rem">›</span></td>
+    </tr>`;
+  }).join('')||emptyRow(8,'No users found');
+}
+
+function filterUsers(){
+  const q=document.getElementById('user-search').value.toLowerCase();
+  const age=document.getElementById('user-age-filter').value;
+  const pm=buildProgMap();
+  const filtered=ALL_USERS.filter(u=>{
+    const matchText=!q||(u.child_name||'').toLowerCase().includes(q)||(u.parent_email||'').toLowerCase().includes(q);
+    const matchAge=!age||String(u.age)===age;
+    return matchText&&matchAge;
+  });
+  renderUsersTable(filtered, pm);
+}
+
+function buildProgMap(){
+  const m={};ALL_PROGRESS.forEach(p=>m[p.parent_email]=p);return m;
+}
+
+// ═══════════════════════════════════════
+//  PROGRESS PAGE
+// ═══════════════════════════════════════
+async function loadProgress(){
+  document.getElementById('progress-loading').style.display='flex';
+  try{
+    const [signups,progress]=await Promise.all([sb('signups'),sb('progress','order=days_completed.desc')]);
+    const nameMap={};signups.forEach(u=>nameMap[u.parent_email]=u.child_name);
+    document.getElementById('tbl-progress').innerHTML=progress.map(p=>{
+      const pct=Math.round(((p.days_completed||0)/31)*100);
+      return `<tr>
+        <td><span class="name">${esc(nameMap[p.parent_email]||'—')}</span></td>
+        <td><span class="badge ${ageBadge(p.age)}">${p.age||'?'}</span></td>
+        <td style="min-width:120px">
+          <div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div>
+          <div style="font-size:.68rem;color:var(--text3);margin-top:3px">${pct}%</div>
+        </td>
+        <td class="mono">${p.days_completed||0} / 31</td>
+        <td class="mono">${p.last_day_done||'—'}</td>
+        <td class="mono">${p.credits_balance||0} 🪙</td>
+        <td style="font-size:.75rem;color:var(--text2)">${fmtDate(p.updated_at)}</td>
+      </tr>`;
+    }).join('')||emptyRow(7,'No progress data yet');
+  }catch(e){toast('Error: '+e.message,'red');}
+  document.getElementById('progress-loading').style.display='none';
+}
+
+// ═══════════════════════════════════════
+//  COMPLETIONS PAGE
+// ═══════════════════════════════════════
+async function loadCompletions(){
+  document.getElementById('completions-loading').style.display='flex';
+  try{
+    ALL_COMPLETIONS=await sb('day_completions','order=created_at.desc');
+    // Populate day filter
+    const days=[...new Set(ALL_COMPLETIONS.map(c=>c.day_number))].sort((a,b)=>a-b);
+    const sel=document.getElementById('comp-day-filter');
+    sel.innerHTML='<option value="">All days</option>'+days.map(d=>`<option value="${d}">Day ${d}</option>`).join('');
+    renderCompletionsTable(ALL_COMPLETIONS);
+    document.getElementById('comp-count').textContent=ALL_COMPLETIONS.length+' total completions';
+  }catch(e){toast('Error: '+e.message,'red');}
+  document.getElementById('completions-loading').style.display='none';
+}
+
+function renderCompletionsTable(data){
+  document.getElementById('tbl-completions').innerHTML=data.map(c=>`
+    <tr>
+      <td><span class="name">${esc(c.child_name)}</span></td>
+      <td class="mono" style="font-size:.72rem">${esc(c.parent_email)}</td>
+      <td><span class="badge ${ageBadge(c.age)}">${c.age||'?'}</span></td>
+      <td class="mono">Day ${c.day_number||'?'}</td>
+      <td style="font-size:.78rem">${c.completion_date||'—'}</td>
+      <td class="mono">${c.questions_answered||100} ✓</td>
+      <td>${packBadge(c.pack_type)}</td>
+    </tr>`).join('')||emptyRow(7,'No completions yet');
+}
+
+function filterCompletions(){
+  const q=document.getElementById('comp-search').value.toLowerCase();
+  const day=document.getElementById('comp-day-filter').value;
+  const filtered=ALL_COMPLETIONS.filter(c=>{
+    const matchText=!q||(c.child_name||'').toLowerCase().includes(q)||(c.parent_email||'').toLowerCase().includes(q);
+    const matchDay=!day||String(c.day_number)===day;
+    return matchText&&matchDay;
+  });
+  renderCompletionsTable(filtered);
+}
+
+// ═══════════════════════════════════════
+//  REVENUE PAGE
+// ═══════════════════════════════════════
+async function loadRevenue(){
+  try{
+    const progress=await sb('progress');
+    ALL_PROGRESS=progress;
+    const packs={daily:0,weekly:0,monthly:0,other:0};
+    progress.forEach(p=>{ const t=p.pack_type||'daily'; packs[t]=(packs[t]||0)+1; });
+    const prices={daily:10,weekly:65,monthly:280};
+    const estRev=Object.entries(packs).reduce((sum,[t,cnt])=>sum+(prices[t]||0)*cnt,0);
+    
+    setVal('rev-total','₹'+estRev.toLocaleString('en-IN'));
+    setVal('rev-daily',packs.daily);setVal('rev-daily-amt','est ₹'+(packs.daily*10).toLocaleString('en-IN'));
+    setVal('rev-weekly',packs.weekly);setVal('rev-weekly-amt','est ₹'+(packs.weekly*65).toLocaleString('en-IN'));
+    setVal('rev-monthly',packs.monthly);setVal('rev-monthly-amt','est ₹'+(packs.monthly*280).toLocaleString('en-IN'));
+    
+    const total=progress.length||1;
+    document.getElementById('tbl-revenue').innerHTML=Object.entries(packs).map(([t,cnt])=>`
+      <tr>
+        <td>${packBadge(t)}</td>
+        <td class="mono">${cnt}</td>
+        <td class="mono" style="color:var(--green)">₹${((prices[t]||0)*cnt).toLocaleString('en-IN')}</td>
+        <td>
+          <div class="prog-bar" style="width:120px">
+            <div class="prog-fill" style="width:${Math.round(cnt/total*100)}%"></div>
+          </div>
+          <span style="font-size:.7rem;color:var(--text2)">${Math.round(cnt/total*100)}%</span>
+        </td>
+      </tr>`).join('');
+  }catch(e){toast('Error: '+e.message,'red');}
+}
+
+// ═══════════════════════════════════════
+//  CREDITS PAGE
+// ═══════════════════════════════════════
+async function loadCredits(){
+  document.getElementById('credits-loading').style.display='flex';
+  try{
+    const [signups,progress]=await Promise.all([sb('signups'),sb('progress','order=credits_balance.desc')]);
+    const nameMap={};signups.forEach(u=>nameMap[u.parent_email]={name:u.child_name,age:u.age});
+    document.getElementById('tbl-credits').innerHTML=progress.map(p=>{
+      const u=nameMap[p.parent_email]||{};
+      const bal=p.credits_balance||0;
+      return `<tr>
+        <td><span class="name">${esc(u.name||p.child_name||'—')}</span></td>
+        <td class="mono" style="font-size:.72rem">${esc(p.parent_email)}</td>
+        <td><span class="badge ${ageBadge(p.age||u.age)}">${p.age||u.age||'?'}</span></td>
+        <td><span class="badge ${bal>5?'green':bal>0?'orange':'red'}">${bal} 🪙</span></td>
+        <td>${packBadge(p.pack_type)}</td>
+        <td class="mono">${p.days_completed||0}</td>
+        <td style="font-size:.75rem;color:var(--text2)">${fmtDate(p.updated_at)}</td>
+      </tr>`;
+    }).join('')||emptyRow(7,'No credit data yet');
+  }catch(e){toast('Error: '+e.message,'red');}
+  document.getElementById('credits-loading').style.display='none';
+}
+
+// ═══════════════════════════════════════
+//  USER DETAIL PANEL
+// ═══════════════════════════════════════
+async function openDetail(email){
+  document.getElementById('detail-overlay').classList.add('open');
+  document.getElementById('dp-body').innerHTML='<div class="loading"><div class="spin"></div>Loading...</div>';
+  try{
+    const [user,prog,comps]=await Promise.all([
+      sb('signups',`parent_email=eq.${encodeURIComponent(email)}&limit=1`),
+      sb('progress',`parent_email=eq.${encodeURIComponent(email)}&limit=1`),
+      sb('day_completions',`parent_email=eq.${encodeURIComponent(email)}&order=day_number.asc`)
+    ]);
+    const u=user[0]||{};const p=prog[0]||{};
+    const doneDays=new Set(comps.map(c=>c.day_number));
+    
+    // Day grid
+    let dayDots='';
+    for(let d=1;d<=31;d++){
+      const cls=doneDays.has(d)?'done':'';
+      dayDots+=`<div class="day-dot ${cls}" title="Day ${d}">${d}</div>`;
+    }
+    
+    document.getElementById('dp-body').innerHTML=`
+      <div class="dp-name">${esc(u.child_name||'—')}</div>
+      <div class="dp-email">${esc(u.parent_email||'—')}</div>
+      
+      <div class="dp-section">
+        <div class="dp-section-title">Profile</div>
+        <div class="dp-row"><span class="lbl">Age</span><span class="val">${u.age||'—'}</span></div>
+        <div class="dp-row"><span class="lbl">Grade</span><span class="val">${esc(u.grade||'—')}</span></div>
+        <div class="dp-row"><span class="lbl">Curriculum</span><span class="val">${esc(u.curriculum||'—')}</span></div>
+        <div class="dp-row"><span class="lbl">Device</span><span class="val">${deviceIcon(u.device)} ${esc(u.device||'—')}</span></div>
+        <div class="dp-row"><span class="lbl">Joined</span><span class="val">${fmtDateFull(u.signup_date)}</span></div>
+      </div>
+      
+      <div class="dp-section">
+        <div class="dp-section-title">Progress & Credits</div>
+        <div class="dp-row"><span class="lbl">Days Completed</span><span class="val">${p.days_completed||0} / 31</span></div>
+        <div class="dp-row"><span class="lbl">Last Day Done</span><span class="val">${p.last_day_done||'—'}</span></div>
+        <div class="dp-row"><span class="lbl">Credits Balance</span><span class="val">${p.credits_balance||0} 🪙</span></div>
+        <div class="dp-row"><span class="lbl">Pack Type</span><span class="val">${p.pack_type||'—'}</span></div>
+        <div class="dp-row"><span class="lbl">Last Active</span><span class="val">${fmtDateFull(p.updated_at)}</span></div>
+      </div>
+      
+      <div class="dp-section">
+        <div class="dp-section-title">31-Day Journey (${doneDays.size} done)</div>
+        <div class="day-grid">${dayDots}</div>
+      </div>
+      
+      <div class="dp-section">
+        <div class="dp-section-title">Recent Completions</div>
+        ${comps.slice(-5).reverse().map(c=>`
+          <div class="dp-row">
+            <span class="lbl">Day ${c.day_number}</span>
+            <span class="val">${c.completion_date||'—'} · ${c.pack_type||'daily'}</span>
+          </div>`).join('')||'<div style="color:var(--text3);font-size:.8rem;padding:8px 0">No completions yet</div>'}
+      </div>`;
+  }catch(e){
+    document.getElementById('dp-body').innerHTML=`<div class="empty"><div class="ei">⚠️</div><p>${e.message}</p></div>`;
+  }
+}
+
+function closeDetailPanel(){document.getElementById('detail-overlay').classList.remove('open');}
+function closeDetail(e){if(e.target===document.getElementById('detail-overlay'))closeDetailPanel();}
+
+// ═══════════════════════════════════════
+//  UTILS
+// ═══════════════════════════════════════
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function setVal(id,v){const el=document.getElementById(id);if(el)el.textContent=v;}
+function fmtDate(s){
+  if(!s)return '—';
+  const d=new Date(s);if(isNaN(d))return '—';
+  const now=new Date();
+  const diff=Math.floor((now-d)/86400000);
+  if(diff===0)return 'Today';if(diff===1)return 'Yesterday';
+  if(diff<7)return diff+'d ago';
+  return d.toLocaleDateString('en-IN',{day:'numeric',month:'short'});
+}
+function fmtDateFull(s){
+  if(!s)return '—';const d=new Date(s);if(isNaN(d))return '—';
+  return d.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})+' '+
+         d.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'});
+}
+function fmtDateShort(s){if(!s)return '';const d=new Date(s);return (d.getMonth()+1)+'/'+(d.getDate());}
+function ageBadge(age){const a=parseInt(age);return a<=2?'blue':a<=4?'purple':a<=5?'orange':a<=7?'green':'gray';}
+function packBadge(t){
+  if(t==='monthly')return '<span class="badge purple">Monthly</span>';
+  if(t==='weekly')return '<span class="badge orange">Weekly</span>';
+  if(t==='daily')return '<span class="badge blue">Daily</span>';
+  return '<span class="badge gray">'+(t||'—')+'</span>';
+}
+function deviceIcon(d){return(d||'').toLowerCase().includes('android')?'🤖':(d||'').toLowerCase().includes('iphone')?'📱':'🌐';}
+function emptyRow(cols,msg){return `<tr><td colspan="${cols}"><div class="empty"><div class="ei">📭</div><p>${msg}</p></div></td></tr>`;}
+function toast(msg,type='green'){
+  const t=document.createElement('div');t.className='toast';
+  t.style.borderColor=type==='red'?'var(--red)':'var(--green)';
+  t.textContent=msg;document.body.appendChild(t);
+  setTimeout(()=>t.remove(),3500);
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  QUESTIONS PAGE
+// ═══════════════════════════════════════════════════════════════
+let ALL_QUESTIONS=[], FILTERED_QUESTIONS=[];
+const Q_PAGE_SIZE=25;
+let Q_CUR_PAGE=1;
+let EDIT_Q_ID=null;  // null=adding new, number=editing existing
+
+async function loadQuestions(){
+  document.getElementById('q-loading').style.display='flex';
+  document.getElementById('tbl-questions').innerHTML='';
+  document.getElementById('q-count-sub').textContent='Loading...';
+  try{
+    const qs=await sb('questions','order=age_group.asc,difficulty.asc,id.asc');
+    ALL_QUESTIONS=qs;
+    renderQStats(qs);
+    filterQuestions();
+    document.getElementById('q-count-sub').textContent=qs.length+' total questions';
+  }catch(e){
+    document.getElementById('q-count-sub').textContent='Error — see below';
+    // Show persistent error in the table area
+    const errMsg = e.message.includes('relation') || e.message.includes('does not exist')
+      ? '❌ The <b>questions</b> table does not exist in Supabase.<br><br>'
+        +'<b>Fix:</b> Go to <b>Supabase → SQL Editor</b> and run <b>supabase_setup_v4.sql</b>.<br>'
+        +'Then sign into the app once — it will auto-seed all questions.'
+      : e.message.includes('permission') || e.message.includes('policy') || e.message.includes('42501')
+      ? '❌ <b>Permission denied</b> on questions table.<br><br>'
+        +'<b>Fix:</b> Re-run <b>supabase_setup_v4.sql</b> to recreate RLS policies.<br>'
+        +'Make sure you are using the <b>anon key</b> (not service_role key).'
+      : e.message.includes('JWT') || e.message.includes('401')
+      ? '❌ <b>Invalid API key.</b><br><br>'
+        +'<b>Fix:</b> Disconnect and reconnect using the correct <b>anon/public</b> key<br>'
+        +'from Supabase → Settings → API.'
+      : '❌ Error: ' + e.message;
+    document.getElementById('tbl-questions').innerHTML =
+      '<tr><td colspan="8"><div style="padding:30px 20px;line-height:1.8;font-size:.85rem;color:var(--text2)">'+errMsg+'</div></td></tr>';
+  }
+  document.getElementById('q-loading').style.display='none';
+}
+
+function renderQStats(qs){
+  const byAge={};
+  qs.forEach(q=>{ const a=q.age_group; byAge[a]=(byAge[a]||0)+1; });
+  const active=qs.filter(q=>q.active).length;
+  const inactive=qs.length-active;
+  const dupeMap={};
+  qs.forEach(q=>{ const t=q.question_text; dupeMap[t]=(dupeMap[t]||0)+1; });
+  const dupes=Object.values(dupeMap).filter(c=>c>1).length;
+  document.getElementById('q-stats').innerHTML=`
+    <div class="stat-card" style="--accent-color:#6366f1"><div class="stat-label">Total</div><div class="stat-val">${qs.length}</div></div>
+    <div class="stat-card" style="--accent-color:#22c55e"><div class="stat-label">Active</div><div class="stat-val">${active}</div></div>
+    <div class="stat-card" style="--accent-color:#ef4444"><div class="stat-label">Inactive</div><div class="stat-val">${inactive}</div></div>
+    <div class="stat-card" style="--accent-color:#f59e0b"><div class="stat-label">Duplicates</div><div class="stat-val">${dupes}</div><div class="stat-change ${dupes>0?'warn':''}">${dupes>0?'⚠️ need fixing':'✅ clean'}</div></div>
+    ${[3,4,5,6,7].map(a=>`<div class="stat-card" style="--accent-color:${ageBadgeColor(a)}"><div class="stat-label">Age ${a}</div><div class="stat-val">${byAge[a]||0}</div></div>`).join('')}
+  `;
+}
+
+function ageBadgeColor(a){return a<=2?'#3b82f6':a<=4?'#a855f7':a===5?'#f59e0b':a<=6?'#22c55e':'#6366f1';}
+
+function filterQuestions(){
+  const q=(document.getElementById('q-search').value||'').toLowerCase();
+  const age=document.getElementById('q-age-filter').value;
+  const diff=document.getElementById('q-diff-filter').value;
+  const status=document.getElementById('q-status-filter').value;
+
+  FILTERED_QUESTIONS=ALL_QUESTIONS.filter(row=>{
+    const matchText=!q||(row.question_text||'').toLowerCase().includes(q)||
+      (JSON.stringify(row.options)||'').toLowerCase().includes(q);
+    const matchAge=!age||String(row.age_group)===age;
+    const matchDiff=!diff||String(row.difficulty)===diff;
+    const matchStatus=status===''||String(row.active)===status;
+    return matchText&&matchAge&&matchDiff&&matchStatus;
+  });
+  Q_CUR_PAGE=1;
+  renderQTable();
+}
+
+function renderQTable(){
+  const total=FILTERED_QUESTIONS.length;
+  const start=(Q_CUR_PAGE-1)*Q_PAGE_SIZE;
+  const slice=FILTERED_QUESTIONS.slice(start,start+Q_PAGE_SIZE);
+  const totalPages=Math.max(1,Math.ceil(total/Q_PAGE_SIZE));
+
+  document.getElementById('q-page-info').textContent=
+    `Showing ${start+1}–${Math.min(start+Q_PAGE_SIZE,total)} of ${total}`;
+  document.getElementById('q-prev').disabled=Q_CUR_PAGE<=1;
+  document.getElementById('q-next').disabled=Q_CUR_PAGE>=totalPages;
+
+  const DIFF_LABELS={1:'Easy',2:'Medium',3:'Hard'};
+  const DIFF_COLORS={1:'blue',2:'orange',3:'red'};
+
+  document.getElementById('tbl-questions').innerHTML=slice.map(q=>{
+    const opts=parseOpts(q.options);
+    const correctText=q.answer_index!=null&&opts[q.answer_index]
+      ? opts[q.answer_index] : '—';
+    const optsPreview=opts.slice(0,3).join(' · ')+(opts.length>3?'…':'');
+    return `<tr>
+      <td class="mono" style="font-size:.7rem;color:var(--text3)">${q.id}</td>
+      <td><span class="badge ${ageBadge(q.age_group)}">${q.age_group}</span></td>
+      <td><span class="badge ${DIFF_COLORS[q.difficulty]||'gray'}">${DIFF_LABELS[q.difficulty]||q.difficulty}</span></td>
+      <td style="max-width:280px">
+        <div class="name" style="font-size:.82rem;word-break:break-word">${esc(q.question_text)}</div>
+        ${q.notes?`<div style="font-size:.68rem;color:var(--text3);margin-top:2px">📝 ${esc(q.notes)}</div>`:''}
+      </td>
+      <td style="font-size:.72rem;color:var(--text2);max-width:180px;word-break:break-word">${esc(optsPreview)}</td>
+      <td style="font-size:.75rem"><span class="badge green" style="word-break:break-word;white-space:normal">${esc(correctText)}</span></td>
+      <td>
+        <label class="toggle-wrap" style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+          <input type="checkbox" ${q.active?'checked':''} onchange="toggleActive(${q.id},this.checked)"
+            style="width:16px;height:16px;cursor:pointer;accent-color:var(--accent)">
+          <span style="font-size:.72rem;color:var(--text2)">${q.active?'On':'Off'}</span>
+        </label>
+      </td>
+      <td>
+        <div style="display:flex;gap:4px;">
+          <button onclick="editQuestion(${q.id})" style="background:var(--surface3);border:1px solid var(--border2);border-radius:5px;padding:3px 8px;color:var(--text2);font-size:.72rem;cursor:pointer;">Edit</button>
+          <button onclick="deleteQuestion(${q.id})" style="background:var(--red-bg);border:1px solid #ef444430;border-radius:5px;padding:3px 8px;color:var(--red);font-size:.72rem;cursor:pointer;">Del</button>
+        </div>
+      </td>
+    </tr>`;
+  }).join('')||emptyRow(8,'No questions match your filters');
+}
+
+function qPage(dir){
+  const totalPages=Math.ceil(FILTERED_QUESTIONS.length/Q_PAGE_SIZE);
+  Q_CUR_PAGE=Math.max(1,Math.min(totalPages,Q_CUR_PAGE+dir));
+  renderQTable();
+}
+
+// ── Parse options safely ──
+function parseOpts(opts){
+  if(!opts) return [];
+  if(Array.isArray(opts)) return opts;
+  try{ const p=JSON.parse(opts); return Array.isArray(p)?p:[]; }catch(_){ return []; }
+}
+
+// ── Duplicate Detector ──
+async function checkDuplicates(){
+  if(!ALL_QUESTIONS.length) await loadQuestions();
+  const map={};
+  ALL_QUESTIONS.forEach(q=>{ const t=q.question_text; (map[t]=map[t]||[]).push(q); });
+  const dupes=Object.entries(map).filter(([,arr])=>arr.length>1);
+  if(!dupes.length){ toast('✅ No duplicates found!','green'); return; }
+  
+  // Highlight them in the table
+  document.getElementById('q-search').value='';
+  FILTERED_QUESTIONS=ALL_QUESTIONS.filter(q=>map[q.question_text].length>1);
+  Q_CUR_PAGE=1;
+  renderQTable();
+  toast(`⚠️ Found ${dupes.length} duplicate question texts — shown in table. Disable the extras.`,'red');
+}
+
+// ── Toggle Active ──
+async function toggleActive(id, active){
+  try{
+    const res=await fetch(`${SB_URL}/rest/v1/questions?id=eq.${id}`,{
+      method:'PATCH',
+      headers:{'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Prefer':'return=minimal'},
+      body:JSON.stringify({active, updated_at:new Date().toISOString()})
+    });
+    if(!res.ok) throw new Error(await res.text());
+    const q=ALL_QUESTIONS.find(q=>q.id===id);
+    if(q){ q.active=active; renderQStats(ALL_QUESTIONS); }
+    toast((active?'✅ Activated':'⬛ Deactivated')+' question #'+id);
+  }catch(e){ toast('Error: '+e.message,'red'); }
+}
+
+// ── Delete Question ──
+async function deleteQuestion(id){
+  if(!confirm('Delete question #'+id+'? This cannot be undone.')) return;
+  try{
+    const res=await fetch(`${SB_URL}/rest/v1/questions?id=eq.${id}`,{
+      method:'DELETE',
+      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Prefer':'return=minimal'}
+    });
+    if(!res.ok) throw new Error(await res.text());
+    ALL_QUESTIONS=ALL_QUESTIONS.filter(q=>q.id!==id);
+    filterQuestions();
+    toast('🗑️ Question deleted');
+  }catch(e){ toast('Error: '+e.message,'red'); }
+}
+
+// ── Add / Edit Modal ──
+let OPTION_COUNT=0;
+
+function showAddQuestion(){
+  EDIT_Q_ID=null;
+  document.getElementById('q-modal-title').textContent='Add New Question';
+  document.getElementById('q-save-btn').textContent='Add Question';
+  document.getElementById('qf-text').value='';
+  document.getElementById('qf-notes').value='';
+  document.getElementById('qf-age').value='5';
+  document.getElementById('qf-diff').value='2';
+  document.getElementById('qf-active').value='true';
+  // Default 4 empty options
+  document.getElementById('qf-options-wrap').innerHTML='';
+  OPTION_COUNT=0;
+  for(let i=0;i<4;i++) addOptionField('');
+  document.getElementById('q-modal').classList.add('open');
+}
+
+function editQuestion(id){
+  const q=ALL_QUESTIONS.find(r=>r.id===id);
+  if(!q) return;
+  EDIT_Q_ID=id;
+  document.getElementById('q-modal-title').textContent='Edit Question #'+id;
+  document.getElementById('q-save-btn').textContent='Save Changes';
+  document.getElementById('qf-text').value=q.question_text||'';
+  document.getElementById('qf-notes').value=q.notes||'';
+  document.getElementById('qf-age').value=String(q.age_group||5);
+  document.getElementById('qf-diff').value=String(q.difficulty||2);
+  document.getElementById('qf-active').value=String(q.active!==false);
+  // Load options
+  const opts=parseOpts(q.options);
+  document.getElementById('qf-options-wrap').innerHTML='';
+  OPTION_COUNT=0;
+  opts.forEach((o,i)=>addOptionField(o, i===q.answer_index));
+  if(opts.length===0) for(let i=0;i<4;i++) addOptionField('');
+  document.getElementById('q-modal').classList.add('open');
+}
+
+function addOptionField(value='', isCorrect=false){
+  const idx=OPTION_COUNT++;
+  const wrap=document.createElement('div');
+  wrap.style='display:flex;align-items:center;gap:8px;';
+  wrap.innerHTML=`
+    <input type="radio" name="correct-opt" value="${idx}" ${isCorrect?'checked':''}
+      style="width:16px;height:16px;cursor:pointer;accent-color:var(--green);flex-shrink:0;" title="Mark as correct answer">
+    <input type="text" class="opt-input" data-idx="${idx}"
+      style="flex:1;background:var(--surface2);border:1px solid var(--border2);border-radius:6px;padding:7px 10px;color:var(--text);font-size:.82rem;outline:none;"
+      placeholder="Option ${idx+1}" value="${esc(value)}">
+    <button onclick="this.parentElement.remove()" style="background:none;border:none;color:var(--text3);font-size:1rem;cursor:pointer;padding:2px 6px;" title="Remove">✕</button>
+  `;
+  document.getElementById('qf-options-wrap').appendChild(wrap);
+}
+
+async function saveQuestion(){
+  const text=(document.getElementById('qf-text').value||'').trim();
+  if(!text){ toast('Question text is required','red'); return; }
+
+  // Collect options and correct answer
+  const inputs=[...document.querySelectorAll('.opt-input')];
+  const opts=inputs.map(i=>i.value.trim()).filter(v=>v);
+  if(opts.length<2){ toast('At least 2 options required','red'); return; }
+
+  const correctRadio=document.querySelector('input[name="correct-opt"]:checked');
+  // Map radio value (original idx) to position in filtered opts
+  const radioIdx=correctRadio?parseInt(correctRadio.value):0;
+  const allInputs=[...document.querySelectorAll('.opt-input')];
+  const answerIndex=allInputs.findIndex((inp,i)=>i===radioIdx&&inp.value.trim());
+
+  const payload={
+    age_group:    parseInt(document.getElementById('qf-age').value),
+    difficulty:   parseInt(document.getElementById('qf-diff').value),
+    question_type:'mcq',
+    question_text:text,
+    options:      JSON.stringify(opts),
+    answer_index: answerIndex>=0?answerIndex:0,
+    active:       document.getElementById('qf-active').value==='true',
+    notes:        document.getElementById('qf-notes').value.trim()||null,
+    updated_at:   new Date().toISOString()
+  };
+
+  document.getElementById('q-save-btn').textContent='Saving...';
+
+  try{
+    let res;
+    if(EDIT_Q_ID){
+      // Update existing
+      res=await fetch(`${SB_URL}/rest/v1/questions?id=eq.${EDIT_Q_ID}`,{
+        method:'PATCH',
+        headers:{'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Prefer':'return=representation'},
+        body:JSON.stringify(payload)
+      });
+    } else {
+      // Insert new
+      payload.created_by='admin';
+      res=await fetch(`${SB_URL}/rest/v1/questions`,{
+        method:'POST',
+        headers:{'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Prefer':'return=representation'},
+        body:JSON.stringify(payload)
+      });
+    }
+    if(!res.ok){ const t=await res.text(); throw new Error(t); }
+    toast(EDIT_Q_ID?'✅ Question updated!':'✅ Question added!');
+    closeQModalDirect();
+    loadQuestions();
+  }catch(e){
+    toast('Error: '+e.message,'red');
+    document.getElementById('q-save-btn').textContent='Save Question';
+  }
+}
+
+function closeQModalDirect(){
+  document.getElementById('q-modal').classList.remove('open');
+  EDIT_Q_ID=null;
+}
+
+function closeQModal(e){
+  if(e.target===document.getElementById('q-modal')) closeQModalDirect();
+}
+
+
+// ═══════════════════════════════════════════════════════════════
+//  SEED QUESTIONS FROM ADMIN CONSOLE
+//  Fetches all hardcoded question banks from the app and inserts
+//  them into the Supabase questions table in batches.
+// ═══════════════════════════════════════════════════════════════
+async function seedQuestionsFromAdmin(){
+  const btn = document.getElementById('seed-btn');
+  if(!btn) return;
+
+  // Check if already has questions
+  if(ALL_QUESTIONS.length > 0){
+    if(!confirm(`Questions table already has ${ALL_QUESTIONS.length} questions. Re-seed will add duplicates unless you clear first. Continue anyway?`)) return;
+  }
+
+  btn.textContent = '⏳ Seeding...';
+  btn.style.opacity = '0.6';
+  btn.disabled = true;
+
+  // ── Build question payload from the app's worksheet HTML ──
+  // We fetch the app page and extract all MCQ questions from it
+  const PLANS = [
+    // Each entry: {age, label, banks}
+    // We pull questions by fetching the app and parsing the JS banks
+  ];
+
+  // ── Hardcoded seed data matching the app banks ──
+  // (Same questions the app would seed — built manually here so admin works independently)
+  const banks = await fetchAppQuestions();
+  if(!banks || banks.length === 0){
+    toast('Could not load questions from app. Is the app deployed?', 'red');
+    btn.textContent = '🌱 Seed All Questions';
+    btn.style.opacity = '1';
+    btn.disabled = false;
+    return;
+  }
+
+  let inserted = 0, errors = 0;
+  const BATCH = 50;
+
+  for(let i = 0; i < banks.length; i += BATCH){
+    const batch = banks.slice(i, i+BATCH);
+    btn.textContent = `⏳ Seeding ${i}/${banks.length}...`;
+    try{
+      const res = await fetch(`${SB_URL}/rest/v1/questions`, {
+        method: 'POST',
+        headers: {
+          'Content-Type':  'application/json',
+          'apikey':         SB_KEY,
+          'Authorization':  'Bearer ' + SB_KEY,
+          'Prefer':         'return=minimal'
+        },
+        body: JSON.stringify(batch)
+      });
+      if(res.ok){ inserted += batch.length; }
+      else { const t=await res.text(); console.error('Seed batch error:', t); errors += batch.length; }
+    }catch(e){ errors += batch.length; console.error('Seed batch exception:', e); }
+  }
+
+  btn.textContent = '🌱 Seed All Questions';
+  btn.style.opacity = '1';
+  btn.disabled = false;
+
+  if(inserted > 0){
+    toast(`✅ Seeded ${inserted} questions successfully!`, 'green');
+    setTimeout(loadQuestions, 800);
+  } else {
+    toast(`❌ Seed failed (${errors} errors). Check console.`, 'red');
+  }
+}
+
+async function fetchAppQuestions(){
+  // Try to fetch questions from the deployed app's HTML
+  // This extracts all MCQ banks directly from the app source
+  try{
+    // Try same-origin first (admin-console.html is in same repo as index.html)
+    const appUrl = window.location.href.replace('admin-console.html','').replace(/\/$/, '') + '/index.html';
+    const res = await fetch(appUrl);
+    if(!res.ok) throw new Error('Could not fetch app: ' + res.status);
+    const html = await res.text();
+    return parseQuestionsFromHTML(html);
+  }catch(e){
+    console.error('fetchAppQuestions failed:', e);
+    return null;
+  }
+}
+
+function parseQuestionsFromHTML(html){
+  const qs = [];
+
+  // Extract all MCQ entries using regex
+
+  // Also match double-quoted q with single-quoted options
+  // patterns not needed
+
+  // Determine age context from position in HTML
+  // We do a line-by-line scan instead
+  const lines = html.split('\n');
+  let currentAge = 5; // default
+
+  const ageBankMap = {
+    'const MCQ34=': [3,4],
+    'const MCQ5=': [5],
+    'const MCQ67=': [6,7],
+    'const GRAMMAR67=': [6,7],
+    'const FUN3_EASY=': [3], 'const FUN3_MED=': [3], 'const FUN3_HARD=': [3],
+    'const FUN4=': [4],
+    'const FUN5=': [5],
+    'const FUN6=': [6],
+    'const FUN7=': [7],
+  };
+
+  let currentAges = [5];
+  const seen = new Set();
+
+  for(const line of lines){
+    // Update current bank context
+    for(const [marker, ages] of Object.entries(ageBankMap)){
+      if(line.includes(marker)){ currentAges = ages; break; }
+    }
+
+    // Skip non-MCQ lines
+    if(!line.includes("tp:'mcq'") && !line.includes('tp:"mcq"')) continue;
+
+    // Parse q text
+    const qm = line.match(/q:"([^"]+)"/) || line.match(/q:'([^']+)',\s*o:\[/);
+    if(!qm) continue;
+    const qText = qm[1];
+    if(seen.has(qText)) continue;
+    seen.add(qText);
+
+    // Parse difficulty
+    const dm = line.match(/d:(\d)/);
+    const diff = dm ? parseInt(dm[1]) : 2;
+
+    // Parse options
+    const om = line.match(/o:\[([^\]]+)\]/);
+    if(!om) continue;
+    const rawOpts = om[1];
+    const opts = [];
+    const optMatches = rawOpts.matchAll(/["']([^"']+)["']/g);
+    for(const m of optMatches) opts.push(m[1]);
+    if(opts.length < 2) continue;
+
+    // Parse answer index
+    const am = line.match(/a:(\d+)/);
+    const ansIdx = am ? parseInt(am[1]) : 0;
+    if(ansIdx >= opts.length) continue;
+
+    // Add for each age in current context
+    currentAges.forEach(age => {
+      qs.push({
+        age_group:     age,
+        difficulty:    diff,
+        question_type: 'mcq',
+        question_text: qText,
+        options:       JSON.stringify(opts),
+        answer_index:  ansIdx,
+        active:        true,
+        created_by:    'admin_seed'
+      });
+    });
+  }
+
+  // De-duplicate (same q+age combo)
+  const deduped = [];
+  const dedupSet = new Set();
+  for(const q of qs){
+    const key = q.question_text + '|' + q.age_group;
+    if(!dedupSet.has(key)){ dedupSet.add(key); deduped.push(q); }
+  }
+
+  console.log('[Admin] Parsed', deduped.length, 'unique questions from app HTML');
+  return deduped;
+}
+
+</script>
+</body>
+</html>
